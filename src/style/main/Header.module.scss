@@ -1,0 +1,20 @@
+@import "../varStyle";
+
+.head{
+  display: flex;
+  justify-content: space-between;
+
+  box-shadow: 0 5px 20px 2px rgba(0, 0, 0, 0.35);
+
+  .links,.menu{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    &>*{
+      margin: 0 $gapX;
+    }
+  }
+  .menu>*:last-child{
+    margin-left: $gapX*3;
+  }
+}

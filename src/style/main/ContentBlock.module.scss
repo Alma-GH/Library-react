@@ -1,0 +1,11 @@
+@import "./../varStyle";
+
+.content{
+
+  .block{
+    margin-bottom: $gapY;
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}

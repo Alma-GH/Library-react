@@ -1,0 +1,45 @@
+@import "./src/style/varStyle";
+
+.info{
+  position: relative;
+  overflow: auto;
+  .wrapCover{
+    padding: 30px;
+    float: left;
+    .cover{
+      border: 2px solid black;
+      height: 300px;
+      width: 200px;
+
+      @extend %imgIN;
+    }
+  }
+
+
+  .text{
+    padding: 40px;
+
+    &>*{
+      margin-bottom: 20px;
+    }
+
+    h2{
+      font-size: 1.3rem;
+    }
+    h3{
+      font-size: 1.1rem;
+    }
+  }
+
+  .btns{
+    display: inline;
+    float: right;
+    padding: 10px;
+  }
+
+  .link{
+    position: absolute;
+    bottom: 0;
+  }
+}
+

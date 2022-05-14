@@ -1,0 +1,28 @@
+
+
+$sizeBlock: 25px;
+
+.line{
+
+  display: flex;
+  width: $sizeBlock*1.5*12;
+  user-select: none;
+
+  .block{
+
+    height: $sizeBlock;
+    width: $sizeBlock*1.5;
+
+    display:grid;
+    place-items: center;
+
+    border: 2px solid aqua;
+
+    &.current{
+      border-color: orange;
+    }
+
+  }
+
+}
+

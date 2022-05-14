@@ -1,0 +1,28 @@
+@import "./../varStyle";
+
+$hInput: 25px;
+$indent: 30px;
+
+.filter{
+  padding: 10px;
+
+  &>*{
+    margin-bottom: $indent;
+    &>.head{
+      margin-bottom: $indent*0.3;
+    }
+  }
+
+  .author, .lang, .publish{
+    .input{
+      height: $hInput;
+      width: 100%;
+    }
+  }
+  .subj{
+    .input>*:last-child{
+      height: $hInput;
+    }
+  }
+}
+

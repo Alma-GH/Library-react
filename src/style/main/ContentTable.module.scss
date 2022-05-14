@@ -1,0 +1,65 @@
+@import "./../varStyle";
+
+$hBlock: 250px;
+$wCover: 150px;
+
+.block{
+  width: 100%;
+  height: $hBlock;
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  border: 2px solid red;
+  background-color: white;
+
+  .cover{
+    flex-shrink: 0;
+
+    border: 2px solid black;
+    height: 85%;
+    width: $wCover;
+
+    @extend %imgIN
+
+  }
+
+  .text{
+    border: 2px solid black;
+    height: 85%;
+    width: 70%;
+
+    overflow: hidden;
+  }
+
+  .link{
+    border: 2px solid black;
+    height: 85%;
+  }
+
+  .edit{
+    position: absolute;
+    right: 30px;
+    z-index: 2;
+
+    height: 90%;
+
+    background-color: darkgreen;
+    //border: 2px solid black;
+    overflow: hidden;
+
+    @include transWidth(0.4s);
+
+    &.vis{
+      width: 30%;
+    }
+    &.invis{
+      //border: none;
+      width: 0;
+    }
+  }
+
+}

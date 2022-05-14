@@ -1,0 +1,38 @@
+button.btn{
+  background: none;
+}
+
+$col: red;
+
+.btn{
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0.8rem;
+  //filter: drop-shadow(0 0 5px #000);
+
+  cursor: pointer;
+
+  &.leftUp{
+    left: 0;
+    top: 0;
+    border-color: $col transparent transparent $col;
+  }
+  &.rightUp{
+    right: 0;
+    top: 0;
+    border-color: $col $col transparent transparent;
+  }
+  &.rightDown{
+    right: 0;
+    bottom: 0;
+    border-color: transparent $col $col transparent;
+  }
+  &.leftDown{
+    left: 0;
+    bottom: 0;
+    border-color: transparent transparent $col $col;
+  }
+}
+

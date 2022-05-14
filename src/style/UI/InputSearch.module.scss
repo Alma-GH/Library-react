@@ -1,0 +1,33 @@
+
+$wBtn: 40px;
+$borderR: 10px;
+
+.block{
+
+  display: flex;
+
+  border-radius: 10px;
+
+  input{
+    width: calc(100% - #{$wBtn});
+    border-bottom-left-radius: $borderR;
+    border-top-left-radius: $borderR;
+
+    padding: 5px;
+  }
+
+  .wrapBtn{
+
+    background-color: blue;
+    width: $wBtn;
+
+    border-radius: 0 $borderR $borderR 0;
+
+    &:disabled{
+      background-color: grey;
+    }
+  }
+
+
+
+}

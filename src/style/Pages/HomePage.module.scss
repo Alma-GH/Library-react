@@ -1,0 +1,16 @@
+@import "../varStyle";
+.home{
+  display:grid;
+  place-items: center;
+
+  border: $borderBlock;
+  &>div{
+    text-align: center;
+    h2{
+      font-size: 2rem;
+      button{
+        bottom: 10px;
+      }
+    }
+  }
+}

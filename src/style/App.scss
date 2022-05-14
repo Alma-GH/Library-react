@@ -1,0 +1,39 @@
+@import "./varStyle";
+
+html{
+    font-size: 16px;
+}
+
+*{
+
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+}
+
+.App {
+
+    height: 100vh;
+
+    display:grid;
+    grid-template-rows: $hHead $hHead*1.5 calc(100% - #{($gapY + $hHead)*2 + $hHead*0.5});
+    grid-template-columns: 150px 1fr;
+
+    column-gap: $gapX;
+    row-gap: $gapY;
+
+    .head, .home, .info{
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .filter, .home, .info{
+        grid-row-start: 2;
+        grid-row-end: 4;
+    }
+
+    &>*{
+        border: $borderBlock;
+    }
+
+}

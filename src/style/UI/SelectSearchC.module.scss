@@ -1,0 +1,29 @@
+
+
+.list{
+  margin-bottom: 10px;
+
+  li{
+    display: flex;
+    align-items: center;
+
+    .text{
+      width: 100%;
+      margin-right: 10px;
+
+      font-size: 1.2rem;
+      overflow: hidden;
+    }
+  }
+}
+
+.search{
+  display: flex;
+  align-items: center;
+
+  height: 25px;
+
+  .input{
+    height: 100%;
+  }
+}
