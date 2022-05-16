@@ -4,7 +4,6 @@ import cls from "./../../style/Pages/InfoPage.module.scss"
 import BtnIco from "../UI/BtnIco";
 import imgA from "../../assets/imgs/plus.png"
 import imgS from "../../assets/imgs/star.png"
-import BookAPI from "../../tools/Services/BookAPI";
 import {useDispatch, useSelector} from "react-redux";
 import {getAction_setInfo} from "../../store/reducers/tableReducer";
 import ServerService from "../../tools/Services/ServerService";
@@ -21,9 +20,10 @@ const InfoPage = ({prtClass}) => {
 
   const [isAdded, setIsAdded] = useState(true)
   const [fetchWork, isLoadingSetWorks, errSetWorks] = useFetching(async()=>{
-    const res = await ServerService.fromDB.setWork({
-      wid:KEY,
-      ...page
+    const res = await ServerService.fromDB.addWork({
+      ...page,
+      id:KEY,
+      author:page.author.name,
     })
     setIsAdded(true)
     console.log(res)

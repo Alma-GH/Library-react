@@ -6,8 +6,7 @@ import {
   getAction_clearTable,
   getAction_setErrorTable,
   getAction_setLoadTable,
-  getAction_setTable,
-  getAction_sortTables
+  getAction_setTable
 } from "../../store/reducers/tableReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {getAction_clearSearch, getAction_confirmFilter} from "../../store/reducers/filterReducer";
@@ -20,11 +19,14 @@ const SearchWrap = ({GET_METHOD}) => {
   const page = useSelector(state=>state.page.currentPage)
   const limit = useSelector(state=>state.page.limit)
 
+  const countSearch = useSelector(state=>state.filter.countSearch)
+
   const [fetchTables, isLoading, err] = useFetching(  async (...args)=>{
     const [dataWorks, nWorks] = await GET_METHOD(...args)
     dispatch(getAction_setNumAll(nWorks))
     dispatch(getAction_setTable(dataWorks))
-    dispatch(getAction_sortTables())
+    // dispatch(getAction_sortTables())
+
   })
 
   useEffect(()=>{
@@ -37,6 +39,7 @@ const SearchWrap = ({GET_METHOD}) => {
   },[confirmF])
 
   useEffect(()=>{
+    if(!countSearch) return
     fetchTables(confirmF, page, limit);
   }, [page, confirmF])
 

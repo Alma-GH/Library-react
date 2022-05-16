@@ -3,7 +3,7 @@ import cls from "./../../../style/UI/Notifications/Loader.module.scss"
 
 const Loader = () => {
   return (
-    <div>
+    <div className={cls.loader}>
       LOADING...
     </div>
   );

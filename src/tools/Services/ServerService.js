@@ -1,5 +1,5 @@
 import BookAPI from "./BookAPI";
-import {T_AUTHOR, T_PUBLISH, T_TITLE} from "../utils/const";
+import {T_AUTHOR, T_PUBLISH, T_TITLE, WORK_PROPS} from "../utils/const";
 import {getLocationByURL} from "../utils/func";
 import Controller from "./Controller";
 import DatabaseAPI from "./DatabaseAPI";
@@ -88,32 +88,52 @@ class ServerService{
 
   fromDB = {
 
+    checkTypeWork(work){
+      for(let key of Object.keys(work)){
+        if(!WORK_PROPS.includes(key)) return false
+      }
+      return true
+    },
+
     async getWorksByFilter(...args){
-      const works = await DatabaseAPI.getAllWorks()
-      const dataWorks = works.map(work=>({
-        id:     work.wid,
-
-        img:            work.img,
-        [T_TITLE]:      work.title,
-        [T_AUTHOR]:     work.author?.name,
-
-        url:    work.url
-      }))
+      let works = await DatabaseAPI.getAllWorks()
+      if(!works) works = []
+      const dataWorks = works
       return [dataWorks, dataWorks.length]
     },
 
-    async setWork(work){
+    async setWorks(works){
+
+      for(let work of works){
+        if(!this.checkTypeWork(work)) throw Error("INCORRECT TYPE OF OBJECT")
+      }
+
+      const res = await DatabaseAPI.setWorks(JSON.stringify([...works]))
+      return res
+    },
+
+    async addWork(work){
+
+      if(!this.checkTypeWork(work)) throw Error("INCORRECT TYPE OF OBJECT")
+
       let allWorks = await DatabaseAPI.getAllWorks()
       if(!allWorks) allWorks = []
-      console.log({allWorks})
 
       const res = await DatabaseAPI.setWorks(JSON.stringify([...allWorks,work]))
+      return res
+    },
+
+    async deleteWorkById(id){
+      let allWorks = await DatabaseAPI.getAllWorks()
+      if(!allWorks) allWorks = []
+
+      allWorks = allWorks.filter(work=>work.id!==id)
+
+      const res = await DatabaseAPI.setWorks(JSON.stringify([...allWorks]))
       return res
     }
 
   }
-
-
 
 }
 

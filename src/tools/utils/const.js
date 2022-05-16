@@ -31,6 +31,10 @@ export const T_AUTHOR = "author"
 export const T_TITLE = "title"
 export const T_PUBLISH = "publish"
 
+//work on DB props
+
+export const WORK_PROPS = ["author", "description", "img", "subjects", "title", "url", "id"]
+
 
 //big data
 

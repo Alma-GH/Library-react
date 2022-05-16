@@ -1,6 +1,8 @@
-import {createMyTimer} from "./wrappers";
+import {createMyTimer, createThrottling} from "./wrappers";
+import ServerService from "../Services/ServerService";
 
 export const errTimer = createMyTimer()
+export const updateOrderThrottle = createThrottling(ServerService.fromDB.setWorks,1000).bind(ServerService.fromDB)
 
 
 

@@ -1,7 +1,7 @@
 import {deepCopyOBJ} from "../../tools/utils/func";
 
 const defaultState = {
-
+  countSearch: 0,
   confirm: {},
   /*
       title: "",
@@ -27,6 +27,7 @@ const defaultState = {
 
 }
 
+const SET_COUNT_SEARCH = "SET_COUNT_SEARCH"
 const SET_SEARCH = "SET_SEARCH"
 const SET_AUTHOR = "SET_AUTHOR"
 const SET_LANG = "SET_LANG"
@@ -54,6 +55,9 @@ export const filterReducer = (state=defaultState,action)=>{
 
     case SET_SEARCH:
       return {...state, title: pl}
+
+    case SET_COUNT_SEARCH:
+      return {...state, countSearch: pl}
 
 
 
@@ -83,8 +87,11 @@ export const filterReducer = (state=defaultState,action)=>{
 export const getAction_confirmFilter = ()=>{return {type:CONFIRM_FILTER}}
 export const getAction_clearSearch = ()=>{return {type: CLEAR_SEARCH}}
 
+export const getAction_setCountSearch= (val)=>{return {type:SET_COUNT_SEARCH, payload:val}}
 export const getAction_setSearch= (val)=>{return {type:SET_SEARCH, payload:val}}
 export const getAction_setAuthor = (name,key)=>{return {type:SET_AUTHOR, payload: {name, key}}}
 export const getAction_setLanguage = (lang)=>{return {type:SET_LANG, payload:lang}}
 export const getAction_setSubjects = (subjects)=>{return {type:SET_SUBJ, payload:subjects}}
 export const getAction_setFirstPublish = (val)=>{return {type:SET_PUB, payload:val}}
+
+

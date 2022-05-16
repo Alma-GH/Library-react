@@ -69,7 +69,7 @@ class BookAPI{
 
     const params = []
     if(filter.title)    params.push(`title=${filter.title}`)
-    else                params.push(`title=History`) //TODO:replace on *
+    else                params.push(`title=*`) //TODO:replace on *
     if(filter.author)   params.push(`author=${encodeURI(filter.author.name)}`)
     if(filter.language) params.push(`language=${filter.language}`)
     if(subjects)        params.push(`${subjects}`)

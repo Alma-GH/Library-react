@@ -39,9 +39,9 @@ $UIbr: 5px;
   }
 
   @mixin transWidth($time){
-    transition: width $time ease-in-out;
+    transition: width $time ease-in-out, border $time ease-in-out;
   }
 
   @mixin transHeight($time){
-    transition: height $time ease-in-out;
+    transition: height $time ease-in-out, border 0s $time ease-in-out;
   }

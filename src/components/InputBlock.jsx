@@ -9,12 +9,13 @@ import {T_AUTHOR, T_PUBLISH, T_TITLE} from "../tools/utils/const";
 import Pagination from "./UI/Pagination";
 import {getTotalPages} from "../tools/utils/func";
 import SelectC from "./UI/SelectC";
-import {getAction_confirmFilter, getAction_setSearch} from "../store/reducers/filterReducer";
+import {getAction_confirmFilter, getAction_setCountSearch, getAction_setSearch} from "../store/reducers/filterReducer";
 
 const InputBlock = ({prtClass}) => {
 
   const dispatch = useDispatch()
 
+  const countSearch = useSelector(state=>state.filter.countSearch)
   const searchInput = useSelector(state=>state.filter.title)
 
   const page = useSelector(state=>state.page.currentPage)
@@ -50,6 +51,7 @@ const InputBlock = ({prtClass}) => {
     console.log("SUBMIT")
 
     dispatch(getAction_confirmFilter())
+    dispatch(getAction_setCountSearch(countSearch+1))
   }
 
 
