@@ -3,6 +3,18 @@
 $hBlock: 250px;
 $wCover: 150px;
 
+.blockList{
+  font-size: 2rem;
+  cursor: pointer;
+
+  @include transFontBGS(0.3s);
+
+  &:hover{
+    font-size: 3rem;
+    background-color: rgba(0,0,0,0.2);
+  }
+}
+
 .block{
   width: 100%;
   height: $hBlock;

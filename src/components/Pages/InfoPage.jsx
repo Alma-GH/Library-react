@@ -9,6 +9,7 @@ import {getAction_setInfo} from "../../store/reducers/tableReducer";
 import ServerService from "../../tools/Services/ServerService";
 import {useFetching} from "../../hooks/useFetching";
 import Loader from "../UI/Notifications/Loader";
+import {useFavourite} from "../../hooks/useFavourite";
 
 const InfoPage = ({prtClass}) => {
 
@@ -29,19 +30,22 @@ const InfoPage = ({prtClass}) => {
     console.log(res)
   })
 
+  const [isFav,fetchFav,fetchListMembership,isLoadingFav, errFav] = useFavourite(KEY)
+
   useEffect(()=>{
     async function takeInfo(){
       dispatch(getAction_setInfo({}))
       const dataWork = await ServerService.fromAPI.getWorkByKey(KEY)
       console.log({dataWork})
       dispatch(getAction_setInfo({...dataWork}))
-    }
-    async function takeIsAdded(){
+
       const [works, num] = await ServerService.fromDB.getWorksByFilter()
       setIsAdded(works.some(work=>KEY===work.id))
+
+      fetchListMembership()
     }
+
     takeInfo()
-    takeIsAdded()
   }, [])
 
 
@@ -49,8 +53,8 @@ const InfoPage = ({prtClass}) => {
     fetchWork()
   }
 
-  async function addWorkInFav(e){
-    console.log(addWorkInFav.name + ": NOT WORK")
+  async function toggleWorkFav(e){
+    fetchFav()
   }
 
 
@@ -73,7 +77,11 @@ const InfoPage = ({prtClass}) => {
           ? <Loader/>
           : <>
               {!isAdded && <BtnIco img={imgA} cb={addWorkInLibrary}/>}
-              <BtnIco img={imgS} cb={addWorkInFav}/>
+              {isLoadingFav
+                ?<Loader/>
+                :<BtnIco img={imgS} cb={toggleWorkFav} isActiveStyle={isFav}/>
+              }
+
             </>
         }
       </div>

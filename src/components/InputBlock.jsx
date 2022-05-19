@@ -1,17 +1,27 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import cls from "../style/main/InputBlock.module.scss";
 import InputSearch from "./UI/Compounds/InputSearch";
 import {useDispatch, useSelector} from "react-redux";
-import {getAction_reverseTables, getAction_setSort, getAction_sortTables} from "../store/reducers/tableReducer";
+import {
+  getAction_reverseTables,
+  getAction_setEditableTable,
+  getAction_setSort,
+  getAction_sortTables
+} from "../store/reducers/tableReducer";
 import BtnIco from "./UI/BtnIco";
 import imgS from "../assets/imgs/sort.png"
+import imgE from "../assets/imgs/edit.png"
 import {T_AUTHOR, T_PUBLISH, T_TITLE} from "../tools/utils/const";
 import Pagination from "./UI/Pagination";
 import {getTotalPages} from "../tools/utils/func";
 import SelectC from "./UI/SelectC";
 import {getAction_confirmFilter, getAction_setCountSearch, getAction_setSearch} from "../store/reducers/filterReducer";
+import {SearchContext} from "../context/SearchContext";
+import ReorderPanel from "./ReorderPanel";
+import CountPagesPanel from "./CountPagesPanel";
 
 const InputBlock = ({prtClass}) => {
+
 
   const dispatch = useDispatch()
 
@@ -24,25 +34,13 @@ const InputBlock = ({prtClass}) => {
 
   const isLoading = useSelector(state=>state.table.items.loading)
 
-  const [sort, setSort] = useState('')
+
 
 
   function setSearch(e){
     dispatch(getAction_setSearch(e.target.value))
   }
 
-  function selectSort(e){
-    const newSort = e.target.value
-    dispatch(getAction_setSort(newSort))
-    dispatch(getAction_sortTables())
-    setSort(newSort)
-  }
-
-  function reverseTables(e){
-    e.preventDefault();
-
-    dispatch(getAction_reverseTables())
-  }
 
   function submit(e){
 
@@ -64,22 +62,10 @@ const InputBlock = ({prtClass}) => {
         <InputSearch prtClass={cls.inputBlock} val={searchInput} setVal={setSearch} disabledBTN={isLoading}/>
 
         <div style={{display: "flex", justifyContent:"space-between"}}>
-          <div className={cls.sortBlock}>
-            <SelectC
-              id="sort" prtClass={cls.selectSort} value={sort} onChange={selectSort} disabled={isLoading}
-              defaultVal="Сортировка"
-              options={[
-                {value:T_TITLE, name:"Название"},
-                {value:T_AUTHOR, name:"Автор"},
-                {value:T_PUBLISH, name:"Год появления"},
-              ]}
-            />
-            <BtnIco img={imgS} cb={reverseTables}/>
-          </div>
 
+          <ReorderPanel disabled={isLoading}/>
           <Pagination countPages={getTotalPages(numWorks,limit)} view={10} current={page}/>
-
-          {numWorks!==null && <div>Найдено:{numWorks} <br/> На странице: {limit} <br/> Страница: {page}</div>}
+          {numWorks!==null && <CountPagesPanel all={numWorks} onpage={limit} page={page}/>}
 
         </div>
 

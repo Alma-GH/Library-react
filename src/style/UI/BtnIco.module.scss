@@ -23,6 +23,10 @@ button.btn{
 
   @include transBGC($transTimeLong);
 
+  &.on{
+    background-color: green;
+  }
+
   &.animate:hover{
     background-color: rgba(0,0,0,0.1);
     @include transBGC($transTimeLong);

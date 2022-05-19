@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Outlet} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import {useFetching} from "../../hooks/useFetching";
 import {getAction_setNumAll, getAction_setPage} from "../../store/reducers/pageReducer";
 import {
@@ -9,9 +9,28 @@ import {
   getAction_setTable
 } from "../../store/reducers/tableReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {getAction_clearSearch, getAction_confirmFilter} from "../../store/reducers/filterReducer";
+import {
+  getAction_clearSearch,
+  getAction_confirmFilter,
+  getAction_setCountSearch
+} from "../../store/reducers/filterReducer";
+import {LINK_ADD, LINK_LIBRARY, LINK_LIBRARY_ALL, LINK_LIBRARY_FAV, LINK_LIBRARY_LISTS} from "../../tools/utils/const";
+import ServerService from "../../tools/Services/ServerService";
 
-const SearchWrap = ({GET_METHOD}) => {
+const SearchWrap = () => {
+
+  const path = useLocation().pathname
+
+  const o = {
+    [LINK_LIBRARY]: ServerService.fromDB.getWorksByFilter.bind(ServerService.fromDB),
+    [LINK_LIBRARY_ALL]: ServerService.fromDB.getWorksByFilter.bind(ServerService.fromDB),
+    [LINK_LIBRARY_FAV]: ServerService.fromDB.getAllFav.bind(ServerService.fromDB),
+    [LINK_LIBRARY_LISTS]: ServerService.fromDB.getAllLists.bind(ServerService.fromDB),
+    [LINK_ADD]: ServerService.fromAPI.getWorksByFilter.bind(ServerService.fromAPI),
+  }
+
+  const GET_METHOD = o[path]
+
 
   const dispatch = useDispatch()
 
@@ -26,7 +45,6 @@ const SearchWrap = ({GET_METHOD}) => {
     dispatch(getAction_setNumAll(nWorks))
     dispatch(getAction_setTable(dataWorks))
     // dispatch(getAction_sortTables())
-
   })
 
   useEffect(()=>{
@@ -49,18 +67,11 @@ const SearchWrap = ({GET_METHOD}) => {
       console.log("ALL CLEAR")
       dispatch(getAction_clearSearch())
       dispatch(getAction_clearTable())
-      dispatch(getAction_confirmFilter())
     }
   }, [])
 
-
-
-
-
   return (
-    <>
       <Outlet/>
-    </>
   );
 };
 

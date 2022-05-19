@@ -8,6 +8,7 @@ const defaultState = {
     error: {err:false, message:""},
 
     sort: "",
+    editable: false,
   },
 
   info:{},
@@ -17,6 +18,7 @@ const SET_TABLES = "SET_TABLES"
 const SET_LOAD_TABLES = "SET_LOAD_TABLES"
 const SET_ERR_TABLES = "SET_ERR_TABLES"
 const SET_SORT_TABLES = "SET_SORT_TABLES"
+const SET_EDITABLE_TABLES = "SET_EDITABLE_TABLES"
 
 const SET_INFO = "SET_INFO"
 
@@ -41,6 +43,9 @@ export const tableReducer = (state=defaultState,action)=>{
       return {...state, items: {...state.items, error: action.payload}}
     case SET_SORT_TABLES:
       return {...state, items: {...state.items, sort: action.payload}}
+    case SET_EDITABLE_TABLES:
+      return {...state, items: {...state.items, editable: !!action.payload}}
+
 
     case SET_INFO:
       return {...state, info: action.payload}
@@ -66,6 +71,7 @@ export const getAction_setLoadTable = (val)=>{return {type:SET_LOAD_TABLES, payl
 export const getAction_setErrorTable = (isErr,message)=>{return {type:SET_ERR_TABLES, payload: {err:isErr, message:message}}}
 export const getAction_setInfo = (val)=>{return {type:SET_INFO, payload:val}}
 export const getAction_setSort = (val)=>{return {type:SET_SORT_TABLES, payload:val}}
+export const getAction_setEditableTable = (val)=>{return {type:SET_EDITABLE_TABLES, payload:val}}
 export const getAction_sortTables = ()=>{return {type:SORT_TABLES}}
 export const getAction_reverseTables = ()=>{return {type:REVERSE_TABLES}}
 

@@ -1,7 +1,14 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import cls from "../style/main/Header.module.scss"
-import {LINK_AUTH, LINK_FIND, LINK_HOME, LINK_LIBRARY} from "../tools/utils/const";
+import {
+  LINK_AUTH,
+  LINK_ADD,
+  LINK_HOME,
+  LINK_LIBRARY,
+  LINK_LIBRARY_ALL, LINK_LIBRARY_FAV,
+  LINK_LIBRARY_LISTS
+} from "../tools/utils/const";
 import BtnIco from "./UI/BtnIco";
 import imgQ from "../assets/imgs/question.png"
 import imgT from "../assets/imgs/theme.png"
@@ -19,8 +26,12 @@ const Header = ({prtClass}) => {
 
       <div className={cls.links}>
         <NavLink to={LINK_HOME}>H</NavLink>
-        <NavLink to={LINK_FIND}>Поиск</NavLink>
-        <NavLink to={LINK_LIBRARY}>Моя библиотека</NavLink>
+        <NavLink to={LINK_ADD}>Поиск</NavLink>
+        Моя библиотека:
+        <NavLink to={LINK_LIBRARY}>Поиск</NavLink> /
+        <NavLink to={LINK_LIBRARY_ALL}>Все</NavLink> /
+        <NavLink to={LINK_LIBRARY_LISTS}>Списки</NavLink> /
+        <NavLink to={LINK_LIBRARY_FAV}>Избранное</NavLink>
       </div>
 
       <div className={cls.menu}>

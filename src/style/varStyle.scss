@@ -28,6 +28,10 @@ $UIbr: 5px;
 
 //animations
 
+  @mixin transFontBGS($time){
+    transition: font-size $time ease-in-out,background-color $time ease-in-out;
+  }
+
   //color
   @mixin transBGC($time){
     transition: background-color $time ease-in-out;
@@ -45,3 +49,9 @@ $UIbr: 5px;
   @mixin transHeight($time){
     transition: height $time ease-in-out, border 0s $time ease-in-out;
   }
+
+  @mixin transFont($time){
+    transition: font-size $time ease-in-out;
+  }
+
+

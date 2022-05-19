@@ -88,12 +88,14 @@ class ServerService{
 
   fromDB = {
 
+    //works
     checkTypeWork(work){
       for(let key of Object.keys(work)){
         if(!WORK_PROPS.includes(key)) return false
       }
       return true
     },
+    errorTypeWork(){throw Error("INCORRECT TYPE OF WORK")},
 
     async getWorksByFilter(...args){
       let works = await DatabaseAPI.getAllWorks()
@@ -105,7 +107,7 @@ class ServerService{
     async setWorks(works){
 
       for(let work of works){
-        if(!this.checkTypeWork(work)) throw Error("INCORRECT TYPE OF OBJECT")
+        if(!this.checkTypeWork(work)) this.errorTypeWork()
       }
 
       const res = await DatabaseAPI.setWorks(JSON.stringify([...works]))
@@ -114,7 +116,7 @@ class ServerService{
 
     async addWork(work){
 
-      if(!this.checkTypeWork(work)) throw Error("INCORRECT TYPE OF OBJECT")
+      if(!this.checkTypeWork(work)) this.errorTypeWork()
 
       let allWorks = await DatabaseAPI.getAllWorks()
       if(!allWorks) allWorks = []
@@ -127,11 +129,64 @@ class ServerService{
       let allWorks = await DatabaseAPI.getAllWorks()
       if(!allWorks) allWorks = []
 
+
       allWorks = allWorks.filter(work=>work.id!==id)
 
-      const res = await DatabaseAPI.setWorks(JSON.stringify([...allWorks]))
+
+      const favRes  =  await this.deleteFav(id)
+      const res     =  await DatabaseAPI.setWorks(JSON.stringify([...allWorks]))
       return res
-    }
+    },
+
+    //lists
+    checkTypeList(list){
+
+    },
+    errorTypsList(){throw Error("INCORRECT TYPE OF LIST")},
+
+    async getAllLists() {
+      let lists = await DatabaseAPI.getAllLists()
+      if(!lists) lists = []
+      return [lists, lists.length]
+    },
+
+    //fav
+    checkTypeFav(fav){
+      return typeof fav === "string"
+    },
+    errorTypeFav(){throw Error("INCORRECT TYPE OF FAV")},
+
+    async getAllFav(){
+      const ids = await this.getAllFavId()
+      const data = await  this.getWorksByFilter()
+      return data
+    },
+    async getAllFavId(){
+      let favs = await DatabaseAPI.getAllFav()
+      if(!favs) favs = []
+      return favs
+    },
+
+    async addFav(id){
+      if(!this.checkTypeFav(id)) this.errorTypeFav()
+
+      let allFavs = await DatabaseAPI.getAllFav()
+      if(!allFavs) allFavs = []
+
+      const res = await DatabaseAPI.setFav(JSON.stringify([...allFavs,id]))
+      return res
+
+    },
+
+    async deleteFav(id){
+      let allFav = await DatabaseAPI.getAllFav()
+      if(!allFav) allFav = []
+
+      allFav = allFav.filter(fav=>fav!==id)
+
+      const res = await DatabaseAPI.setFav(JSON.stringify([...allFav]))
+      return res
+    },
 
   }
 
