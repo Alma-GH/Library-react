@@ -1,22 +1,10 @@
-import React, {useContext, useState} from 'react';
+import React from 'react';
 import cls from "../style/main/InputBlock.module.scss";
 import InputSearch from "./UI/Compounds/InputSearch";
 import {useDispatch, useSelector} from "react-redux";
-import {
-  getAction_reverseTables,
-  getAction_setEditableTable,
-  getAction_setSort,
-  getAction_sortTables
-} from "../store/reducers/tableReducer";
-import BtnIco from "./UI/BtnIco";
-import imgS from "../assets/imgs/sort.png"
-import imgE from "../assets/imgs/edit.png"
-import {T_AUTHOR, T_PUBLISH, T_TITLE} from "../tools/utils/const";
 import Pagination from "./UI/Pagination";
 import {getTotalPages} from "../tools/utils/func";
-import SelectC from "./UI/SelectC";
 import {getAction_confirmFilter, getAction_setCountSearch, getAction_setSearch} from "../store/reducers/filterReducer";
-import {SearchContext} from "../context/SearchContext";
 import ReorderPanel from "./ReorderPanel";
 import CountPagesPanel from "./CountPagesPanel";
 

@@ -14,6 +14,7 @@ import {getAction_confirmFilter} from "../store/reducers/filterReducer";
 import {getAction_setTable} from "../store/reducers/tableReducer";
 import {useFetching} from "../hooks/useFetching";
 import Loader from "./UI/Notifications/Loader";
+import {useFavourite} from "../hooks/useFavourite";
 
 const ContentTableControlMenu = ({drugControl, idTable}) => {
 
@@ -21,24 +22,10 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
 
   const tables = useSelector(state=>state.table.items.arr)
 
-  const [isFav, setIsFav] = useState(null)
-
-  const [fetchFav, isLoadingSetFav, errSetFav] = useFetching(async(addThis)=>{
-    if(addThis){
-      await ServerService.fromDB.addFav(idTable)
-      setIsFav(true)
-    }else{
-      await ServerService.fromDB.deleteFav(idTable)
-      setIsFav(false)
-    }
-
-  })
-  const [fetchListMembership, isLoadingMembership, errMembership] = useFetching(async ()=>{
-    const favs = await ServerService.fromDB.getAllFavId()
-    setIsFav(favs.some(fav=>fav===idTable))
-  })
+  const editOptions = useSelector(state=>state.table.items.edit)
 
 
+  const [isFav,fetchFav, fetchListMembership, isLoadingFav, err] = useFavourite(idTable)
 
   function editClick(e){
     e.preventDefault()
@@ -80,20 +67,20 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
   return (
     <>
       <div className={stylesMenu.join(" ")}>
-        {isLoadingSetFav || isLoadingMembership
+        {isLoadingFav
           ? <Loader/>
           : <div className={cls.btns}>
-              <BtnIco img={imgD} cb={deleteClick} isAnimStyle={true}/>
-              <BtnIco img={imgL} cb={addInListClick} isAnimStyle={true}/>
-              <BtnIco img={imgF} cb={toggleFavClick} isAnimStyle={true} isActiveStyle={isFav}/>
+              {editOptions.deleteBtn && <BtnIco img={imgD} cb={deleteClick} isAnimStyle={true}/>}
+              {editOptions.listBtn && <BtnIco img={imgL} cb={addInListClick} isAnimStyle={true}/>}
+              {editOptions.favBtn && <BtnIco img={imgF} cb={toggleFavClick} isAnimStyle={true} isActiveStyle={isFav}/>}
             </div>
         }
         <div className={cls.summ}>
-          <BtnIco img={imgW} cb={summaryClick} isAnimStyle={true}/>
+          {editOptions.summBtn && <BtnIco img={imgW} cb={summaryClick} isAnimStyle={true}/>}
         </div>
       </div>
 
-      <BtnCorner cbR={editClick} cbL={e=>drugControl.start(e)} cornerN={2}/>
+      <BtnCorner cbR={editClick} cbL={editOptions.order ? e=>drugControl.start(e) : editClick} cornerN={2}/>
     </>
   );
 };

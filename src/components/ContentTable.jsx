@@ -5,12 +5,15 @@ import {NavLink} from "react-router-dom";
 import {LINK_INFO} from "../tools/utils/const";
 import {Reorder, useDragControls} from "framer-motion";
 import ContentTableControlMenu from "./ContentTable.ControlMenu";
+import {useSelector} from "react-redux";
 
-const ContentTable = ({prtClass, content, isEditable}) => {
+const ContentTable = ({prtClass, content}) => {
 
   const {id,img,title,author,publish} = content
 
   const controls = useDragControls()
+
+  const editMenu = useSelector(state=>state.table.items.edit.menu)
 
 
   //styles
@@ -52,7 +55,7 @@ const ContentTable = ({prtClass, content, isEditable}) => {
         <NavLink to={ LINK_INFO + `/${id}`}>link</NavLink>
       </div>
 
-      {isEditable &&
+      {editMenu &&
         <ContentTableControlMenu drugControl={controls} idTable={id}/>
       }
     </Reorder.Item>

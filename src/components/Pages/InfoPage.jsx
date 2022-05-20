@@ -54,6 +54,7 @@ const InfoPage = ({prtClass}) => {
   }
 
   async function toggleWorkFav(e){
+    if(!isAdded) await fetchWork()
     fetchFav()
   }
 

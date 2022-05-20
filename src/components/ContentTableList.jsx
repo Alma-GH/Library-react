@@ -5,6 +5,7 @@ import imgTest from "../assets/imgs/plus.png";
 import {NavLink} from "react-router-dom";
 import {LINK_INFO} from "../tools/utils/const";
 import ContentTableControlMenu from "./ContentTable.ControlMenu";
+import {useSelector} from "react-redux";
 
 const ContentTableList = ({prtClass, content, isEditable}) => {
 
@@ -12,6 +13,7 @@ const ContentTableList = ({prtClass, content, isEditable}) => {
 
   const controls = useDragControls()
 
+  const editMenu = useSelector(state=>state.table.items.edit.menu)
 
   //styles
   const varsAnimation = {
@@ -42,9 +44,9 @@ const ContentTableList = ({prtClass, content, isEditable}) => {
 
       {name}
 
-      {/*{isEditable &&*/}
-      {/*<ContentTableControlMenu drugControl={controls} idTable={id}/>*/}
-      {/*}*/}
+      {editMenu &&
+        <ContentTableControlMenu drugControl={controls} idTable={lid}/>
+      }
     </Reorder.Item>
   );
 };

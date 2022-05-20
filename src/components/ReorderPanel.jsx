@@ -7,7 +7,7 @@ import imgS from "../assets/imgs/sort.png";
 import imgE from "../assets/imgs/edit.png";
 import {
   getAction_reverseTables,
-  getAction_setEditableTable,
+  getAction_setEditMenu,
   getAction_setSort,
   getAction_sortTables
 } from "../store/reducers/tableReducer";
@@ -19,7 +19,8 @@ const ReorderPanel = ({disabled}) => {
   const {isEdit} = useContext(SearchContext)
   const dispatch = useDispatch()
 
-  const editable = useSelector(state=>state.table.items.editable)
+  const editOptions = useSelector(state=>state.table.items.edit)
+  const editable = editOptions.menu
 
   const [sort, setSort] = useState('')
 
@@ -32,7 +33,7 @@ const ReorderPanel = ({disabled}) => {
 
   function editTables(e){
     e.preventDefault()
-    dispatch(getAction_setEditableTable(!editable))
+    dispatch(getAction_setEditMenu({...editOptions, menu: !editable}))
   }
   function reverseTables(e){
     e.preventDefault();

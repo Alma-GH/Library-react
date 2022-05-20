@@ -3,7 +3,7 @@ import {Outlet, useLocation} from "react-router-dom";
 import {useFetching} from "../../hooks/useFetching";
 import {getAction_setNumAll, getAction_setPage} from "../../store/reducers/pageReducer";
 import {
-  getAction_clearTable,
+  getAction_clearTable, getAction_setEditMenu,
   getAction_setErrorTable,
   getAction_setLoadTable,
   getAction_setTable
@@ -21,7 +21,7 @@ const SearchWrap = () => {
 
   const path = useLocation().pathname
 
-  const o = {
+  const fetchFrom = {
     [LINK_LIBRARY]: ServerService.fromDB.getWorksByFilter.bind(ServerService.fromDB),
     [LINK_LIBRARY_ALL]: ServerService.fromDB.getWorksByFilter.bind(ServerService.fromDB),
     [LINK_LIBRARY_FAV]: ServerService.fromDB.getAllFav.bind(ServerService.fromDB),
@@ -29,7 +29,7 @@ const SearchWrap = () => {
     [LINK_ADD]: ServerService.fromAPI.getWorksByFilter.bind(ServerService.fromAPI),
   }
 
-  const GET_METHOD = o[path]
+  const GET_METHOD = fetchFrom[path]
 
 
   const dispatch = useDispatch()

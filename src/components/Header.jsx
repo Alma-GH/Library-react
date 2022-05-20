@@ -15,8 +15,12 @@ import imgT from "../assets/imgs/theme.png"
 import imgG from "../assets/imgs/gear.png"
 import imgO from "../assets/imgs/out.png"
 import BtnLink from "./UI/Compounds/BtnLink";
+import {useDispatch} from "react-redux";
+import {getAction_setEditMenu} from "../store/reducers/tableReducer";
 
 const Header = ({prtClass}) => {
+
+  const disp = useDispatch()
 
   const styles = [cls.head]
   if(prtClass) styles.push(prtClass)

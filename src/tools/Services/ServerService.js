@@ -158,13 +158,31 @@ class ServerService{
 
     async getAllFav(){
       const ids = await this.getAllFavId()
-      const data = await  this.getWorksByFilter()
-      return data
+      let [works, num] = await  this.getWorksByFilter()
+
+      works = works.filter(work=>ids.includes(work.id))
+
+
+      return [works, num]
     },
     async getAllFavId(){
       let favs = await DatabaseAPI.getAllFav()
       if(!favs) favs = []
       return favs
+    },
+
+    async setFavsByWorks(works){
+
+      for(let work of works){
+        if(!this.checkTypeWork(work)) this.errorTypeWork()
+      }
+
+      let allFavs = works.map(work=>work.id)
+      if(!allFavs) allFavs = []
+
+      const res = await DatabaseAPI.setFav(JSON.stringify([...allFavs]))
+      return res
+
     },
 
     async addFav(id){
