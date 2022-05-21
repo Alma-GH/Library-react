@@ -42,6 +42,8 @@ export const DB_LISTS = `/data/works/lists/all.json`
 export const DB_FAV = `/data/works/lists/fav.json`
 export const DB_SUMM = `/data/summary.json`
 export const WORK_PROPS = ["author", "description", "img", "subjects", "title", "url", "id"]
+export const LIST_PROPS = ["lid", "wids", "name"]
+export const NAME_NEW_LIST = "New list"
 
 
 //big data

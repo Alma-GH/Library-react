@@ -4,6 +4,7 @@ import ServerService from "../Services/ServerService";
 export const errTimer = createMyTimer()
 export const updateOrderWorksThrottle = createThrottling(ServerService.fromDB.setWorks,1000).bind(ServerService.fromDB)
 export const updateOrderFavsThrottle = createThrottling(ServerService.fromDB.setFavsByWorks,1000).bind(ServerService.fromDB)
+export const updateOrderListsThrottle = createThrottling(ServerService.fromDB.setLists,1000).bind(ServerService.fromDB)
 
 
 

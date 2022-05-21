@@ -20,10 +20,10 @@ const RedactMenu = ({isTable, delF, addF}) => {
       {isLoadingSetFav || isLoadingMembership
         ? <Loader/>
         : <div className={cls.btns}>
-          <BtnIco img={imgD} cb={deleteClick} isAnimStyle={true}/>
-          <BtnIco img={imgL} cb={addInListClick} isAnimStyle={true}/>
-          <BtnIco img={imgF} cb={toggleFavClick} isAnimStyle={true} isActiveStyle={isFav}/>
-        </div>
+            <BtnIco img={imgD} cb={deleteClick} isAnimStyle={true}/>
+            <BtnIco img={imgL} cb={addInListClick} isAnimStyle={true}/>
+            <BtnIco img={imgF} cb={toggleFavClick} isAnimStyle={true} isActiveStyle={isFav}/>
+          </div>
       }
       <div className={cls.summ}>
         <BtnIco img={imgW} cb={summaryClick} isAnimStyle={true}/>

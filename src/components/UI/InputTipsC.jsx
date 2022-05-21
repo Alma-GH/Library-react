@@ -1,5 +1,6 @@
 import React from 'react';
 import cls from "./../../style/UI/InputTipsC.module.scss"
+import InputC from "./InputC";
 
 const InputTipsC = ({prtClass,id, tips, inputV, inputC}) => {
 
@@ -8,7 +9,7 @@ const InputTipsC = ({prtClass,id, tips, inputV, inputC}) => {
 
   return (
     <div className={styles.join(" ")}>
-      <input className={cls.input} type="text" list={id} value={inputV} onChange={inputC}/>
+      <InputC type="text" list={id} value={inputV} onChange={inputC}/>
       <datalist id={id}>
         {tips.map((tip,ind) => <option key={tip + ind} value={tip}/>)}
       </datalist>

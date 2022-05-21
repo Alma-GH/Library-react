@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Reorder, useDragControls} from "framer-motion";
 import cls from "../style/main/ContentTable.module.scss";
 import imgTest from "../assets/imgs/plus.png";
@@ -28,7 +28,8 @@ const ContentTableList = ({prtClass, content, isEditable}) => {
     }
   }
 
-  const styles = [cls.block, cls.blockList]
+  const [hover, setHover] = useState("")
+  const styles = [cls.block, cls.blockList, hover]
   if(prtClass) styles.push(prtClass)
 
   return (
@@ -38,6 +39,15 @@ const ContentTableList = ({prtClass, content, isEditable}) => {
       dragListener={false}
       dragControls={controls}
       {...varsAnimation}
+      onMouseOver={e=> {
+        if(e.target === e.currentTarget){
+          setHover(cls.hover)
+        }
+
+      }}
+      onMouseOut={e=> {
+        setHover("")
+      }}
 
     >
 

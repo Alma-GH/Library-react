@@ -24,20 +24,15 @@ const ContentBody = () => {
   const countSearch = useSelector(state=>state.filter.countSearch)
 
   function setTables(tables){
-
-
     updateOrderFunc(tables)
       .then(res=>console.log("UPDATE TABLES"))
 
-
-    console.log("REORDER")
     dispatch(getAction_setTable(tables))
   }
 
   if(!countSearch) return <h2>Начните поиск</h2>
   if(tablesIsLoading) return <Loader/>
   if(tablesErr.err) return <ErrorMessage message={tablesErr.message} prefix="ERROR FOUND"/>
-
   return (
     <Reorder.Group as="ol" axis="y" values={tables} onReorder={setTables} layoutScroll style={{overflowY: "scroll", height:"100%" }}>
       <AnimatePresence>

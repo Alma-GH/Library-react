@@ -13,6 +13,7 @@ import {
 import SelectC from "./UI/SelectC";
 import SelectSearchC from "./UI/Compounds/SelectSearchC";
 import FilterInput from "./Filter.Input";
+import InputC from "./UI/InputC";
 
 const FilterBlock = ({prtClass}) => {
 
@@ -137,7 +138,7 @@ const FilterBlock = ({prtClass}) => {
 
       <FilterInput className={cls.publish} title="First publish:">
           <div className={cls.input}>
-            <input type="number" className={clsInp.input} value={fPublish} onChange={publishInp}/>
+            <InputC type="number" value={fPublish} onChange={publishInp}/>
           </div>
       </FilterInput>
 

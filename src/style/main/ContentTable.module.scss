@@ -9,11 +9,13 @@ $wCover: 150px;
 
   @include transFontBGS(0.3s);
 
-  &:hover{
+  &.hover{
     font-size: 3rem;
     background-color: rgba(0,0,0,0.2);
   }
 }
+
+
 
 .block{
   width: 100%;
@@ -63,7 +65,7 @@ $wCover: 150px;
     justify-content: space-around;
     align-items: center;
 
-    background-color: white;
+    background-color: cornflowerblue;
     border: 2px solid black;
     border-radius: 10px;
     overflow: hidden;
@@ -92,4 +94,25 @@ $wCover: 150px;
 
   }
 
+}
+
+
+.modal{
+  width: 200px;
+  height: 200px;
+
+  @extend %column;
+  justify-content: space-between;
+
+  .input{
+    height: 30px;
+    width: 100%;
+  }
+  .btns{
+    display: flex;
+    justify-content: space-around;
+    .btn{
+      height: 60px;
+    }
+  }
 }

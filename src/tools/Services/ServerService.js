@@ -1,5 +1,5 @@
 import BookAPI from "./BookAPI";
-import {T_AUTHOR, T_PUBLISH, T_TITLE, WORK_PROPS} from "../utils/const";
+import {LIST_PROPS, NAME_NEW_LIST, T_AUTHOR, T_PUBLISH, T_TITLE, WORK_PROPS} from "../utils/const";
 import {getLocationByURL} from "../utils/func";
 import Controller from "./Controller";
 import DatabaseAPI from "./DatabaseAPI";
@@ -140,9 +140,12 @@ class ServerService{
 
     //lists
     checkTypeList(list){
-
+      for(let key of Object.keys(list)){
+        if(!LIST_PROPS.includes(key)) return false
+      }
+      return true
     },
-    errorTypsList(){throw Error("INCORRECT TYPE OF LIST")},
+    errorTypeList(){throw Error("INCORRECT TYPE OF LIST")},
 
     async getAllLists() {
       let lists = await DatabaseAPI.getAllLists()
@@ -150,9 +153,43 @@ class ServerService{
       return [lists, lists.length]
     },
 
+    async setLists(lists){
+      for(let list of lists){
+        if(!this.checkTypeList(list)) this.errorTypeWork()
+      }
+
+      const res = await DatabaseAPI.setLists(JSON.stringify([...lists]))
+      return res
+    },
+
+    async addNewList(){
+
+      let allLists = await DatabaseAPI.getAllLists()
+      if(!allLists) allLists = []
+
+      const newList = {
+        lid: Date.now(),
+        name: NAME_NEW_LIST,
+        wids: []
+      }
+
+      const res = await DatabaseAPI.setLists(JSON.stringify([...allLists,newList]))
+      return res
+    },
+
+    async deleteList(lid){
+      let allLists = await DatabaseAPI.getAllLists()
+      if(!allLists) allLists = []
+
+      allLists = allLists.filter(list=>list.lid!==lid)
+
+      const res = await DatabaseAPI.setLists(JSON.stringify([...allLists]))
+      return res
+    },
+
     //fav
-    checkTypeFav(fav){
-      return typeof fav === "string"
+    checkTypeFav(favID){
+      return typeof favID === "string"
     },
     errorTypeFav(){throw Error("INCORRECT TYPE OF FAV")},
 

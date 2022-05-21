@@ -3,7 +3,7 @@ import FilterBlock from "../FilterBlock";
 import InputBlock from "../InputBlock";
 import ContentBlock from "../ContentBlock";
 import {SearchContext} from "../../context/SearchContext";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getAction_confirmFilter, getAction_setCountSearch} from "../../store/reducers/filterReducer";
 import {getAction_clearTable, getAction_setEditMenu} from "../../store/reducers/tableReducer";
 import {getAction_setNumAll} from "../../store/reducers/pageReducer";
@@ -18,6 +18,8 @@ const SearchPage = ({isEdit, updateOrderFunc,areLists}) => {
   const context = {isEdit,updateOrderFunc,areLists}
 
   const dispatch = useDispatch()
+
+  const tables = useSelector(state=>state.table.items.arr)
 
 
   const allTrue = {menu:false,order:true, deleteBtn:true, listBtn:true, favBtn:true, summBtn:true}
