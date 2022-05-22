@@ -11,7 +11,7 @@ import {
   getAction_setSubjects
 } from "../store/reducers/filterReducer";
 import SelectC from "./UI/SelectC";
-import SelectSearchC from "./UI/Compounds/SelectSearchC";
+import SelectSearchC from "./UI/SelectSearchC";
 import FilterInput from "./Filter.Input";
 import InputC from "./UI/InputC";
 

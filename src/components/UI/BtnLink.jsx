@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import BtnIco from "../BtnIco";
+import BtnIco from "./BtnIco";
 
 const BtnLink = ({link,...btnAtt}) => {
   return (

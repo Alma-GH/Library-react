@@ -1,7 +1,7 @@
 import React from 'react';
-import cls from "../../../style/UI/InputSearch.module.scss";
-import BtnIco from "../BtnIco";
-import imgS from "../../../assets/imgs/search.png"
+import cls from "../../style/UI/InputSearch.module.scss";
+import BtnIco from "./BtnIco";
+import imgS from "../../assets/imgs/search.png"
 
 
 const InputSearch = ({prtClass, val, setVal, cb, disabledBTN}) => {

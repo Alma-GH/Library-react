@@ -14,7 +14,7 @@ import imgQ from "../assets/imgs/question.png"
 import imgT from "../assets/imgs/theme.png"
 import imgG from "../assets/imgs/gear.png"
 import imgO from "../assets/imgs/out.png"
-import BtnLink from "./UI/Compounds/BtnLink";
+import BtnLink from "./UI/BtnLink";
 import {useDispatch} from "react-redux";
 import {getAction_setEditMenu} from "../store/reducers/tableReducer";
 

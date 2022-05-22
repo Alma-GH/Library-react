@@ -1,9 +1,9 @@
 import React from 'react';
-import InputTipsC from "../InputTipsC";
-import BtnIco from "../BtnIco";
-import cls from "../../../style/UI/SelectSearchC.module.scss"
-import imgDel from "../../../assets/imgs/cancel.png"
-import imgSET from "../../../assets/imgs/plus.png";
+import InputTipsC from "./InputTipsC";
+import BtnIco from "./BtnIco";
+import cls from "../../style/UI/SelectSearchC.module.scss"
+import imgDel from "../../assets/imgs/cancel.png"
+import imgSET from "../../assets/imgs/plus.png";
 
 const SelectSearchC = ({selected, delCB, inputTipsAtt, btnIcoAtt, prtClass}) => {
   /**

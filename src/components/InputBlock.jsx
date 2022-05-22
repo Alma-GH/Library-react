@@ -1,6 +1,6 @@
 import React from 'react';
 import cls from "../style/main/InputBlock.module.scss";
-import InputSearch from "./UI/Compounds/InputSearch";
+import InputSearch from "./UI/InputSearch";
 import {useDispatch, useSelector} from "react-redux";
 import Pagination from "./UI/Pagination";
 import {getTotalPages} from "../tools/utils/func";

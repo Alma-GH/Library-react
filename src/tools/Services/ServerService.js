@@ -152,6 +152,13 @@ class ServerService{
       if(!lists) lists = []
       return [lists, lists.length]
     },
+    async getListsByWorkId(id){
+
+      const [allLists, len] = await this.getAllLists()
+      const listsByWork = allLists.filter(list=>list.wids?.includes(id))
+
+      return listsByWork
+    },
 
     async setLists(lists){
       for(let list of lists){
@@ -162,15 +169,15 @@ class ServerService{
       return res
     },
 
-    async addNewList(){
+    async addNewList(name, wids){
 
       let allLists = await DatabaseAPI.getAllLists()
       if(!allLists) allLists = []
 
       const newList = {
         lid: Date.now(),
-        name: NAME_NEW_LIST,
-        wids: []
+        name: name || NAME_NEW_LIST,
+        wids: wids || []
       }
 
       const res = await DatabaseAPI.setLists(JSON.stringify([...allLists,newList]))
