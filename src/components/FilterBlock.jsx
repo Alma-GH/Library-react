@@ -83,7 +83,6 @@ const FilterBlock = ({prtClass}) => {
   }
   async function takeSubjectTips(query){
     let tips = await ServerService.fromAPI.getSubjectsByQuery(query)
-    console.log(tips)
     setTipsSubjects(tips)
   }
 

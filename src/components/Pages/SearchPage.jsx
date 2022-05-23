@@ -4,10 +4,14 @@ import InputBlock from "../InputBlock";
 import ContentBlock from "../ContentBlock";
 import {SearchContext} from "../../context/SearchContext";
 import {useDispatch, useSelector} from "react-redux";
-import {getAction_confirmFilter, getAction_setCountSearch} from "../../store/reducers/filterReducer";
+import {
+  getAction_confirmFilter,
+  getAction_setCountSearch,
+  getAction_setSearch
+} from "../../store/reducers/filterReducer";
 import {getAction_clearTable, getAction_setEditMenu} from "../../store/reducers/tableReducer";
 import {getAction_setNumAll} from "../../store/reducers/pageReducer";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import ToolBar from "../ToolBar";
 import {LINK_ADD, LINK_LIBRARY, LINK_LIBRARY_ALL, LINK_LIBRARY_FAV, LINK_LIBRARY_LISTS} from "../../tools/utils/const";
 
@@ -19,7 +23,7 @@ const SearchPage = ({isEdit, updateOrderFunc,areLists}) => {
 
   const dispatch = useDispatch()
 
-  const tables = useSelector(state=>state.table.items.arr)
+  const params = useParams()
 
 
   const allTrue = {menu:false,order:true, deleteBtn:true, listBtn:true, favBtn:true, summBtn:true}
@@ -35,16 +39,23 @@ const SearchPage = ({isEdit, updateOrderFunc,areLists}) => {
   useEffect(()=>{
     console.log("clear")
     // Controller.abort()
+    if(params.list){
+      dispatch(getAction_setSearch(+params.list))
+    }
+
     dispatch(getAction_clearTable())
     dispatch(getAction_setCountSearch(0))
-    dispatch(getAction_confirmFilter())
+    dispatch(getAction_confirmFilter())  //TODO: delete?
     dispatch(getAction_setNumAll(0))
 
-    dispatch(getAction_setEditMenu(editAccess[path]))
+    dispatch(getAction_setEditMenu(editAccess[path] ?editAccess[path]:allFalse))
     if(isEdit){
       dispatch(getAction_setCountSearch(1))
       dispatch(getAction_confirmFilter())
     }
+
+
+
   }, [path])
 
   return (

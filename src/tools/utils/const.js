@@ -10,9 +10,10 @@ export const PATH_ADD = "add"
 export const PATH_LIBRARY = "library"
 export const PATH_LIBRARY_ALL = "all"
 export const PATH_LIBRARY_LISTS = "lists"
+export const PARAMS_LIST = ":list"
 export const PATH_LIBRARY_FAV = "favourite"
 export const PATH_INFO = "info"
-export const PARAMS_INFO = "/:page"
+export const PARAMS_INFO = ":page"
 
 
 
@@ -44,6 +45,7 @@ export const DB_SUMM = `/data/summary.json`
 export const WORK_PROPS = ["author", "description", "img", "subjects", "title", "url", "id"]
 export const LIST_PROPS = ["lid", "wids", "name"]
 export const NAME_NEW_LIST = "New list"
+export const ADD_FOR_NAME = "+"
 
 
 //big data

@@ -1,17 +1,21 @@
 import React, {useState} from 'react';
 import {Reorder, useDragControls} from "framer-motion";
 import cls from "../style/main/ContentTable.module.scss";
-import imgTest from "../assets/imgs/plus.png";
-import {NavLink} from "react-router-dom";
-import {LINK_INFO} from "../tools/utils/const";
 import ContentTableControlMenu from "./ContentTable.ControlMenu";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useLocation, useNavigate} from "react-router-dom";
+import {getAction_setSearch} from "../store/reducers/filterReducer";
 
 const ContentTableList = ({prtClass, content, isEditable}) => {
 
   const {lid,name} = content
 
+  const nav = useNavigate()
+  const path = useLocation().pathname
+
   const controls = useDragControls()
+
+  const dispatch = useDispatch()
 
   const editMenu = useSelector(state=>state.table.items.edit.menu)
 
@@ -48,7 +52,11 @@ const ContentTableList = ({prtClass, content, isEditable}) => {
       onMouseOut={e=> {
         setHover("")
       }}
-
+      onClick={e=>{
+        if(e.target === e.currentTarget){
+          nav(path + "/" + lid)
+        }
+      }}
     >
 
 

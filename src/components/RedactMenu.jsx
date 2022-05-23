@@ -16,19 +16,20 @@ const RedactMenu = ({isTable, delF, addF}) => {
 
 
   return (
-    <div>
-      {isLoadingSetFav || isLoadingMembership
+    <>
+      {isLoadingFav
         ? <Loader/>
         : <div className={cls.btns}>
-            <BtnIco img={imgD} cb={deleteClick} isAnimStyle={true}/>
-            <BtnIco img={imgL} cb={addInListClick} isAnimStyle={true}/>
-            <BtnIco img={imgF} cb={toggleFavClick} isAnimStyle={true} isActiveStyle={isFav}/>
-          </div>
+          {editOptions.deleteBtn && <BtnIco img={imgD} cb={deleteClick} isAnimStyle={true}/>}
+          {editOptions.listBtn && <BtnIco img={imgL} cb={addInListClick} isAnimStyle={true}/>}
+          {editOptions.favBtn && <BtnIco img={imgF} cb={toggleFavClick} isAnimStyle={true} isActiveStyle={isFav}/>}
+        </div>
       }
-      <div className={cls.summ}>
-        <BtnIco img={imgW} cb={summaryClick} isAnimStyle={true}/>
+      <div  className={cls.summ}>
+        {editOptions.summBtn && <BtnIco img={imgW} cb={summaryClick} isAnimStyle={true}/>}
+        {areLists && <BtnIco img={imgW} cb={renameList} isAnimStyle={true}/>}
       </div>
-    </div>
+    </>
   );
 };
 

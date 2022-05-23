@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import {
-  PARAMS_INFO,
+  PARAMS_INFO, PARAMS_LIST,
   PATH_ADD,
   PATH_HOME,
   PATH_INFO,
@@ -21,26 +21,27 @@ import {updateOrderFavsThrottle, updateOrderListsThrottle, updateOrderWorksThrot
 
 const AppRouter = () => {
 
-
-
   return (
     <Routes>
-
-
       <Route path={PATH_ROOT_APP} element={<AppPrivat/>}>
 
         <Route path={PATH_ROOT_SEARCH} element={<SearchWrap/>} >
           <Route path={PATH_ADD} element={<SearchPage isEdit={false}/>}/>
 
-          <Route path={PATH_LIBRARY} element={<SearchPage isEdit={false}/>}/>
-          <Route path={PATH_LIBRARY + "/" + PATH_LIBRARY_ALL}
-                 element={<SearchPage isEdit={true} updateOrderFunc={updateOrderWorksThrottle}/>}/>
-          <Route path={PATH_LIBRARY + "/" + PATH_LIBRARY_LISTS}
-                 element={<SearchPage isEdit={true} areLists={true} updateOrderFunc={updateOrderListsThrottle} />}/>
-          <Route path={PATH_LIBRARY + "/" + PATH_LIBRARY_FAV}
-                 element={<SearchPage isEdit={true} updateOrderFunc={updateOrderFavsThrottle}/>}/>
+          <Route path={PATH_LIBRARY}>
+            <Route index element={<SearchPage isEdit={false}/>}/>
 
-          <Route path={PATH_INFO + PARAMS_INFO} element={<InfoPage prtClass="info"/>}/>
+            <Route path={PATH_LIBRARY_ALL}
+                   element={<SearchPage isEdit={true} updateOrderFunc={updateOrderWorksThrottle}/>}/>
+            <Route path={PATH_LIBRARY_FAV}
+                   element={<SearchPage isEdit={true} updateOrderFunc={updateOrderFavsThrottle}/>}/>
+            <Route path={PATH_LIBRARY_LISTS}>
+              <Route index element={<SearchPage isEdit={true} areLists={true} updateOrderFunc={updateOrderListsThrottle} />}/>
+              <Route path={PARAMS_LIST} element={<SearchPage isEdit={true}/>}/>
+            </Route>
+          </Route>
+
+          <Route path={PATH_INFO +"/"+PARAMS_INFO} element={<InfoPage prtClass="info"/>}/>
         </Route>
 
 
@@ -51,8 +52,6 @@ const AppRouter = () => {
       <Route path="*" element={<AppPrivat/>}>
         <Route path="*" element={<HomePage prtClass="home"/>}/>
       </Route>
-
-
     </Routes>
   );
 };

@@ -3,19 +3,18 @@ import {Outlet, useLocation} from "react-router-dom";
 import {useFetching} from "../../hooks/useFetching";
 import {getAction_setNumAll, getAction_setPage} from "../../store/reducers/pageReducer";
 import {
-  getAction_clearTable, getAction_setEditMenu,
+  getAction_clearTable,
   getAction_setErrorTable,
   getAction_setLoadTable,
   getAction_setTable
 } from "../../store/reducers/tableReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {
-  getAction_clearSearch,
-  getAction_confirmFilter,
-  getAction_setCountSearch
-} from "../../store/reducers/filterReducer";
+import {getAction_clearSearch} from "../../store/reducers/filterReducer";
 import {LINK_ADD, LINK_LIBRARY, LINK_LIBRARY_ALL, LINK_LIBRARY_FAV, LINK_LIBRARY_LISTS} from "../../tools/utils/const";
 import ServerService from "../../tools/Services/ServerService";
+import Modal from "../UI/Modal";
+import ModalBody1 from "../UI/Modal.Body1";
+import ModalBody2 from "../UI/Modal.Body2";
 
 const SearchWrap = () => {
 
@@ -29,7 +28,9 @@ const SearchWrap = () => {
     [LINK_ADD]: ServerService.fromAPI.getWorksByFilter.bind(ServerService.fromAPI),
   }
 
-  const GET_METHOD = fetchFrom[path]
+  let GET_METHOD = fetchFrom[path]
+  if(path.startsWith(LINK_LIBRARY_LISTS) && path !== LINK_LIBRARY_LISTS)
+    GET_METHOD = ServerService.fromDB.getWorksByListId.bind(ServerService.fromDB)
 
 
   const dispatch = useDispatch()
@@ -39,6 +40,8 @@ const SearchWrap = () => {
   const limit = useSelector(state=>state.page.limit)
 
   const countSearch = useSelector(state=>state.filter.countSearch)
+
+  const bodyModal = useSelector(state=>state.modal.bodyNum)
 
   const [fetchTables, isLoading, err] = useFetching(  async (...args)=>{
     const [dataWorks, nWorks] = await GET_METHOD(...args)
@@ -71,7 +74,14 @@ const SearchWrap = () => {
   }, [])
 
   return (
+    <>
       <Outlet/>
+      <Modal>
+        {bodyModal === 1 && <ModalBody1 />}
+        {bodyModal === 2 && <ModalBody2 />}
+      </Modal>
+    </>
+
   );
 };
 

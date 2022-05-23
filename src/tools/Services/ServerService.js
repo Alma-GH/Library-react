@@ -1,5 +1,5 @@
 import BookAPI from "./BookAPI";
-import {LIST_PROPS, NAME_NEW_LIST, T_AUTHOR, T_PUBLISH, T_TITLE, WORK_PROPS} from "../utils/const";
+import {ADD_FOR_NAME, LIST_PROPS, NAME_NEW_LIST, T_AUTHOR, T_PUBLISH, T_TITLE, WORK_PROPS} from "../utils/const";
 import {getLocationByURL} from "../utils/func";
 import Controller from "./Controller";
 import DatabaseAPI from "./DatabaseAPI";
@@ -29,7 +29,7 @@ class ServerService{
         url:    BookAPI.getURLPageByKey(work.key)
       }))
       return [dataWorks, works.numFound]
-    },
+    },                //Confirm
 
     async getWorksByTitle(...args){
       const works = await BookAPI.getWorksByTitle(...args)
@@ -102,7 +102,7 @@ class ServerService{
       if(!works) works = []
       const dataWorks = works
       return [dataWorks, dataWorks.length]
-    },
+    },                  //Confirm
 
     async setWorks(works){
 
@@ -147,11 +147,24 @@ class ServerService{
     },
     errorTypeList(){throw Error("INCORRECT TYPE OF LIST")},
 
-    async getAllLists() {
+    async getAllLists(...args) {
       let lists = await DatabaseAPI.getAllLists()
       if(!lists) lists = []
       return [lists, lists.length]
-    },
+    },                      //Confirm
+    async getWorksByListId(...args){
+
+      const lid = args[0].title
+
+      const [allLists, lenLists] = await this.getAllLists()
+      let worksIds = allLists.find(list=>list.lid === lid)?.wids
+      worksIds = worksIds ? worksIds : []
+
+      const [allWorks, lenWorks] = await this.getWorksByFilter()
+      const filterWorks = allWorks.filter(work=>worksIds.includes(work.id))
+
+      return [filterWorks, filterWorks.length]
+    },                  //Confirm
     async getListsByWorkId(id){
 
       const [allLists, len] = await this.getAllLists()
@@ -162,25 +175,33 @@ class ServerService{
 
     async setLists(lists){
       for(let list of lists){
-        if(!this.checkTypeList(list)) this.errorTypeWork()
+        if(!this.checkTypeList(list)) this.errorTypeList()
       }
 
       const res = await DatabaseAPI.setLists(JSON.stringify([...lists]))
       return res
     },
 
-    async addNewList(name, wids){
+    async addNewList(name, wids, pos=0){
 
       let allLists = await DatabaseAPI.getAllLists()
       if(!allLists) allLists = []
 
+      let newName = name || NAME_NEW_LIST
+      while(allLists.some(list=>list.name === newName)){
+        newName += ADD_FOR_NAME
+      }
       const newList = {
         lid: Date.now(),
-        name: name || NAME_NEW_LIST,
+        name: newName,
         wids: wids || []
       }
 
-      const res = await DatabaseAPI.setLists(JSON.stringify([...allLists,newList]))
+
+      allLists.splice(pos,0,newList)
+      const newLists = [...allLists]
+
+      const res = await DatabaseAPI.setLists(JSON.stringify(newLists))
       return res
     },
 
@@ -200,7 +221,7 @@ class ServerService{
     },
     errorTypeFav(){throw Error("INCORRECT TYPE OF FAV")},
 
-    async getAllFav(){
+    async getAllFav(...args){
       const ids = await this.getAllFavId()
       let [works, num] = await  this.getWorksByFilter()
 
@@ -208,7 +229,7 @@ class ServerService{
 
 
       return [works, num]
-    },
+    },                         //Confirm
     async getAllFavId(){
       let favs = await DatabaseAPI.getAllFav()
       if(!favs) favs = []

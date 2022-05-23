@@ -22,13 +22,17 @@ import InputC from "./UI/InputC";
 import {tab} from "@testing-library/user-event/dist/tab";
 import SelectC from "./UI/SelectC";
 import {
+  getAction_setBodyModal,
+  getAction_setIdInModal,
   getAction_setNewNameList, getAction_setOptionsLists,
   getAction_setSelectedLists,
   getAction_setSelectList,
-  getAction_setTipsList
+  getAction_setTipsList, getAction_setVisModal
 } from "../store/reducers/modalData";
 import SelectSearchC from "./UI/SelectSearchC";
 import {Multiselect} from "multiselect-react-dropdown";
+import ModalBody1 from "./UI/Modal.Body1";
+import ModalBody2 from "./UI/Modal.Body2";
 
 const ContentTableControlMenu = ({drugControl, idTable}) => {
 
@@ -39,27 +43,7 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
   const tables = useSelector(state=>state.table.items.arr)
   const editOptions = useSelector(state=>state.table.items.edit)
 
-  const modalListName = useSelector(state=>state.modal.newNameList)
-
-  const modalOptionsLists = useSelector(state=>state.modal.optionsLists)
-  const modalSelectedLists = useSelector(state=>state.modal.selectedLists)
-
   const [isFav,fetchFav, fetchListMembership, isLoadingFav, err] = useFavourite(idTable)
-
-  const [visModal, setVisModal] = useState(false)
-
-  const [fetchList, isLoadingList, errList] = useFetching(async (listItem, isDelete)=>{
-
-    const [allLists] = await ServerService.fromDB.getAllLists()
-    const resFromServer = await ServerService.fromDB.setLists(allLists.map(list=>{
-      if(list.lid === listItem.lid){
-        if(isDelete) list.wids = list.wids.filter(id=>id!==idTable)
-        else         list.wids = list.wids ? [...list.wids, idTable] : [idTable]
-      }
-      return list
-    }))
-    console.log({resFromServer})
-  })
 
 
   function editClick(e){
@@ -90,15 +74,23 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
     }
   }
   async function addInListClick(e){
+
+
+    dispatch(getAction_setIdInModal(idTable))
+    dispatch(getAction_setBodyModal(2))
     setVisibleMenu(false)
 
 
     const [allLists] = await ServerService.fromDB.getAllLists()
     const listsByWork = await ServerService.fromDB.getListsByWorkId(idTable)
-    dispatch(getAction_setSelectedLists(listsByWork.map((list,ind)=>({...list, name:ind+") "+list.name, idSelect:idTable}))))
-    dispatch(getAction_setOptionsLists(allLists.map((list,ind)=>({...list, name:ind+") "+list.name, idSelect:idTable}))))
+    dispatch(getAction_setSelectedLists(
+      listsByWork.map(list=>({...list, idSelect:idTable}))
+    ))
+    dispatch(getAction_setOptionsLists(
+      allLists.map(list=>({...list, idSelect:idTable}))
+    ))
 
-    setVisModal(true)
+    dispatch(getAction_setVisModal(true))
   }
   async function toggleFavClick(e){
     fetchFav(!isFav)
@@ -108,43 +100,13 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
   }
 
   function renameList(e){
+    dispatch(getAction_setIdInModal(idTable))
+    dispatch(getAction_setBodyModal(1))
     dispatch(getAction_setNewNameList(tables.find(table=>table.lid === idTable).name))
-    setVisModal(true)
     setVisibleMenu(false)
+    dispatch(getAction_setVisModal(true))
   }
 
-  function cancelRename(e){
-    setVisModal(false)
-  }
-  function confirmRename(e){
-
-    if(!modalListName){
-      console.log("Пустой ввод имени")
-      setVisModal(false)
-      return
-    }
-
-    let newTables = tables.map(table=>{
-      if(table.lid === idTable) table.name = modalListName
-      return table
-    })
-
-    dispatch(getAction_setTable(newTables))
-    ServerService.fromDB.setLists(newTables)
-      .then(res=>console.log(res))
-    setVisModal(false)
-  }
-
-  function addSelectedList(selectedList, selectedItem){
-    fetchList(selectedItem, false)
-    dispatch(getAction_setSelectedLists(selectedList))
-  }
-  function deleteFromList(selectedList, removedItem){
-
-
-    fetchList(removedItem, true)
-    dispatch(getAction_setSelectedLists(selectedList))
-  }
 
   const [visibleMenu, setVisibleMenu] = useState(false)
   const stylesMenu = [cls.edit]
@@ -169,34 +131,6 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
       </div>
 
       <BtnCorner cbR={editClick} cbL={editOptions.order ? e=>drugControl.start(e) : editClick} cornerN={2}/>
-
-      <Modal vis={visModal} setVis={setVisModal}>
-        {areLists
-          ? <div className={cls.modal1}>
-              <div className={cls.input}>
-                <InputC  type="text" value={modalListName} onChange={e=>dispatch(getAction_setNewNameList(e.target.value))}/>
-              </div>
-
-              <div className={cls.btns}>
-                <BtnIco img={imgP} cb={confirmRename} isAnimStyle={true} prtClass={cls.btn}/>
-                <BtnIco img={imgD} cb={cancelRename} isAnimStyle={true} prtClass={cls.btn}/>
-              </div>
-            </div>
-          : <div className={cls.modal2}>
-                <Multiselect
-                  options={[...modalOptionsLists]}
-                  selectedValues={[...modalSelectedLists]}
-                  displayValue="name"
-                  id={idTable}
-                  isObject={true}
-                  placeholder="LIST"
-                  onSelect={addSelectedList}
-                  onRemove={deleteFromList}
-                  loading={isLoadingList}
-                />
-            </div>
-        }
-      </Modal>
     </>
   );
 };
