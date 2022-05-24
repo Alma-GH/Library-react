@@ -12,9 +12,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAction_clearSearch} from "../../store/reducers/filterReducer";
 import {LINK_ADD, LINK_LIBRARY, LINK_LIBRARY_ALL, LINK_LIBRARY_FAV, LINK_LIBRARY_LISTS} from "../../tools/utils/const";
 import ServerService from "../../tools/Services/ServerService";
-import Modal from "../UI/Modal";
-import ModalBody1 from "../UI/Modal.Body1";
-import ModalBody2 from "../UI/Modal.Body2";
 
 const SearchWrap = () => {
 
@@ -40,8 +37,6 @@ const SearchWrap = () => {
   const limit = useSelector(state=>state.page.limit)
 
   const countSearch = useSelector(state=>state.filter.countSearch)
-
-  const bodyModal = useSelector(state=>state.modal.bodyNum)
 
   const [fetchTables, isLoading, err] = useFetching(  async (...args)=>{
     const [dataWorks, nWorks] = await GET_METHOD(...args)
@@ -76,10 +71,6 @@ const SearchWrap = () => {
   return (
     <>
       <Outlet/>
-      <Modal>
-        {bodyModal === 1 && <ModalBody1 />}
-        {bodyModal === 2 && <ModalBody2 />}
-      </Modal>
     </>
 
   );

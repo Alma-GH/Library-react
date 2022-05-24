@@ -1,7 +1,11 @@
 import React, {useEffect} from 'react';
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getAction_confirmFilter, getAction_setSearch} from "../../store/reducers/filterReducer";
+import {
+  getAction_confirmFilter,
+  getAction_setCountSearch,
+  getAction_setSearch
+} from "../../store/reducers/filterReducer";
 import {
   getAction_clearTable,
   getAction_setEditMenu,
@@ -17,6 +21,7 @@ import {getEditAccess} from "../../tools/utils/func";
 
 const LibraryPage = ({updateOrderFunc,areLists, editAccess, GET_METHOD}) => {
 
+  const path = useLocation().pathname
   const context = {isEdit:true,updateOrderFunc,areLists}
 
   const dispatch = useDispatch()
@@ -37,19 +42,18 @@ const LibraryPage = ({updateOrderFunc,areLists, editAccess, GET_METHOD}) => {
     fetchTables(confirmF);
   }, [confirmF])
 
-
   useEffect(()=>{
     if(params.list){
       dispatch(getAction_setSearch(+params.list))
     }
+    dispatch(getAction_setCountSearch(1))
     dispatch(getAction_confirmFilter())
     dispatch(getAction_setEditMenu(editAccess))
-
     return ()=>{
       dispatch(getAction_clearTable())
       dispatch(getAction_setEditMenu(getEditAccess()))
     }
-  }, [])
+  }, [path])
 
   return (
     <SearchContext.Provider value={context}>

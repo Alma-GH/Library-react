@@ -101,7 +101,7 @@ class ServerService{
       let works = await DatabaseAPI.getAllWorks()
       if(!works) works = []
       return [works, works.length]
-    },
+    },                              //Confirm
     async getWorksByFilter(...args){
       let works = await DatabaseAPI.getAllWorks()
       if(!works) works = []

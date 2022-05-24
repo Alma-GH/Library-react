@@ -1,15 +1,11 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import {
-  ACCESS_FOR_ALL_LIB, ACCESS_FOR_FAV,
-  ACCESS_FOR_LISTS, ACCESS_FOR_SEARCH, ACCESS_FOR_SEARCH_LIB,
-  PARAMS_INFO, PARAMS_LIST,
+  PARAMS_INFO,
   PATH_ADD,
   PATH_HOME,
   PATH_INFO,
   PATH_LIBRARY,
-  PATH_LIBRARY_ALL,
-  PATH_LIBRARY_FAV,
   PATH_LIBRARY_LISTS,
   PATH_ROOT_APP,
   PATH_ROOT_SEARCH
@@ -19,13 +15,8 @@ import InfoPage from "./Pages/InfoPage";
 import HomePage from "./Pages/HomePage";
 import SearchPage from "./Pages/SearchPage";
 import AppPrivat from "./App.Privat";
-import {
-  getEditAccess,
-  updateOrderFavsThrottle,
-  updateOrderListsThrottle,
-  updateOrderWorksInListThrottle,
-  updateOrderWorksThrottle
-} from "../tools/utils/func";
+import LibraryPage from "./Pages/LibraryPage";
+import {libraryListsRoutes, libraryRoutes} from "../router/routes";
 
 const AppRouter = () => {
 
@@ -35,27 +26,24 @@ const AppRouter = () => {
 
         <Route path={PATH_ROOT_SEARCH} element={<SearchWrap/>} >
           <Route path={PATH_ADD} element={<SearchPage isEdit={false}/>}/>
-
-          <Route path={PATH_LIBRARY}>
-            <Route index element={<SearchPage isEdit={false}/>}/>
-
-            <Route path={PATH_LIBRARY_ALL}
-                   element={<SearchPage isEdit={true} updateOrderFunc={updateOrderWorksThrottle}/>}/>
-            <Route path={PATH_LIBRARY_FAV}
-                   element={<SearchPage isEdit={true} updateOrderFunc={updateOrderFavsThrottle}/>}/>
-            <Route path={PATH_LIBRARY_LISTS}>
-              <Route index element={<SearchPage isEdit={true} areLists={true} updateOrderFunc={updateOrderListsThrottle} />}/>
-              <Route path={PARAMS_LIST} element={<SearchPage isEdit={true} updateOrderFunc={updateOrderWorksInListThrottle}/>}/>
-            </Route>
-          </Route>
-
           <Route path={PATH_INFO +"/"+PARAMS_INFO} element={<InfoPage prtClass="info"/>}/>
         </Route>
 
+        <Route path={PATH_LIBRARY}>
+          {libraryRoutes.map(route=>(
+            <Route key={route.path} path={route.path} element={<LibraryPage {...route.elementProps}/>} />
+          ))}
+          <Route path={PATH_LIBRARY_LISTS}>
+            {libraryListsRoutes.map(route =>(
+              !route.path
+                ? <Route key="INDEX" index element={<LibraryPage {...route.elementProps}/>}/>
+                : <Route key={route.path} path={route.path} element={<LibraryPage {...route.elementProps}/>}/>
+            ))}
+          </Route>
+        </Route>
 
         <Route path={PATH_HOME} element={<HomePage prtClass="home"/>}/>
       </Route>
-
 
       <Route path="*" element={<AppPrivat/>}>
         <Route path="*" element={<HomePage prtClass="home"/>}/>
