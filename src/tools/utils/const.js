@@ -29,8 +29,6 @@ export const LINK_INFO    = `${PATH_ROOT_APP}/${PATH_ROOT_SEARCH}/${PATH_INFO}`
 
 
 
-
-
 //table props
 export const T_AUTHOR = "author"
 export const T_TITLE = "title"
@@ -50,3 +48,11 @@ export const ADD_FOR_NAME = "+"
 
 //big data
 export const BIG_LANGUAGES = [{"name": "English", "key": "/languages/eng"}, {"name": "German / Deutsch", "key": "/languages/ger"}, {"name": "French / fran\u00e7ais", "key": "/languages/fre"}, {"name": "Spanish / espa\u00f1ol", "key": "/languages/spa"}, {"name": "Russian / \u0420\u0443\u0441\u0441\u043a\u0438\u0439 \u044f\u0437\u044b\u043a", "key": "/languages/rus", }, {"name": "Chinese", "key": "/languages/chi", }, {"name": "Italian", "key": "/languages/ita", }, {"name": "Japanese", "key": "/languages/jpn", }, {"name": "Portuguese", "key": "/languages/por", }, {"name": "Arabic", "key": "/languages/ara", }, {"name": "Polish", "key": "/languages/pol", }, {"name": "Korean", "key": "/languages/kor", }, {"name": "Hebrew", "key": "/languages/heb", }, {"name": "Dutch", "key": "/languages/dut", }, {"name": "Indonesian", "key": "/languages/ind", }]
+
+//edit menu access
+export const ACCESS_FOR_ALL_LIB = "ACCESS_FOR_ALL_LIB"
+export const ACCESS_FOR_FAV = "ACCESS_FOR_FAV"
+export const ACCESS_FOR_LISTS = "ACCESS_FOR_LISTS"
+export const ACCESS_FOR_SEARCH_LIB = "ACCESS_FOR_SEARCH_LIB"
+export const ACCESS_FOR_SEARCH = "ACCESS_FOR_SEARCH"
+export const ARR_ACCESS = [ACCESS_FOR_SEARCH_LIB,ACCESS_FOR_ALL_LIB,ACCESS_FOR_FAV,ACCESS_FOR_LISTS,ACCESS_FOR_SEARCH]

@@ -74,8 +74,6 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
     }
   }
   async function addInListClick(e){
-
-
     dispatch(getAction_setIdInModal(idTable))
     dispatch(getAction_setBodyModal(2))
     setVisibleMenu(false)

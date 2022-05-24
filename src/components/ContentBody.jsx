@@ -6,7 +6,6 @@ import ErrorMessage from "./UI/Notifications/ErrorMessage";
 import {useDispatch, useSelector} from "react-redux";
 import {AnimatePresence, Reorder} from "framer-motion";
 import {getAction_setTable} from "../store/reducers/tableReducer";
-import {updateOrderWorksThrottle} from "../tools/utils/func";
 import {SearchContext} from "../context/SearchContext";
 import ContentTableList from "./ContentTableList";
 
@@ -17,6 +16,7 @@ const ContentBody = () => {
 
   const dispatch = useDispatch()
 
+  const listID = useSelector(state=>state.filter.confirm.title)
   const tables = useSelector(state=>state.table.items.arr)
   const tablesIsLoading = useSelector(state=>state.table.items.loading)
   const tablesErr = useSelector(state=>state.table.items.error)
@@ -24,7 +24,7 @@ const ContentBody = () => {
   const countSearch = useSelector(state=>state.filter.countSearch)
 
   function setTables(tables){
-    updateOrderFunc(tables)
+    updateOrderFunc(tables, listID)
       .then(res=>console.log("UPDATE TABLES"))
 
     dispatch(getAction_setTable(tables))

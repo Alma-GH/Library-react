@@ -2,11 +2,10 @@ import React, {useState} from 'react';
 import {Reorder, useDragControls} from "framer-motion";
 import cls from "../style/main/ContentTable.module.scss";
 import ContentTableControlMenu from "./ContentTable.ControlMenu";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
-import {getAction_setSearch} from "../store/reducers/filterReducer";
 
-const ContentTableList = ({prtClass, content, isEditable}) => {
+const ContentTableList = ({prtClass, content}) => {
 
   const {lid,name} = content
 
@@ -14,8 +13,6 @@ const ContentTableList = ({prtClass, content, isEditable}) => {
   const path = useLocation().pathname
 
   const controls = useDragControls()
-
-  const dispatch = useDispatch()
 
   const editMenu = useSelector(state=>state.table.items.edit.menu)
 

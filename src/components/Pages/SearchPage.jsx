@@ -36,6 +36,8 @@ const SearchPage = ({isEdit, updateOrderFunc,areLists}) => {
     [LINK_ADD]: allFalse
   }
 
+  let editMenu = editAccess[path] ? editAccess[path] : allTrue
+
   useEffect(()=>{
     console.log("clear")
     // Controller.abort()
@@ -48,7 +50,7 @@ const SearchPage = ({isEdit, updateOrderFunc,areLists}) => {
     dispatch(getAction_confirmFilter())  //TODO: delete?
     dispatch(getAction_setNumAll(0))
 
-    dispatch(getAction_setEditMenu(editAccess[path] ?editAccess[path]:allFalse))
+    dispatch(getAction_setEditMenu(editMenu))
     if(isEdit){
       dispatch(getAction_setCountSearch(1))
       dispatch(getAction_confirmFilter())

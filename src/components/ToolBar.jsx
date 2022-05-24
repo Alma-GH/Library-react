@@ -17,6 +17,7 @@ const ToolBar = ({className}) => {
   const {areLists, updateOrderFunc} = useContext(SearchContext)
 
   const tables = useSelector(state=>state.table.items.arr)
+  const listID = useSelector(state=>state.filter.confirm.title)
   const editOptions = useSelector(state=>state.table.items.edit)
   const editable = editOptions.menu
 
@@ -25,7 +26,6 @@ const ToolBar = ({className}) => {
     const res = await ServerService.fromDB.addNewList()
     dispatch(getAction_confirmFilter())
     dispatch(getAction_setEditMenu({...editOptions, menu:editable}))
-    console.log(res)
   })
 
   function editTables(e){
@@ -34,7 +34,7 @@ const ToolBar = ({className}) => {
   }
 
   function updateTables(){
-    updateOrderFunc(tables)
+    updateOrderFunc(tables, listID)
       .then(res=>console.log("UPDATE TABLES"))
   }
 

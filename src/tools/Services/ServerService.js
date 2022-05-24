@@ -97,12 +97,26 @@ class ServerService{
     },
     errorTypeWork(){throw Error("INCORRECT TYPE OF WORK")},
 
+    async getAllWorks(){
+      let works = await DatabaseAPI.getAllWorks()
+      if(!works) works = []
+      return [works, works.length]
+    },
     async getWorksByFilter(...args){
       let works = await DatabaseAPI.getAllWorks()
       if(!works) works = []
       const dataWorks = works
       return [dataWorks, dataWorks.length]
     },                  //Confirm
+    async getWorksByIds(ids){
+      const [works] = await this.getWorksByFilter()
+
+      let orderedWorks = []
+      for (let i = 0; i < ids.length; i++) {
+        orderedWorks.push(works.find(work=>work.id === ids[i]))
+      }
+      return orderedWorks
+    },
 
     async setWorks(works){
 
@@ -112,7 +126,7 @@ class ServerService{
 
       const res = await DatabaseAPI.setWorks(JSON.stringify([...works]))
       return res
-    },
+    },                            //UpdateOrder
 
     async addWork(work){
 
@@ -132,8 +146,17 @@ class ServerService{
 
       allWorks = allWorks.filter(work=>work.id!==id)
 
-
+      //from fav
       const favRes  =  await this.deleteFav(id)
+
+      //from lists
+      const [allLists] = await this.getAllLists()
+      const newLists = allLists.map(list=>{
+        if(list.wids) list.wids = list.wids.filter(wid=>wid!==id)
+        return list
+      })
+
+      await this.setLists(newLists)
       const res     =  await DatabaseAPI.setWorks(JSON.stringify([...allWorks]))
       return res
     },
@@ -147,6 +170,10 @@ class ServerService{
     },
     errorTypeList(){throw Error("INCORRECT TYPE OF LIST")},
 
+    async getListById(lid){
+      const [allLists] = await this.getAllLists()
+      return allLists.find(list=>list.lid === lid)
+    },
     async getAllLists(...args) {
       let lists = await DatabaseAPI.getAllLists()
       if(!lists) lists = []
@@ -156,12 +183,11 @@ class ServerService{
 
       const lid = args[0].title
 
-      const [allLists, lenLists] = await this.getAllLists()
-      let worksIds = allLists.find(list=>list.lid === lid)?.wids
+      const list = await this.getListById(lid)
+      let worksIds = list?.wids
       worksIds = worksIds ? worksIds : []
 
-      const [allWorks, lenWorks] = await this.getWorksByFilter()
-      const filterWorks = allWorks.filter(work=>worksIds.includes(work.id))
+      const filterWorks = await this.getWorksByIds(worksIds)
 
       return [filterWorks, filterWorks.length]
     },                  //Confirm
@@ -173,6 +199,7 @@ class ServerService{
       return listsByWork
     },
 
+
     async setLists(lists){
       for(let list of lists){
         if(!this.checkTypeList(list)) this.errorTypeList()
@@ -180,7 +207,17 @@ class ServerService{
 
       const res = await DatabaseAPI.setLists(JSON.stringify([...lists]))
       return res
-    },
+    },                            //UpdateOrder
+    async setWorksInList(works, lid){
+      for(let work of works){
+        if(!this.checkTypeWork(work)) this.errorTypeWork()
+      }
+      const wids = works.map(work=>work.id)
+      const [allLists] = await this.getAllLists()
+      const editList = allLists.find(list=>list.lid === lid)
+      editList.wids = wids
+      await this.setLists(allLists)
+    },                 //UpdateOrder
 
     async addNewList(name, wids, pos=0){
 
@@ -223,12 +260,9 @@ class ServerService{
 
     async getAllFav(...args){
       const ids = await this.getAllFavId()
-      let [works, num] = await  this.getWorksByFilter()
+      const orderedWorks = await this.getWorksByIds(ids)
 
-      works = works.filter(work=>ids.includes(work.id))
-
-
-      return [works, num]
+      return [orderedWorks, orderedWorks.length]
     },                         //Confirm
     async getAllFavId(){
       let favs = await DatabaseAPI.getAllFav()
@@ -248,7 +282,7 @@ class ServerService{
       const res = await DatabaseAPI.setFav(JSON.stringify([...allFavs]))
       return res
 
-    },
+    },                      //UpdateOrder
 
     async addFav(id){
       if(!this.checkTypeFav(id)) this.errorTypeFav()

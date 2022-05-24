@@ -1,6 +1,8 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import {
+  ACCESS_FOR_ALL_LIB, ACCESS_FOR_FAV,
+  ACCESS_FOR_LISTS, ACCESS_FOR_SEARCH, ACCESS_FOR_SEARCH_LIB,
   PARAMS_INFO, PARAMS_LIST,
   PATH_ADD,
   PATH_HOME,
@@ -17,7 +19,13 @@ import InfoPage from "./Pages/InfoPage";
 import HomePage from "./Pages/HomePage";
 import SearchPage from "./Pages/SearchPage";
 import AppPrivat from "./App.Privat";
-import {updateOrderFavsThrottle, updateOrderListsThrottle, updateOrderWorksThrottle} from "../tools/utils/func";
+import {
+  getEditAccess,
+  updateOrderFavsThrottle,
+  updateOrderListsThrottle,
+  updateOrderWorksInListThrottle,
+  updateOrderWorksThrottle
+} from "../tools/utils/func";
 
 const AppRouter = () => {
 
@@ -37,7 +45,7 @@ const AppRouter = () => {
                    element={<SearchPage isEdit={true} updateOrderFunc={updateOrderFavsThrottle}/>}/>
             <Route path={PATH_LIBRARY_LISTS}>
               <Route index element={<SearchPage isEdit={true} areLists={true} updateOrderFunc={updateOrderListsThrottle} />}/>
-              <Route path={PARAMS_LIST} element={<SearchPage isEdit={true}/>}/>
+              <Route path={PARAMS_LIST} element={<SearchPage isEdit={true} updateOrderFunc={updateOrderWorksInListThrottle}/>}/>
             </Route>
           </Route>
 
