@@ -4,13 +4,13 @@ import cls from "../style/main/ContentTable.module.scss";
 import ContentTableControlMenu from "./ContentTable.ControlMenu";
 import {useSelector} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
+import {LINK_LIBRARY_LISTS} from "../tools/utils/const";
 
 const ContentTableList = ({prtClass, content}) => {
 
   const {lid,name} = content
 
   const nav = useNavigate()
-  const path = useLocation().pathname
 
   const controls = useDragControls()
 
@@ -51,7 +51,7 @@ const ContentTableList = ({prtClass, content}) => {
       }}
       onClick={e=>{
         if(e.target === e.currentTarget){
-          nav(path + "/" + lid)
+          nav(LINK_LIBRARY_LISTS + "/" + lid)
         }
       }}
     >

@@ -35,7 +35,6 @@ const InfoPage = ({prtClass}) => {
       author:page.author.name,
     })
     setIsAdded(true)
-    console.log({res})
   })
 
   const [takeInfo, isLoadingInfo, errInfo] = useFetching(async ()=>{
@@ -48,6 +47,7 @@ const InfoPage = ({prtClass}) => {
     //set buttons
     const [works, num] = await ServerService.fromDB.getWorksByFilter()
     setIsAdded(works.some(work=>KEY===work.id))
+
     await initFav()
 
   })

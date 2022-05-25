@@ -1,4 +1,4 @@
-import {DB_FAV, DB_LISTS, DB_ROOT, DB_WORKS} from "../utils/const";
+import {DB_FAV, DB_LISTS, DB_ROOT, DB_SUMM, DB_WORKS} from "../utils/const";
 
 
 class DatabaseAPI{
@@ -45,6 +45,28 @@ class DatabaseAPI{
 
   async setFav(body){
     const res = await fetch(DB_ROOT + DB_FAV, {
+      method: "PUT",
+      headers:{
+        "Content-Type": "application/json"
+      },
+      body,
+    })
+    return res.json()
+  }
+
+
+  async getAllSummary(){
+    const res = await fetch(DB_ROOT + DB_SUMM)
+    return res.json()
+  }
+
+  async getSummaryById(id){
+    const res = await fetch(DB_ROOT + `/data/summary/${id}.json`)
+    return res.json()
+  }
+
+  async setSummaries(body){
+    const res = await fetch(DB_ROOT + DB_SUMM, {
       method: "PUT",
       headers:{
         "Content-Type": "application/json"

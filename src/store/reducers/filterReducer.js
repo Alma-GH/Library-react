@@ -24,7 +24,11 @@ const defaultState = {
   subjects: [],
   publish: "",
 
-
+  searchAPI: (...args)=>{
+    console.group('searchAPI args');
+    console.log(...args);
+    console.groupEnd();
+  },
 }
 
 const SET_COUNT_SEARCH = "SET_COUNT_SEARCH"
@@ -33,6 +37,8 @@ const SET_AUTHOR = "SET_AUTHOR"
 const SET_LANG = "SET_LANG"
 const SET_SUBJ = "SET_SUBJ"
 const SET_PUB = "SET_PUB"
+
+const SET_SEARCH_API = "SET_SEARCH_API"
 
 const CONFIRM_FILTER = "CONFIRM_FILTER"
 const CLEAR_SEARCH = "CLEAR_SEARCH"
@@ -59,6 +65,10 @@ export const filterReducer = (state=defaultState,action)=>{
     case SET_COUNT_SEARCH:
       return {...state, countSearch: pl}
 
+    case SET_SEARCH_API:
+      if(typeof pl !== "function") return state
+      return {...state, searchAPI: pl}
+
 
 
     case CONFIRM_FILTER:
@@ -77,6 +87,7 @@ export const filterReducer = (state=defaultState,action)=>{
 
       const newFilter = {...deepCopyOBJ(defaultState)}
       newFilter.confirm = state.confirm
+      newFilter.searchAPI = state.searchAPI
       return newFilter
 
     default:
@@ -93,5 +104,7 @@ export const getAction_setAuthor = (name,key)=>{return {type:SET_AUTHOR, payload
 export const getAction_setLanguage = (lang)=>{return {type:SET_LANG, payload:lang}}
 export const getAction_setSubjects = (subjects)=>{return {type:SET_SUBJ, payload:subjects}}
 export const getAction_setFirstPublish = (val)=>{return {type:SET_PUB, payload:val}}
+
+export const getAction_setSearchAPI = (func)=>{return {type:SET_SEARCH_API, payload:func}}
 
 

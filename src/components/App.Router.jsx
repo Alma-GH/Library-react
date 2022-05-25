@@ -1,12 +1,12 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import {
-  PARAMS_INFO,
+  PARAMS_INFO, PARAMS_SUMMARY,
   PATH_ADD,
   PATH_HOME,
   PATH_INFO,
   PATH_LIBRARY,
-  PATH_LIBRARY_LISTS,
+  PATH_LIBRARY_LISTS, PATH_LIBRARY_SUMMARY,
   PATH_ROOT_APP,
   PATH_ROOT_SEARCH
 } from "../tools/utils/const";
@@ -17,15 +17,17 @@ import SearchPage from "./Pages/SearchPage";
 import AppPrivat from "./App.Privat";
 import LibraryPage from "./Pages/LibraryPage";
 import {libraryListsRoutes, libraryRoutes} from "../router/routes";
+import SummaryPage from "./Pages/SummaryPage";
 
 const AppRouter = () => {
+
 
   return (
     <Routes>
       <Route path={PATH_ROOT_APP} element={<AppPrivat/>}>
 
         <Route path={PATH_ROOT_SEARCH} element={<SearchWrap/>} >
-          <Route path={PATH_ADD} element={<SearchPage isEdit={false}/>}/>
+          <Route path={PATH_ADD} element={<SearchPage/>}/>
           <Route path={PATH_INFO +"/"+PARAMS_INFO} element={<InfoPage prtClass="info"/>}/>
         </Route>
 
@@ -33,6 +35,7 @@ const AppRouter = () => {
           {libraryRoutes.map(route=>(
             <Route key={route.path} path={route.path} element={<LibraryPage {...route.elementProps}/>} />
           ))}
+          <Route path={PATH_LIBRARY_SUMMARY + "/" + PARAMS_SUMMARY} element={<SummaryPage/>} />
           <Route path={PATH_LIBRARY_LISTS}>
             {libraryListsRoutes.map(route =>(
               !route.path

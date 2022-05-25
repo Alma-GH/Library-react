@@ -1,31 +1,20 @@
 import React from 'react';
+import cls from "./../../style/UI/RadioC.module.scss"
 
-const RadioC = ({prtClass,choices}) => {
+const RadioC = ({prtClass,choices, name, value, onChange}) => {
 
-  let styles = []
-  // const styles = [cls.head]
-  // if(prtClass) styles.push(prtClass)
+  const styles = [cls.radio]
+  if(prtClass) styles.push(prtClass)
 
   return (
-    <div className={styles.join(" ")}>
-      {/*{choices.map(choice=>*/}
-      {/*  <>*/}
-      {/*    <input type="radio" id={choice.id} name={choice.name} value={choice.value}/>*/}
-      {/*    <label htmlFor={choice.id}>{choice.text}</label>*/}
-      {/*  </>)*/}
-      {/*}*/}
-      <input type="radio" id="contactChoice1"
-             name="contact" value="email"/>
-        <label htmlFor="contactChoice1">Email</label>
-
-      <input type="radio" id="contactChoice2"
-             name="contact" value="phone"/>
-        <label htmlFor="contactChoice2">Phone</label>
-
-      <input type="radio" id="contactChoice3"
-             name="contact" value="mail"/>
-        <label htmlFor="contactChoice3">Mail</label>
-    </div>
+    <ol className={styles.join(" ")}>
+      {choices.map((choice, ind)=>
+        <li key={name+ind} className={cls.choice}>
+          <input type="radio" id={name+ind} name={name} value={choice.value} checked={value===choice.value} onChange={onChange}/>
+          <label htmlFor={name+ind}>{choice.text}</label>
+        </li>
+      )}
+    </ol>
   );
 };
 

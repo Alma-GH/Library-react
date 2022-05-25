@@ -1,0 +1,14 @@
+@import "./../varStyle";
+
+.radio{
+  @extend %column;
+  .choice{
+    display: flex;
+    align-items: center;
+
+
+    input{
+      margin-right: 10px;
+    }
+  }
+}

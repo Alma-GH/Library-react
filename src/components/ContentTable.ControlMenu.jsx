@@ -33,10 +33,14 @@ import SelectSearchC from "./UI/SelectSearchC";
 import {Multiselect} from "multiselect-react-dropdown";
 import ModalBody1 from "./UI/Modal.Body1";
 import ModalBody2 from "./UI/Modal.Body2";
+import {useLocation, useNavigate} from "react-router-dom";
+import {LINK_LIBRARY_SUMMARY} from "../tools/utils/const";
 
 const ContentTableControlMenu = ({drugControl, idTable}) => {
 
   const {areLists} = useContext(SearchContext)
+
+  const nav = useNavigate()
 
   const dispatch = useDispatch()
 
@@ -94,6 +98,7 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
     fetchFav(!isFav)
   }
   function summaryClick(e){
+    nav(LINK_LIBRARY_SUMMARY + "/" + idTable)
     console.log(summaryClick.name + ": not work")
   }
 

@@ -1,9 +1,8 @@
-import {deepCopyOBJ} from "../../tools/utils/func";
-
 const defaultState = {
 
   limit: 30,
   currentPage: 1,
+  //TODO: scroll: 0,
 
   all: 0,
 

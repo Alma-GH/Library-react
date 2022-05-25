@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import cls from "../style/main/FilterBlock.module.scss"
-import clsInp from "../style/UI/InputTipsC.module.scss"
 import InputTipsC from "./UI/InputTipsC";
 import ServerService from "../tools/Services/ServerService";
 import {useDispatch, useSelector} from "react-redux";
 import {
   getAction_setAuthor,
   getAction_setFirstPublish,
-  getAction_setLanguage,
+  getAction_setLanguage, getAction_setSearchAPI,
   getAction_setSubjects
 } from "../store/reducers/filterReducer";
 import SelectC from "./UI/SelectC";
 import SelectSearchC from "./UI/SelectSearchC";
 import FilterInput from "./Filter.Input";
 import InputC from "./UI/InputC";
+import RadioC from "./UI/RadioC";
 
 const FilterBlock = ({prtClass}) => {
 
@@ -24,6 +24,8 @@ const FilterBlock = ({prtClass}) => {
   const subjects = useSelector(state=>state.filter.subjects)
   const fPublish = useSelector(state=> state.filter.publish)
 
+  const api = useSelector(state=>state.filter.searchAPI)
+
 
   const [inputSubject, setInputSubject] = useState("")
 
@@ -33,8 +35,15 @@ const FilterBlock = ({prtClass}) => {
   const [optLang, setOptLang] = useState([])
 
 
-
-
+  function selectSearchFrom(e){
+    let val = e.target.value
+    //TODO: clear
+    if(val === ServerService.ST_FROM_API){
+      dispatch(getAction_setSearchAPI(ServerService.fromAPI.getWorksByFilter))
+    }else if(val === ServerService.ST_FROM_DB){
+      dispatch(getAction_setSearchAPI(ServerService.fromDB.getWorksByFilter))
+    }
+  }
 
   function authorInp(e){
     const authorName = e.target.value
@@ -71,8 +80,6 @@ const FilterBlock = ({prtClass}) => {
 
 
 
-
-
   function setLanguagesOptions(){
     const arr = ServerService.fromAPI.getLanguages()
     setOptLang(arr)
@@ -103,6 +110,24 @@ const FilterBlock = ({prtClass}) => {
 
   return (
     <div className={styles.join(" ")}>
+
+      <FilterInput title="Search from: ">
+        <RadioC
+          name="api"
+          choices={[
+            {text:"open library", value: ServerService.ST_FROM_API},
+            {text:"my library", value: ServerService.ST_FROM_DB},
+          ]}
+          value={api === ServerService.fromAPI.getWorksByFilter
+            ? ServerService.ST_FROM_API
+            : api === ServerService.fromDB.getWorksByFilter
+              ? ServerService.ST_FROM_DB
+              : 0
+          }
+          onChange={selectSearchFrom}
+
+        />
+      </FilterInput>
 
       <FilterInput className={cls.author} title="Author:">
         <InputTipsC prtClass={cls.input}  id="auth" tips={tipsAuthors.map(auth=>auth.name)} inputV={inputAuthorR} inputC={authorInp}/>

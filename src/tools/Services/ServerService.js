@@ -1,11 +1,23 @@
 import BookAPI from "./BookAPI";
-import {ADD_FOR_NAME, LIST_PROPS, NAME_NEW_LIST, T_AUTHOR, T_PUBLISH, T_TITLE, WORK_PROPS} from "../utils/const";
+import {
+  ADD_FOR_NAME,
+  DB_ROOT, DB_SUMM,
+  LIST_PROPS,
+  NAME_NEW_LIST,
+  T_AUTHOR,
+  T_PUBLISH,
+  T_TITLE,
+  WORK_PROPS
+} from "../utils/const";
 import {getLocationByURL} from "../utils/func";
 import Controller from "./Controller";
 import DatabaseAPI from "./DatabaseAPI";
 
 
 class ServerService{
+
+  ST_FROM_API = "fromAPI"
+  ST_FROM_DB = "fromDB"
 
   fromAPI = {
 
@@ -51,7 +63,7 @@ class ServerService{
       const authorKey = getLocationByURL(work.authors[0].author.key)
       const author = await this.getAuthorNameByKey(authorKey)
       const dataWork = {
-        img:          BookAPI.getURLCoverByID(work.covers?.[0]),
+        img:          BookAPI.getURLCoverByID(work.covers?.[0],3),
         title:        work.title,
         author:       {name:author, key:authorKey},
         description:  typeof work.description === "string" ? work.description : work.description?.value,
@@ -302,6 +314,34 @@ class ServerService{
       allFav = allFav.filter(fav=>fav!==id)
 
       const res = await DatabaseAPI.setFav(JSON.stringify([...allFav]))
+      return res
+    },
+
+
+    //summary
+    checkTypeSumm(summ){
+      for(let val of Object.values(summ)){
+        if(typeof val !== "string") return false
+      }
+      return true
+    },
+    errorTypeSumm(){throw Error("INCORRECT TYPE OF SUMM")},
+
+    async getAllSummary(){
+      let summaries = await DatabaseAPI.getAllSummary()
+      if(!summaries) summaries = {}
+      return summaries
+    },
+
+    async getSummaryById(id){
+      let summary = await DatabaseAPI.getSummaryById(id)
+      if(!summary) summary = ""
+      return summary
+    },
+
+    async setSummaries(summaries){
+      if(!this.checkTypeSumm(summaries)) this.errorTypeSumm()
+      const res = await DatabaseAPI.setSummaries(JSON.stringify(summaries))
       return res
     },
 
