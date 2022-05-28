@@ -45,7 +45,7 @@ const InfoPage = ({prtClass}) => {
     dispatch(getAction_setInfo({...dataWork}))
 
     //set buttons
-    const [works, num] = await ServerService.fromDB.getWorksByFilter()
+    const [works, num] = await ServerService.fromDB.getAllWorks()
     setIsAdded(works.some(work=>KEY===work.id))
 
     await initFav()

@@ -76,7 +76,16 @@ class DatabaseAPI{
     return res.json()
   }
 
-
+  async setSummaryById(id, text){
+    const res = await fetch(DB_ROOT + `/data/summary/${id}.json`,{
+      method: "PUT",
+      headers:{
+        "Content-Type": "application/json"
+      },
+      body: text,
+    })
+    return res.json()
+  }
 
 }
 

@@ -1,4 +1,5 @@
 import {deepCopyOBJ} from "../../tools/utils/func";
+import {type} from "@testing-library/user-event/dist/type";
 
 const defaultState = {
 
@@ -37,7 +38,11 @@ const REVERSE_TABLES = "REVERSE_TABLES"
 const CLEAR_TABLE = "CLEAR_TABLE"
 
 function sortTables(arr,prop){
-  return arr.sort((a,b)=>(a[prop]>b[prop] ? 1 : -1))
+  return arr.sort((a,b)=>(
+    // typeof a[prop] === "string" && typeof b[prop] === "string"
+      // ? (a[prop].toLowerCase() > b[prop].toLowerCase() ? 1 : -1) :
+      a[prop]>b[prop] ? 1 : -1
+  ))
 }
 
 function checkTypeError(err){

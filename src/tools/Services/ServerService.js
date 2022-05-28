@@ -1,7 +1,6 @@
 import BookAPI from "./BookAPI";
 import {
   ADD_FOR_NAME,
-  DB_ROOT, DB_SUMM,
   LIST_PROPS,
   NAME_NEW_LIST,
   T_AUTHOR,
@@ -9,8 +8,7 @@ import {
   T_TITLE,
   WORK_PROPS
 } from "../utils/const";
-import {getLocationByURL} from "../utils/func";
-import Controller from "./Controller";
+import {getLocationByURL, matchInArrays, strInclude} from "../utils/func";
 import DatabaseAPI from "./DatabaseAPI";
 
 
@@ -115,10 +113,25 @@ class ServerService{
       return [works, works.length]
     },                              //Confirm
     async getWorksByFilter(...args){
+
+      const filterObj = args[0]
+      const page = args[1]
+      const limit = args[2]
+
       let works = await DatabaseAPI.getAllWorks()
       if(!works) works = []
-      const dataWorks = works
-      return [dataWorks, dataWorks.length]
+
+      if(typeof filterObj === "object"){
+
+        if(filterObj.list) [works] = await this.getWorksByListId({title:+filterObj.list})
+
+        if(filterObj.title) works = works.filter(work=>strInclude(work.title, filterObj.title))
+        if(filterObj.author) works = works.filter(work=>strInclude(work.author, filterObj.author.name))
+        if(filterObj.subjects) works = works.filter(work=>matchInArrays(work.subjects, filterObj.subjects))
+
+      }
+
+      return [works, works.length]
     },                  //Confirm
     async getWorksByIds(ids){
       const [works] = await this.getWorksByFilter()
@@ -128,6 +141,11 @@ class ServerService{
         orderedWorks.push(works.find(work=>work.id === ids[i]))
       }
       return orderedWorks
+    },
+    async getAllWorksIds(){
+      const [works, len] = await this.getAllWorks()
+      const ids = works.map(work=>work.id)
+      return ids
     },
 
     async setWorks(works){
@@ -159,7 +177,7 @@ class ServerService{
       allWorks = allWorks.filter(work=>work.id!==id)
 
       //from fav
-      const favRes  =  await this.deleteFav(id)
+      await this.deleteFav(id)
 
       //from lists
       const [allLists] = await this.getAllLists()
@@ -342,6 +360,14 @@ class ServerService{
     async setSummaries(summaries){
       if(!this.checkTypeSumm(summaries)) this.errorTypeSumm()
       const res = await DatabaseAPI.setSummaries(JSON.stringify(summaries))
+      return res
+    },
+
+    async setSummaryById(id, text){
+
+      if(typeof text !== "string") this.errorTypeSumm()
+
+      const res = await DatabaseAPI.setSummaryById(id,JSON.stringify(text))
       return res
     },
 

@@ -4,9 +4,10 @@ import InputTipsC from "./UI/InputTipsC";
 import ServerService from "../tools/Services/ServerService";
 import {useDispatch, useSelector} from "react-redux";
 import {
-  getAction_setAuthor,
+  getAction_confirmFilter,
+  getAction_setAuthor, getAction_setCountSearch,
   getAction_setFirstPublish,
-  getAction_setLanguage, getAction_setSearchAPI,
+  getAction_setLanguage, getAction_setList, getAction_setSearchAPI,
   getAction_setSubjects
 } from "../store/reducers/filterReducer";
 import SelectC from "./UI/SelectC";
@@ -14,6 +15,11 @@ import SelectSearchC from "./UI/SelectSearchC";
 import FilterInput from "./Filter.Input";
 import InputC from "./UI/InputC";
 import RadioC from "./UI/RadioC";
+import {getAction_clearTable} from "../store/reducers/tableReducer";
+import {getAction_setNumAll} from "../store/reducers/pageReducer";
+import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
+import {useFilterTips} from "../hooks/useFilterTips";
+import {useFilterSelectOptions} from "../hooks/useFilterSelectOptions";
 
 const FilterBlock = ({prtClass}) => {
 
@@ -23,6 +29,7 @@ const FilterBlock = ({prtClass}) => {
   const languageR = useSelector(state=>state.filter.language)
   const subjects = useSelector(state=>state.filter.subjects)
   const fPublish = useSelector(state=> state.filter.publish)
+  const fList = useSelector(state=>state.filter.list)
 
   const api = useSelector(state=>state.filter.searchAPI)
 
@@ -30,19 +37,18 @@ const FilterBlock = ({prtClass}) => {
   const [inputSubject, setInputSubject] = useState("")
 
   //for server calls
-  const [tipsAuthors, setTipsAuthors] = useState([])
-  const [tipsSubjects, setTipsSubjects] = useState([])
-  const [optLang, setOptLang] = useState([])
+  const [tipsAuthors, tipsSubjects] = useFilterTips(inputAuthorR, inputSubject)
+  const [optLang, optList] = useFilterSelectOptions()
 
 
   function selectSearchFrom(e){
     let val = e.target.value
     //TODO: clear
-    if(val === ServerService.ST_FROM_API){
-      dispatch(getAction_setSearchAPI(ServerService.fromAPI.getWorksByFilter))
-    }else if(val === ServerService.ST_FROM_DB){
-      dispatch(getAction_setSearchAPI(ServerService.fromDB.getWorksByFilter))
-    }
+    dispatch(getAction_clearTable())
+    dispatch(getAction_setCountSearch(0))
+    dispatch(getAction_setNumAll(0))
+
+    dispatch(getAction_setSearchAPI(val))
   }
 
   function authorInp(e){
@@ -63,6 +69,7 @@ const FilterBlock = ({prtClass}) => {
   function subjAdd(){
     subjects.push(inputSubject)
     dispatch(getAction_setSubjects(subjects))
+    setInputSubject("")
   }
 
   function subjDel(ind){
@@ -78,31 +85,10 @@ const FilterBlock = ({prtClass}) => {
   }
 
 
-
-
-  function setLanguagesOptions(){
-    const arr = ServerService.fromAPI.getLanguages()
-    setOptLang(arr)
+  function selectList(e){
+    const list = e.target.value
+    dispatch(getAction_setList(list))
   }
-  async function takeAuthorTips(query){
-    let tips = await ServerService.fromAPI.getAuthorsByQuery(query)
-    setTipsAuthors(tips)
-  }
-  async function takeSubjectTips(query){
-    let tips = await ServerService.fromAPI.getSubjectsByQuery(query)
-    setTipsSubjects(tips)
-  }
-
-  useEffect( ()=>{
-    takeAuthorTips(inputAuthorR)
-  }, [inputAuthorR])
-  useEffect( ()=>{
-    takeSubjectTips(inputSubject)
-  }, [inputSubject])
-  useEffect(()=>{
-    setLanguagesOptions()
-  }, [])
-
 
 
   const styles = [cls.filter]
@@ -118,12 +104,7 @@ const FilterBlock = ({prtClass}) => {
             {text:"open library", value: ServerService.ST_FROM_API},
             {text:"my library", value: ServerService.ST_FROM_DB},
           ]}
-          value={api === ServerService.fromAPI.getWorksByFilter
-            ? ServerService.ST_FROM_API
-            : api === ServerService.fromDB.getWorksByFilter
-              ? ServerService.ST_FROM_DB
-              : 0
-          }
+          value={api}
           onChange={selectSearchFrom}
 
         />
@@ -133,14 +114,17 @@ const FilterBlock = ({prtClass}) => {
         <InputTipsC prtClass={cls.input}  id="auth" tips={tipsAuthors.map(auth=>auth.name)} inputV={inputAuthorR} inputC={authorInp}/>
       </FilterInput>
 
-      <FilterInput className={cls.lang} title="Language:">
-        <SelectC
-          prtClass={cls.input}
-          id="lang" value={languageR} onChange={selectLang}
-          defaultVal=""
-          options={optLang}
-        />
-      </FilterInput>
+      {api === ServerService.ST_FROM_API &&
+        <FilterInput className={cls.lang} title="Language:">
+          <SelectC
+            prtClass={cls.input}
+            id="lang" value={languageR} onChange={selectLang}
+            defaultVal=""
+            options={optLang}
+          />
+        </FilterInput>
+      }
+
 
       <FilterInput className={cls.subj} title="Subjects:">
         <SelectSearchC
@@ -160,11 +144,25 @@ const FilterBlock = ({prtClass}) => {
         />
       </FilterInput>
 
-      <FilterInput className={cls.publish} title="First publish:">
+      {api === ServerService.ST_FROM_API &&
+        <FilterInput className={cls.publish} title="First publish:">
           <div className={cls.input}>
             <InputC type="number" value={fPublish} onChange={publishInp}/>
           </div>
+        </FilterInput>
+      }
+
+
+      {api === ServerService.ST_FROM_DB &&
+      <FilterInput className={cls.lang} title="From list:">
+        <SelectC
+          prtClass={cls.input}
+          id="list filter" value={fList} onChange={selectList}
+          defaultVal=""
+          options={optList}
+        />
       </FilterInput>
+      }
 
 
     </div>

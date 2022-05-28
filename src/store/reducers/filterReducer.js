@@ -20,15 +20,14 @@ const defaultState = {
     name:"",
     key:"",
   },
-  language: "",
   subjects: [],
+
+  language: "",
   publish: "",
 
-  searchAPI: (...args)=>{
-    console.group('searchAPI args');
-    console.log(...args);
-    console.groupEnd();
-  },
+  list: "",
+
+  searchAPI: "",
 }
 
 const SET_COUNT_SEARCH = "SET_COUNT_SEARCH"
@@ -37,6 +36,7 @@ const SET_AUTHOR = "SET_AUTHOR"
 const SET_LANG = "SET_LANG"
 const SET_SUBJ = "SET_SUBJ"
 const SET_PUB = "SET_PUB"
+const SET_LIST = "SET_LIST"
 
 const SET_SEARCH_API = "SET_SEARCH_API"
 
@@ -58,6 +58,8 @@ export const filterReducer = (state=defaultState,action)=>{
       return {...state, subjects: [...pl]}
     case SET_PUB:
       return {...state, publish: pl}
+    case SET_LIST:
+      return {...state, list: pl}
 
     case SET_SEARCH:
       return {...state, title: pl}
@@ -66,7 +68,6 @@ export const filterReducer = (state=defaultState,action)=>{
       return {...state, countSearch: pl}
 
     case SET_SEARCH_API:
-      if(typeof pl !== "function") return state
       return {...state, searchAPI: pl}
 
 
@@ -80,6 +81,8 @@ export const filterReducer = (state=defaultState,action)=>{
       if(state.author.name||state.author.key)   newConfirm.author = {...state.author}
       if(state.subjects.length)                 newConfirm.subjects = [...state.subjects]
       if(state.publish)                         newConfirm.publish = state.publish
+
+      if(state.list)                            newConfirm.list = state.list
 
       return {...state, confirm: newConfirm}
 
@@ -104,7 +107,8 @@ export const getAction_setAuthor = (name,key)=>{return {type:SET_AUTHOR, payload
 export const getAction_setLanguage = (lang)=>{return {type:SET_LANG, payload:lang}}
 export const getAction_setSubjects = (subjects)=>{return {type:SET_SUBJ, payload:subjects}}
 export const getAction_setFirstPublish = (val)=>{return {type:SET_PUB, payload:val}}
+export const getAction_setList = (val)=>{return {type:SET_LIST, payload:val}}
 
-export const getAction_setSearchAPI = (func)=>{return {type:SET_SEARCH_API, payload:func}}
+export const getAction_setSearchAPI = (api)=>{return {type:SET_SEARCH_API, payload:api}}
 
 

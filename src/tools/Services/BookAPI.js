@@ -65,11 +65,13 @@ class BookAPI{
 
   async getWorksByFilter(filter={}, page=DEF_PAGE, limit=DEF_LIMIT){
 
+    //TODO: use function paramsFromObj
     const subjects = filter.subjects?.map(sub=>`subject_facet=${encodeURI(sub)}`).join("&")
 
     const params = []
+    if(!Object.keys(filter).length) throw Error("Error: empty filter") //TODO: exception
     if(filter.title)    params.push(`title=${filter.title}`)
-    else                throw Error("Error: you have empty title") //TODO: exception
+    else                params.push(`title=*`)
     if(filter.author)   params.push(`author=${encodeURI(filter.author.name)}`)
     if(filter.language) params.push(`language=${filter.language}`)
     if(subjects)        params.push(`${subjects}`)

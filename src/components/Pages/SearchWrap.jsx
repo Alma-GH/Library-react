@@ -12,15 +12,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {
   getAction_clearSearch,
   getAction_confirmFilter,
-  getAction_setCountSearch
+  getAction_setCountSearch, getAction_setSearch
 } from "../../store/reducers/filterReducer";
 import {getEditAccess} from "../../tools/utils/func";
+import ServerService from "../../tools/Services/ServerService";
 
 const SearchWrap = () => {
 
   const dispatch = useDispatch()
 
-  const GET_METHOD = useSelector(state=>state.filter.searchAPI)
+  const api = useSelector(state=>state.filter.searchAPI)
 
   const confirmF = useSelector(state=>state.filter.confirm)
   const page = useSelector(state=>state.page.currentPage)
@@ -29,10 +30,19 @@ const SearchWrap = () => {
   const countSearch = useSelector(state=>state.filter.countSearch)
 
   const [fetchTables, isLoading, err] = useFetching(  async (...args)=>{
+    let GET_METHOD
+    if(api === ServerService.ST_FROM_DB) GET_METHOD = ServerService.fromDB.getWorksByFilter.bind(ServerService.fromDB)
+    else if(api === ServerService.ST_FROM_API) GET_METHOD = ServerService.fromAPI.getWorksByFilter.bind(ServerService.fromAPI)
+
     const [dataWorks, nWorks] = await GET_METHOD(...args)
     dispatch(getAction_setNumAll(nWorks))
     dispatch(getAction_setTable(dataWorks))
     // dispatch(getAction_sortTables())
+
+    const myWorksIds = await ServerService.fromDB.getAllWorksIds()
+    console.log({myWorksIds})
+
+
   })
 
   useEffect(()=>{
@@ -55,6 +65,7 @@ const SearchWrap = () => {
     console.log("clear")
     // Controller.abort()
 
+    dispatch(getAction_setSearch(""))
     dispatch(getAction_clearTable())
     dispatch(getAction_setCountSearch(0))
     dispatch(getAction_confirmFilter())  //TODO: delete?

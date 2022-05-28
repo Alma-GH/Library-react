@@ -16,7 +16,7 @@ const AppPrivat = () => {
 
   useEffect(()=>{
     console.log("SET SEARCH API FUNC")
-    dispatch(getAction_setSearchAPI(ServerService.fromAPI.getWorksByFilter))
+    dispatch(getAction_setSearchAPI(ServerService.ST_FROM_API))
   },[])
 
   return (

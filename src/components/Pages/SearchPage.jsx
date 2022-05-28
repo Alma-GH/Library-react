@@ -21,7 +21,7 @@ const SearchPage = () => {
 
 
   useEffect(()=>{
-    dispatch(getAction_setEditMenu(getEditAccess(api===ServerService.fromDB.getWorksByFilter
+    dispatch(getAction_setEditMenu(getEditAccess(api===ServerService.ST_FROM_DB
       ? ACCESS_FOR_SEARCH_LIB
       : ACCESS_FOR_SEARCH
     )))

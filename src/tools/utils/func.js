@@ -14,6 +14,7 @@ export const updateOrderWorksThrottle = createThrottling(ServerService.fromDB.se
 export const updateOrderFavsThrottle = createThrottling(ServerService.fromDB.setFavsByWorks,1000).bind(ServerService.fromDB)
 export const updateOrderListsThrottle = createThrottling(ServerService.fromDB.setLists,1000).bind(ServerService.fromDB)
 export const updateOrderWorksInListThrottle = createThrottling(ServerService.fromDB.setWorksInList,1000).bind(ServerService.fromDB)
+export const updateSummaryThrottle = createThrottling(ServerService.fromDB.setSummaryById, 1000).bind(ServerService.fromDB)
 
 
 
@@ -38,6 +39,22 @@ export const paramsFromObj = (obj)=>{
   }
 
   return params.join("&")
+}
+
+export const strInclude = (str, inStr)=>{
+  return str.toLowerCase().includes(inStr.toLowerCase())
+}
+
+export const matchInArrays = (arr1, arr2) => {
+
+  if(!Array.isArray(arr1) || !Array.isArray(arr2)) return false
+
+  for(let v1 of arr1){
+    for(let v2 of arr2){
+      if(v1 === v2) return true
+    }
+  }
+  return false
 }
 
 export const getEditAccess = (access)=>{

@@ -7,6 +7,7 @@ import {getTotalPages} from "../tools/utils/func";
 import {getAction_confirmFilter, getAction_setCountSearch, getAction_setSearch} from "../store/reducers/filterReducer";
 import ReorderPanel from "./ReorderPanel";
 import CountPagesPanel from "./CountPagesPanel";
+import ServerService from "../tools/Services/ServerService";
 
 const InputBlock = ({prtClass}) => {
 
@@ -22,6 +23,7 @@ const InputBlock = ({prtClass}) => {
 
   const isLoading = useSelector(state=>state.table.items.loading)
 
+  const api = useSelector(state=>state.filter.searchAPI)
 
 
 
@@ -52,8 +54,14 @@ const InputBlock = ({prtClass}) => {
         <div style={{display: "flex", justifyContent:"space-between"}}>
 
           <ReorderPanel disabled={isLoading}/>
-          <Pagination countPages={getTotalPages(numWorks,limit)} view={10} current={page}/>
-          {numWorks!==null && <CountPagesPanel all={numWorks} onpage={limit} page={page}/>}
+
+          {api === ServerService.ST_FROM_API &&
+            <>
+              <Pagination countPages={getTotalPages(numWorks,limit)} view={10} current={page}/>
+              {numWorks!==null && <CountPagesPanel all={numWorks} onpage={limit} page={page}/>}
+            </>
+          }
+
 
         </div>
 
