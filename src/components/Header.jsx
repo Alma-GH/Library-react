@@ -16,18 +16,18 @@ import imgG from "../assets/imgs/gear.png"
 import imgO from "../assets/imgs/out.png"
 import BtnLink from "./UI/BtnLink";
 import {useDispatch} from "react-redux";
+import {getAction_setHint} from "../store/reducers/modalData";
 
 const Header = ({prtClass}) => {
 
-  const disp = useDispatch()
+  const dispatch = useDispatch()
 
   const styles = [cls.head]
   if(prtClass) styles.push(prtClass)
 
 
   function questionClick(e){
-    console.log("btn")
-
+    dispatch(getAction_setHint(1))
   }
   function themeClick(e){
     console.log("btn")

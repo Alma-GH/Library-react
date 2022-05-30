@@ -26,6 +26,7 @@ const defaultState = {
   publish: "",
 
   list: "",
+  checkFavourite:false,
 
   searchAPI: "",
 }
@@ -37,6 +38,7 @@ const SET_LANG = "SET_LANG"
 const SET_SUBJ = "SET_SUBJ"
 const SET_PUB = "SET_PUB"
 const SET_LIST = "SET_LIST"
+const SET_FAV = "SET_FAV"
 
 const SET_SEARCH_API = "SET_SEARCH_API"
 
@@ -60,6 +62,8 @@ export const filterReducer = (state=defaultState,action)=>{
       return {...state, publish: pl}
     case SET_LIST:
       return {...state, list: pl}
+    case SET_FAV:
+      return {...state, checkFavourite: pl}
 
     case SET_SEARCH:
       return {...state, title: pl}
@@ -83,6 +87,7 @@ export const filterReducer = (state=defaultState,action)=>{
       if(state.publish)                         newConfirm.publish = state.publish
 
       if(state.list)                            newConfirm.list = state.list
+      if(state.checkFavourite)                  newConfirm.checkFavourite = state.checkFavourite
 
       return {...state, confirm: newConfirm}
 
@@ -108,6 +113,7 @@ export const getAction_setLanguage = (lang)=>{return {type:SET_LANG, payload:lan
 export const getAction_setSubjects = (subjects)=>{return {type:SET_SUBJ, payload:subjects}}
 export const getAction_setFirstPublish = (val)=>{return {type:SET_PUB, payload:val}}
 export const getAction_setList = (val)=>{return {type:SET_LIST, payload:val}}
+export const getAction_setFavourite = (val)=>{return {type:SET_FAV, payload:val}}
 
 export const getAction_setSearchAPI = (api)=>{return {type:SET_SEARCH_API, payload:api}}
 

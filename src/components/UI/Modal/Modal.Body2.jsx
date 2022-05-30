@@ -1,10 +1,10 @@
 import React from 'react';
-import cls from "../../style/main/ContentTable.module.scss";
+import cls from "../../../style/UI/Modal/Modal.module.scss";
 import {Multiselect} from "multiselect-react-dropdown";
 import {useDispatch, useSelector} from "react-redux";
-import {getAction_setSelectedLists} from "../../store/reducers/modalData";
-import {useFetching} from "../../hooks/useFetching";
-import ServerService from "../../tools/Services/ServerService";
+import {getAction_setSelectedLists} from "../../../store/reducers/modalData";
+import {useFetching} from "../../../hooks/useFetching";
+import ServerService from "../../../tools/Services/ServerService";
 
 const ModalBody2 = () => {
 

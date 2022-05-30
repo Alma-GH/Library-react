@@ -1,7 +1,7 @@
 import React from 'react';
-import cls from "../../style/UI/Modal.module.scss"
+import cls from "../../../style/UI/Modal/Modal.module.scss"
 import {useDispatch, useSelector} from "react-redux";
-import {getAction_setVisModal} from "../../store/reducers/modalData";
+import {getAction_setVisModal} from "../../../store/reducers/modalData";
 
 const Modal = ({children}) => {
 

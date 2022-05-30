@@ -1,0 +1,53 @@
+@import "src/style/varStyle";
+
+$space: 40px;
+$tr: 15px;
+
+.hint{
+
+    padding: 10px 25px;
+    background-color: white;
+    min-width: 100px;
+    min-height: 100px;
+    position: fixed;
+
+    &.hint1{
+        padding-top: 25px;
+        width: 300px;
+
+        top: $hHead+$gapY;
+        left: $space;
+        clip-path: polygon(30px $tr, 100% $tr, 100% 100%, 0 100%, 0 $tr, 10px $tr, 20px 0);
+    }
+
+    &.hint2{
+        padding-top: 25px;
+        width: 350px;
+
+        top: $hHead+$gapY;
+        right: $space;
+        clip-path: polygon(330px 0, 340px  $tr, 100% $tr, 100% 100%, 0 100%,  0 $tr, 320px $tr);
+    }
+
+    &.hint3{
+        padding-left: 40px;
+        width: 300px;
+
+        top: $hHead+$gapY;
+        left: $wFilter+$gapX;
+        clip-path: polygon($tr 0, 100% 0%, 100% 100%, $tr 100%, $tr 90%, 0 80%, $tr 70%);
+    }
+
+    &.hint4{
+        padding-top: 25px;
+        width: 300px;
+
+        top: $hHead+$gapY*2 + $hHead*1.5;
+        left: $wFilter+$gapX;
+        clip-path: polygon(30px $tr, 100% $tr, 100% 100%, 0 100%, 0 $tr, 10px $tr, 20px 0);
+    }
+}
+
+.active{
+    display: block;
+}

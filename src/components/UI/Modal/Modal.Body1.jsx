@@ -1,15 +1,15 @@
 import React from 'react';
-import cls from "../../style/main/ContentTable.module.scss";
-import InputC from "./InputC";
-import {getAction_setNewNameList, getAction_setVisModal} from "../../store/reducers/modalData";
-import BtnIco from "./BtnIco";
-import imgP from "../../assets/imgs/plus.png";
-import imgD from "../../assets/imgs/cancel.png";
+import cls from "../../../style/UI/Modal/Modal.module.scss";
+import InputC from "../InputC";
+import {getAction_setNewNameList, getAction_setVisModal} from "../../../store/reducers/modalData";
+import BtnIco from "../BtnIco";
+import imgP from "../../../assets/imgs/plus.png";
+import imgD from "../../../assets/imgs/cancel.png";
 import {useDispatch, useSelector} from "react-redux";
-import {getAction_setTable} from "../../store/reducers/tableReducer";
-import ServerService from "../../tools/Services/ServerService";
-import {useFetching} from "../../hooks/useFetching";
-import Loader from "./Notifications/Loader";
+import {getAction_setTable} from "../../../store/reducers/tableReducer";
+import ServerService from "../../../tools/Services/ServerService";
+import {useFetching} from "../../../hooks/useFetching";
+import Loader from "../Notifications/Loader";
 
 const ModalBody1 = () => {
 

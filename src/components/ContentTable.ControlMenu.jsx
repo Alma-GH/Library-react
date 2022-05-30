@@ -17,7 +17,7 @@ import {useFetching} from "../hooks/useFetching";
 import Loader from "./UI/Notifications/Loader";
 import {useFavourite} from "../hooks/useFavourite";
 import {SearchContext} from "../context/SearchContext";
-import Modal from "./UI/Modal";
+import Modal from "./UI/Modal/Modal";
 import InputC from "./UI/InputC";
 import {tab} from "@testing-library/user-event/dist/tab";
 import SelectC from "./UI/SelectC";
@@ -31,8 +31,8 @@ import {
 } from "../store/reducers/modalData";
 import SelectSearchC from "./UI/SelectSearchC";
 import {Multiselect} from "multiselect-react-dropdown";
-import ModalBody1 from "./UI/Modal.Body1";
-import ModalBody2 from "./UI/Modal.Body2";
+import ModalBody1 from "./UI/Modal/Modal.Body1";
+import ModalBody2 from "./UI/Modal/Modal.Body2";
 import {useLocation, useNavigate} from "react-router-dom";
 import {LINK_LIBRARY_SUMMARY} from "../tools/utils/const";
 

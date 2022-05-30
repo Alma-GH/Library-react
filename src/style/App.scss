@@ -18,8 +18,8 @@ html{
     $row2: $hHead*1.5;
     $row3: calc(100% - #{($gapY + $hHead)*2 + $hHead*0.5});
 
-    $col1: 150px;
-    $col2: calc(100% - #{ $gapX + 150px});
+    $col1: $wFilter;
+    $col2: calc(100% - #{ $gapX + $wFilter});
 
     %allWidth{
         grid-column-start: 1;

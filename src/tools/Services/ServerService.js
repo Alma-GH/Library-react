@@ -129,6 +129,11 @@ class ServerService{
         if(filterObj.author) works = works.filter(work=>strInclude(work.author, filterObj.author.name))
         if(filterObj.subjects) works = works.filter(work=>matchInArrays(work.subjects, filterObj.subjects))
 
+
+        const favIds = await this.getAllFavId()
+
+        if(filterObj.checkFavourite) works = works.filter(work=>favIds.includes(work.id))
+
       }
 
       return [works, works.length]

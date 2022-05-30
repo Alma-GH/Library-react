@@ -1,15 +1,24 @@
 const defaultState = {
 
+  //modal
   visible: false,
   bodyNum: 0,
+
+
   idTable: 0,
 
-  //rename list
+  //rename list (bodyNum = 1)
   newNameList: "",
 
-  //add in list
+  //add in list (bodyNum = 2)
   optionsLists: [],
   selectedLists: [],
+
+
+
+  //hint
+  hintNum: 0,
+
 
 }
 
@@ -21,6 +30,8 @@ const SET_MODAL_NEW_NAME_LIST = "SET_MODAL_NEW_NAME_LIST"
 
 const SET_MODAL_OPTIONS_LISTS = "SET_MODAL_OPTIONS_LISTS"
 const SET_MODAL_SELECTED_LISTS = "SET_MODAL_SELECTED_LISTS"
+
+const SET_HINT = "SET_HINT"
 
 
 export const modalDataReducer = (state=defaultState,action)=>{
@@ -42,6 +53,9 @@ export const modalDataReducer = (state=defaultState,action)=>{
     case SET_MODAL_SELECTED_LISTS:
       return {...state, selectedLists: [...action.payload]}
 
+    case SET_HINT:
+      return {...state, hintNum: action.payload}
+
     default:
       return state
   }
@@ -55,3 +69,5 @@ export const getAction_setNewNameList = (name)=>{return {type:SET_MODAL_NEW_NAME
 
 export const getAction_setSelectedLists = (lists)=>{return {type:SET_MODAL_SELECTED_LISTS, payload: lists}}
 export const getAction_setOptionsLists = (options)=>{return {type:SET_MODAL_OPTIONS_LISTS, payload: options}}
+
+export const getAction_setHint = (num)=>{return {type:SET_HINT, payload: num}}
