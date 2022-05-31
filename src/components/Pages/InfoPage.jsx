@@ -13,9 +13,12 @@ import Loader from "../UI/Notifications/Loader";
 import {useFavourite} from "../../hooks/useFavourite";
 import {
   getAction_setBodyModal,
-  getAction_setIdInModal, getAction_setOptionsLists,
-  getAction_setSelectedLists, getAction_setVisModal
+  getAction_setIdInModal,
+  getAction_setOptionsLists,
+  getAction_setSelectedLists,
+  getAction_setVisModal
 } from "../../store/reducers/modalData";
+import {useGoHome} from "../../hooks/useGoHome";
 
 const InfoPage = ({prtClass}) => {
 
@@ -51,6 +54,8 @@ const InfoPage = ({prtClass}) => {
     await initFav()
 
   })
+
+  useGoHome(errInfo)
 
   useEffect(()=>{
     takeInfo()
@@ -102,12 +107,12 @@ const InfoPage = ({prtClass}) => {
         {isLoadingSetWorks || isLoadingFav || isLoadingInfo
           ? <Loader/>
           : <>
-              {isAdded
-                ? <BtnIco img={imgP} cb={addInList} isAnimStyle={true}/>
-                : <BtnIco img={imgA} cb={addWorkInLibrary} isAnimStyle={true}/>
-              }
-              <BtnIco img={imgS} cb={toggleWorkFav} isActiveStyle={isFav} isAnimStyle={true}/>
-            </>
+            {isAdded
+              ? <BtnIco img={imgP} cb={addInList} isAnimStyle={true}/>
+              : <BtnIco img={imgA} cb={addWorkInLibrary} isAnimStyle={true}/>
+            }
+            <BtnIco img={imgS} cb={toggleWorkFav} isActiveStyle={isFav} isAnimStyle={true}/>
+          </>
         }
       </div>
 

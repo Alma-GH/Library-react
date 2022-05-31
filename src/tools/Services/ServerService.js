@@ -207,7 +207,9 @@ class ServerService{
 
     async getListById(lid){
       const [allLists] = await this.getAllLists()
-      return allLists.find(list=>list.lid === lid)
+      const find = allLists.find(list=>list.lid === lid)
+      if(!find) throw Error("CANNOT FIND LIST BY ID: " + lid)
+      return find
     },
     async getAllLists(...args) {
       let lists = await DatabaseAPI.getAllLists()
@@ -358,6 +360,7 @@ class ServerService{
 
     async getSummaryById(id){
       let summary = await DatabaseAPI.getSummaryById(id)
+      if(summary === null) throw Error("CANNOT FIND SUMMARY BY ID: " + id)
       if(!summary) summary = ""
       return summary
     },

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import cls from "../style/main/ContentTable.module.scss";
 import BtnIco from "./UI/BtnIco";
 
@@ -6,34 +6,24 @@ import imgD from "../assets/imgs/cancel.png"
 import imgL from "../assets/imgs/list.png";
 import imgF from "../assets/imgs/star.png";
 import imgW from "../assets/imgs/edit.png";
-import imgP from "../assets/imgs/plus.png"
 
 import BtnCorner from "./UI/BtnCorner";
 import {useDispatch, useSelector} from "react-redux";
 import ServerService from "../tools/Services/ServerService";
-import {getAction_confirmFilter, getAction_setLanguage} from "../store/reducers/filterReducer";
+import {getAction_confirmFilter} from "../store/reducers/filterReducer";
 import {getAction_setTable} from "../store/reducers/tableReducer";
-import {useFetching} from "../hooks/useFetching";
 import Loader from "./UI/Notifications/Loader";
 import {useFavourite} from "../hooks/useFavourite";
 import {SearchContext} from "../context/SearchContext";
-import Modal from "./UI/Modal/Modal";
-import InputC from "./UI/InputC";
-import {tab} from "@testing-library/user-event/dist/tab";
-import SelectC from "./UI/SelectC";
 import {
   getAction_setBodyModal,
   getAction_setIdInModal,
-  getAction_setNewNameList, getAction_setOptionsLists,
+  getAction_setNewNameList,
+  getAction_setOptionsLists,
   getAction_setSelectedLists,
-  getAction_setSelectList,
-  getAction_setTipsList, getAction_setVisModal
+  getAction_setVisModal
 } from "../store/reducers/modalData";
-import SelectSearchC from "./UI/SelectSearchC";
-import {Multiselect} from "multiselect-react-dropdown";
-import ModalBody1 from "./UI/Modal/Modal.Body1";
-import ModalBody2 from "./UI/Modal/Modal.Body2";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {LINK_LIBRARY_SUMMARY} from "../tools/utils/const";
 
 const ContentTableControlMenu = ({drugControl, idTable}) => {
@@ -99,7 +89,6 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
   }
   function summaryClick(e){
     nav(LINK_LIBRARY_SUMMARY + "/" + idTable)
-    console.log(summaryClick.name + ": not work")
   }
 
   function renameList(e){

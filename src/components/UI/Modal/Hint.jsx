@@ -3,34 +3,39 @@ import {useDispatch, useSelector} from "react-redux";
 import clsModal from "./../../../style/UI/Modal/Modal.module.scss"
 import clsHint from "./../../../style/UI/Modal/Hint.module.scss"
 import {getAction_setHint} from "../../../store/reducers/modalData";
-import {LINK_ADD, LINK_HOME, LINK_LIBRARY_ALL} from "../../../tools/utils/const";
+import {LINK_ADD, LINK_HOME, LINK_LIBRARY_ALL, LINK_LIBRARY_LISTS} from "../../../tools/utils/const";
 import {useNavigate} from "react-router-dom";
+import {hints} from "./hints";
 
-const Hint = ({children}) => {
+const Hint = () => {
 
   const dispatch = useDispatch()
   const nav = useNavigate()
   const hintNum = useSelector(state=>state.modal.hintNum)
 
-  const hintMax = 4
+  const hintMax = hints.length
 
 
   useEffect(()=>{
-    if(hintNum !== 0){
-      const hintLinks = {
-        1:LINK_HOME,
-        3:LINK_ADD
-      }
-      if(hintNum in hintLinks)  nav(hintLinks[hintNum])
+
+    const hintLinks = {
+      1:LINK_HOME,
+      3:LINK_ADD,
+      5:LINK_LIBRARY_ALL,
+      6:LINK_LIBRARY_LISTS,
     }
+    if(hintNum in hintLinks)  nav(hintLinks[hintNum])
+
   }, [hintNum])
 
   let style = [clsModal.modal]
-  if(hintNum!==0) style.push(clsHint.active)
+  style.push(clsHint.active)
 
   return (
     <div className={style.join(" ")} onClick={()=>dispatch(getAction_setHint((hintNum+1)%(hintMax+1)))}>
-      {children}
+      <div className={hints[hintNum-1].style}>
+        {hints[hintNum-1].body}
+      </div>
     </div>
   )
 

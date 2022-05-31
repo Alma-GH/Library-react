@@ -6,6 +6,7 @@ import Loader from "../UI/Notifications/Loader";
 import TextareaC from "../UI/TextareaC";
 import cls from "./../../style/Pages/SummaryPage.module.scss"
 import {updateSummaryThrottle} from "../../tools/utils/func";
+import {useGoHome} from "../../hooks/useGoHome";
 
 const SummaryPage = () => {
 
@@ -17,6 +18,8 @@ const SummaryPage = () => {
     const summ = await ServerService.fromDB.getSummaryById(id)
     setTextS(summ)
   })
+
+  useGoHome(errSumm)
 
   useEffect(()=>{
     takeSumm()

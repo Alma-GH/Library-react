@@ -18,6 +18,7 @@ import ToolBar from "../ToolBar";
 import ContentBlock from "../ContentBlock";
 import {useFetching} from "../../hooks/useFetching";
 import {getEditAccess} from "../../tools/utils/func";
+import {useGoHome} from "../../hooks/useGoHome";
 
 const LibraryPage = ({updateOrderFunc,areLists, editAccess, GET_METHOD}) => {
 
@@ -32,6 +33,8 @@ const LibraryPage = ({updateOrderFunc,areLists, editAccess, GET_METHOD}) => {
     const [dataTables] = await GET_METHOD(...args)
     dispatch(getAction_setTable(dataTables))
   })
+
+  useGoHome(err)
 
   useEffect(()=>{
     dispatch(getAction_setLoadTable(isLoading))

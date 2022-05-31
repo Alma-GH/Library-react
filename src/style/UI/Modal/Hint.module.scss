@@ -46,6 +46,21 @@ $tr: 15px;
         left: $wFilter+$gapX;
         clip-path: polygon(30px $tr, 100% $tr, 100% 100%, 0 100%, 0 $tr, 10px $tr, 20px 0);
     }
+
+    &.hint5{
+        padding-top: 25px;
+        width: 300px;
+
+        top: $hHead+$gapY*2 + $hHead*1.5;
+        left: $wFilter+$gapX;
+        clip-path: polygon(30px $tr, 100% $tr, 100% 100%, 0 100%, 0 $tr, 10px $tr, 20px 0);
+    }
+    &.hint6{
+        padding-top: 25px;
+        width: 300px;
+
+        @extend %centerPos;
+    }
 }
 
 .active{
