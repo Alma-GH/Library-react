@@ -14,7 +14,7 @@ import {
   getAction_setSubjects
 } from "../store/reducers/filterReducer";
 import SelectC from "./UI/SelectC";
-import SelectSearchC from "./UI/SelectSearchC";
+import SelectTipsC from "./UI/SelectTipsC";
 import FilterInput from "./Filter.Input";
 import InputC from "./UI/InputC";
 import RadioC from "./UI/RadioC";
@@ -49,11 +49,13 @@ const FilterBlock = ({prtClass}) => {
   function selectSearchFrom(e){
     let val = e.target.value
     //TODO: clear
+
     dispatch(getAction_clearTable())
     dispatch(getAction_setCountSearch(0))
     dispatch(getAction_setNumAll(0))
 
     dispatch(getAction_setSearchAPI(val))
+
   }
 
   function authorInp(e){
@@ -114,7 +116,6 @@ const FilterBlock = ({prtClass}) => {
           ]}
           value={api}
           onChange={selectSearchFrom}
-
         />
       </FilterInput>
 
@@ -135,7 +136,7 @@ const FilterBlock = ({prtClass}) => {
 
 
       <FilterInput className={cls.subj} title="Subjects:">
-        <SelectSearchC
+        <SelectTipsC
           prtClass={cls.input}
           selected={subjects}
           delCB={subjDel}

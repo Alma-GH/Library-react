@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import {Reorder, useDragControls} from "framer-motion";
 import cls from "../style/main/ContentTable.module.scss";
 import ContentTableControlMenu from "./ContentTable.ControlMenu";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
 import {LINK_LIBRARY_LISTS} from "../tools/utils/const";
+import {getAction_setHeadTitle} from "../store/reducers/globalReducer";
 
 const ContentTableList = ({prtClass, content}) => {
 
@@ -12,8 +13,10 @@ const ContentTableList = ({prtClass, content}) => {
 
   const nav = useNavigate()
 
-  const controls = useDragControls()
+  const dispatch = useDispatch()
 
+  const controls = useDragControls()
+  const sizeBlock = useSelector(state=>state.table.items.size)
   const editMenu = useSelector(state=>state.table.items.edit.menu)
 
   //styles
@@ -31,6 +34,8 @@ const ContentTableList = ({prtClass, content}) => {
 
   const [hover, setHover] = useState("")
   const styles = [cls.block, cls.blockList, hover]
+  if(sizeBlock>100) styles.push(cls.large)
+  else if(sizeBlock<100) styles.push(cls.small)
   if(prtClass) styles.push(prtClass)
 
   return (
@@ -52,6 +57,7 @@ const ContentTableList = ({prtClass, content}) => {
       onClick={e=>{
         if(e.target === e.currentTarget){
           nav(LINK_LIBRARY_LISTS + "/" + lid)
+          dispatch(getAction_setHeadTitle(name))
         }
       }}
     >

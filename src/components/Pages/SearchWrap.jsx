@@ -3,7 +3,8 @@ import {Outlet} from "react-router-dom";
 import {useFetching} from "../../hooks/useFetching";
 import {getAction_setNumAll, getAction_setPage} from "../../store/reducers/pageReducer";
 import {
-  getAction_clearTable, getAction_setEditMenu,
+  getAction_clearTable,
+  getAction_setEditMenu,
   getAction_setErrorTable,
   getAction_setLoadTable,
   getAction_setTable
@@ -12,10 +13,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {
   getAction_clearSearch,
   getAction_confirmFilter,
-  getAction_setCountSearch, getAction_setSearch
+  getAction_setCountSearch,
+  getAction_setSearch
 } from "../../store/reducers/filterReducer";
-import {getEditAccess} from "../../tools/utils/func";
+import {errTimer1, getEditAccess} from "../../tools/utils/func";
 import ServerService from "../../tools/Services/ServerService";
+import Controller from "../../tools/Services/Controller";
 
 const SearchWrap = () => {
 
@@ -29,6 +32,7 @@ const SearchWrap = () => {
 
   const countSearch = useSelector(state=>state.filter.countSearch)
 
+
   const [fetchTables, isLoading, err] = useFetching(  async (...args)=>{
     let GET_METHOD
     if(api === ServerService.ST_FROM_DB) GET_METHOD = ServerService.fromDB.getWorksByFilter.bind(ServerService.fromDB)
@@ -38,17 +42,17 @@ const SearchWrap = () => {
     dispatch(getAction_setNumAll(nWorks))
     dispatch(getAction_setTable(dataWorks))
     // dispatch(getAction_sortTables())
+  }, errTimer1)
 
-    const myWorksIds = await ServerService.fromDB.getAllWorksIds()
-    console.log({myWorksIds})
-
-
-  })
-
+  useEffect(()=>{    if(Controller.now){
+    Controller.now.abort()
+  }}, [api])
+  useEffect(()=>{
+    dispatch(getAction_setErrorTable(!!err,err?.message))
+  }, [err])
   useEffect(()=>{
     dispatch(getAction_setLoadTable(isLoading))
-    dispatch(getAction_setErrorTable(!!err,err?.message))
-  }, [isLoading,err])
+  }, [isLoading])
 
   useEffect(()=>{
     dispatch(getAction_setPage(1))
@@ -56,7 +60,10 @@ const SearchWrap = () => {
 
   useEffect(()=>{
     if(!countSearch) return
-    fetchTables(confirmF, page, limit);
+
+    Controller.now = new AbortController()
+    const signal = Controller.now.signal
+    fetchTables(confirmF, page, limit, signal);
   }, [page, confirmF])
 
   //ComponentMount/ComponentUnmount

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import cls from "../style/main/ContentTable.module.scss";
 import imgTest from "../assets/imgs/plus.png";
 import {NavLink} from "react-router-dom";
@@ -13,6 +13,7 @@ const ContentTable = ({prtClass, content}) => {
 
   const controls = useDragControls()
 
+  const sizeBlock = useSelector(state=>state.table.items.size)
   const editMenu = useSelector(state=>state.table.items.edit.menu)
 
 
@@ -30,6 +31,8 @@ const ContentTable = ({prtClass, content}) => {
   }
 
   const styles = [cls.block]
+  if(sizeBlock>100) styles.push(cls.large)
+  else if(sizeBlock<100) styles.push(cls.small)
   if(prtClass) styles.push(prtClass)
 
   return (
@@ -39,7 +42,6 @@ const ContentTable = ({prtClass, content}) => {
       dragListener={false}
       dragControls={controls}
       {...varsAnimation}
-
     >
       <div className={cls.cover}>
         {img

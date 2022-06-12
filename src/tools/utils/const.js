@@ -5,6 +5,8 @@ export const PATH_ROOT_SEARCH = "search"
 
 export const PATH_AUTH = "auth"
 export const PATH_HOME = "home"
+export const PATH_OPTIONS = "options"
+
 
 export const PATH_ADD = "add"
 
@@ -23,6 +25,7 @@ export const PARAMS_INFO = ":page"
 
 export const LINK_AUTH = `${PATH_ROOT_APP}/${PATH_AUTH}`
 export const LINK_HOME = `${PATH_ROOT_APP}/${PATH_HOME}`
+export const LINK_OPTIONS = `${PATH_ROOT_APP}/${PATH_OPTIONS}`
 
 export const LINK_ADD    = `${PATH_ROOT_APP}/${PATH_ROOT_SEARCH}/${PATH_ADD}`
 export const LINK_INFO    = `${PATH_ROOT_APP}/${PATH_ROOT_SEARCH}/${PATH_INFO}`
@@ -31,6 +34,21 @@ export const LINK_LIBRARY_ALL = `${PATH_ROOT_APP}/${PATH_LIBRARY}/${PATH_LIBRARY
 export const LINK_LIBRARY_FAV = `${PATH_ROOT_APP}/${PATH_LIBRARY}/${PATH_LIBRARY_FAV}`
 export const LINK_LIBRARY_LISTS = `${PATH_ROOT_APP}/${PATH_LIBRARY}/${PATH_LIBRARY_LISTS}`
 export const LINK_LIBRARY_SUMMARY = `${PATH_ROOT_APP}/${PATH_LIBRARY}/${PATH_LIBRARY_SUMMARY}`
+
+
+export const HEAD_NAME = Object.freeze({
+  [LINK_HOME]: "HOME",
+  [LINK_ADD]: "SEARCH",
+  [LINK_INFO]: "INFO",
+  [LINK_OPTIONS]: "OPTIONS",
+
+  [LINK_LIBRARY_ALL]: "LIBRARY",
+  [LINK_LIBRARY_FAV]: "LIBRARY FAVOURITE",
+  [LINK_LIBRARY_LISTS]: "LIBRARY LISTS",
+  [LINK_LIBRARY_SUMMARY]: "LIBRARY SUMMARY",
+})
+
+
 
 
 //table props

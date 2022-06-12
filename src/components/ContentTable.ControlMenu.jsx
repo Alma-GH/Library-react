@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import cls from "../style/main/ContentTable.module.scss";
 import BtnIco from "./UI/BtnIco";
 
@@ -25,6 +25,7 @@ import {
 } from "../store/reducers/modalData";
 import {useNavigate} from "react-router-dom";
 import {LINK_LIBRARY_SUMMARY} from "../tools/utils/const";
+import {createMyTimer} from "../tools/utils/wrappers";
 
 const ContentTableControlMenu = ({drugControl, idTable}) => {
 
@@ -34,10 +35,13 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
 
   const dispatch = useDispatch()
 
+  const sizeBlock = useSelector(state=>state.table.items.size)
   const tables = useSelector(state=>state.table.items.arr)
   const editOptions = useSelector(state=>state.table.items.edit)
 
   const [isFav,fetchFav, fetchListMembership, isLoadingFav, err] = useFavourite(idTable)
+
+  const [timer,setTimer] = useState(null)
 
 
   function editClick(e){
@@ -46,7 +50,8 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
     if(!visibleMenu && !areLists){
       fetchListMembership()
     }
-
+    if(timer) clearTimeout(timer)
+    setTimer(setTimeout(()=>setVisibleMenu(false),10000))
     setVisibleMenu(!visibleMenu)
   }
 
@@ -99,15 +104,20 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
     dispatch(getAction_setVisModal(true))
   }
 
+  useEffect(()=>{
+
+  }, [])
+
 
   const [visibleMenu, setVisibleMenu] = useState(false)
   const stylesMenu = [cls.edit]
+  if(sizeBlock<100) stylesMenu.push(cls.large)
   if(visibleMenu) stylesMenu.push(cls.vis)
   else            stylesMenu.push(cls.invis)
 
   return (
     <>
-      <div  className={stylesMenu.join(" ")}>
+      <div className={stylesMenu.join(" ")}>
         {isLoadingFav
           ? <Loader/>
           : <div className={cls.btns}>

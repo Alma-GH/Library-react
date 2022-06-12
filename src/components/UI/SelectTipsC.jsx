@@ -5,7 +5,7 @@ import cls from "../../style/UI/SelectSearchC.module.scss"
 import imgDel from "../../assets/imgs/cancel.png"
 import imgSET from "../../assets/imgs/plus.png";
 
-const SelectSearchC = ({selected, delCB, inputTipsAtt, btnIcoAtt, prtClass}) => {
+const SelectTipsC = ({selected, delCB, inputTipsAtt, btnIcoAtt, prtClass}) => {
   /**
    * delCB - function:
    *
@@ -43,4 +43,4 @@ const SelectSearchC = ({selected, delCB, inputTipsAtt, btnIcoAtt, prtClass}) => 
   );
 };
 
-export default SelectSearchC;
+export default SelectTipsC;

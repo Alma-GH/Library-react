@@ -6,10 +6,6 @@ import imgD from "../assets/imgs/cancel.png";
 import imgL from "../assets/imgs/list.png";
 import imgF from "../assets/imgs/star.png";
 import imgW from "../assets/imgs/edit.png";
-import {useFavourite} from "../hooks/useFavourite";
-import {getAction_setTable} from "../store/reducers/tableReducer";
-import ServerService from "../tools/Services/ServerService";
-import {getAction_confirmFilter} from "../store/reducers/filterReducer";
 
 const RedactMenu = ({isTable, delF, addF}) => {
 

@@ -36,7 +36,7 @@ class BookAPI{
     else       query=encodeURI(query)
 
     const res =
-      await fetch(`https://openlibrary.org/search/subjects.json?q=${query}&page=${page}&limit=${limit}`, {signal:Controller.now.signal})
+      await fetch(`https://openlibrary.org/search/subjects.json?q=${query}&page=${page}&limit=${limit}`)
     return res.json()
   }
 
@@ -48,7 +48,7 @@ class BookAPI{
       if(!query) query="*"
       else       query=encodeURI(query)
       const res =
-        await fetch(`https://openlibrary.org/search.json?title=${query}&page=${page}&limit=${limit}`, {signal:Controller.now.signal})
+        await fetch(`https://openlibrary.org/search.json?title=${query}&page=${page}&limit=${limit}`)
       return res.json()
 
   }
@@ -63,8 +63,7 @@ class BookAPI{
     }
   }
 
-  async getWorksByFilter(filter={}, page=DEF_PAGE, limit=DEF_LIMIT){
-
+  async getWorksByFilter(filter={}, page=DEF_PAGE, limit=DEF_LIMIT,signal){
     //TODO: use function paramsFromObj
     const subjects = filter.subjects?.map(sub=>`subject_facet=${encodeURI(sub)}`).join("&")
 
@@ -80,7 +79,7 @@ class BookAPI{
     console.log(params.join("&"))
 
     const res =
-      await fetch(`https://openlibrary.org/search.json?${params.join("&")}&page=${page}&limit=${limit}`, {signal:Controller.now.signal})
+      await fetch(`https://openlibrary.org/search.json?${params.join("&")}&page=${page}&limit=${limit}`, {signal})
     return res.json()
 
   }
@@ -92,7 +91,7 @@ class BookAPI{
     else       query=encodeURI(query)
 
     const res =
-      await fetch(`https://openlibrary.org/search/authors.json?q=${query}&page=${page}&limit=${limit}`, {signal:Controller.now.signal})
+      await fetch(`https://openlibrary.org/search/authors.json?q=${query}&page=${page}&limit=${limit}`)
     return res.json()
   }
 

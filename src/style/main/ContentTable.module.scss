@@ -30,12 +30,20 @@ $wCover: 150px;
   border: 2px solid red;
   background-color: white;
 
+  &.large{
+    height: $hBlock*2;
+  }
+
+  &.small{
+    height: $hBlock/2;
+  }
+
   .cover{
     flex-shrink: 0;
 
     border: 2px solid black;
     height: 85%;
-    width: $wCover;
+    aspect-ratio: 1/1.3;
 
     @extend %imgIN
 
@@ -82,6 +90,9 @@ $wCover: 150px;
       button{
         display: none;
       }
+    }
+    &.large{
+      height: 140%;
     }
 
 

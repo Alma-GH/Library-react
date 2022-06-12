@@ -1,5 +1,4 @@
 import {deepCopyOBJ} from "../../tools/utils/func";
-import {type} from "@testing-library/user-event/dist/type";
 
 const defaultState = {
 
@@ -17,7 +16,8 @@ const defaultState = {
       listBtn: false,
       favBtn: false,
       summBtn: false,
-    }
+    },
+    size: 100
   },
 
   info:{},
@@ -28,6 +28,7 @@ const SET_LOAD_TABLES = "SET_LOAD_TABLES"
 const SET_ERR_TABLES = "SET_ERR_TABLES"
 const SET_SORT_TABLES = "SET_SORT_TABLES"
 const SET_EDIT_MENU = "SET_EDIT_MENU"
+const SET_SIZE_TABLES = "SET_SIZE_TABLES"
 
 const SET_INFO = "SET_INFO"
 
@@ -72,6 +73,8 @@ export const tableReducer = (state=defaultState,action)=>{
     case SET_EDIT_MENU:
       checkTypeEdit(action.payload)
       return {...state, items: {...state.items, edit: action.payload}}
+    case SET_SIZE_TABLES:
+      return {...state, items: {...state.items, size: +action.payload}}
 
 
     case SET_INFO:
@@ -98,6 +101,7 @@ export const getAction_setLoadTable = (val)=>{return {type:SET_LOAD_TABLES, payl
 export const getAction_setErrorTable = (isErr,message)=>{return {type:SET_ERR_TABLES, payload: {err:isErr, message:message}}}
 export const getAction_setEditMenu =
   ({menu, order, deleteBtn, listBtn, favBtn, summBtn})=>{return {type: SET_EDIT_MENU, payload:{menu,order, deleteBtn, listBtn, favBtn, summBtn}}}
+export const getAction_setSizeTable = (size)=>{return {type:SET_SIZE_TABLES, payload:size}}
 export const getAction_setInfo = (val)=>{return {type:SET_INFO, payload:val}}
 export const getAction_setSort = (val)=>{return {type:SET_SORT_TABLES, payload:val}}
 export const getAction_sortTables = ()=>{return {type:SORT_TABLES}}

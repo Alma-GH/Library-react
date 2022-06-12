@@ -1,12 +1,14 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import {
-  PARAMS_INFO, PARAMS_SUMMARY,
+  PARAMS_INFO,
+  PARAMS_SUMMARY,
   PATH_ADD,
   PATH_HOME,
   PATH_INFO,
   PATH_LIBRARY,
-  PATH_LIBRARY_LISTS, PATH_LIBRARY_SUMMARY,
+  PATH_LIBRARY_LISTS,
+  PATH_LIBRARY_SUMMARY, PATH_OPTIONS,
   PATH_ROOT_APP,
   PATH_ROOT_SEARCH
 } from "../tools/utils/const";
@@ -18,9 +20,9 @@ import AppPrivat from "./App.Privat";
 import LibraryPage from "./Pages/LibraryPage";
 import {libraryListsRoutes, libraryRoutes} from "../router/routes";
 import SummaryPage from "./Pages/SummaryPage";
+import OptionsPage from "./Pages/OptionsPage";
 
 const AppRouter = () => {
-
 
   return (
     <Routes>
@@ -44,6 +46,8 @@ const AppRouter = () => {
             ))}
           </Route>
         </Route>
+
+        <Route path={PATH_OPTIONS} element={<OptionsPage prtClass="options"/>}/>
 
         <Route path={PATH_HOME} element={<HomePage prtClass="home"/>}/>
       </Route>

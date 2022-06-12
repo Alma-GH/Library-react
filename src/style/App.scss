@@ -40,10 +40,10 @@ html{
     column-gap: $gapX;
     row-gap: $gapY;
 
-    .head, .home, .info,  .toolBar, .wideContent, .summary{
+    .head, .home, .info,  .toolBar, .wideContent, .summary, .options{
         @extend %allWidth;
     }
-    .filter, .home, .info, .summary{
+    .filter, .home, .info, .summary, .options{
         @extend %allHeightWithoutHead
     }
 

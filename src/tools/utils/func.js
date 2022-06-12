@@ -9,7 +9,8 @@ import {
   ARR_ACCESS
 } from "./const";
 
-export const errTimer = createMyTimer()
+export const errTimer1 = createMyTimer()
+export const errTimer2 = createMyTimer()
 export const updateOrderWorksThrottle = createThrottling(ServerService.fromDB.setWorks,1000).bind(ServerService.fromDB)
 export const updateOrderFavsThrottle = createThrottling(ServerService.fromDB.setFavsByWorks,1000).bind(ServerService.fromDB)
 export const updateOrderListsThrottle = createThrottling(ServerService.fromDB.setLists,1000).bind(ServerService.fromDB)
