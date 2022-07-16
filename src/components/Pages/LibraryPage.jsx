@@ -17,7 +17,7 @@ import {SearchContext} from "../../context/SearchContext";
 import ToolBar from "../ToolBar";
 import ContentBlock from "../ContentBlock";
 import {useFetching} from "../../hooks/useFetching";
-import {getEditAccess} from "../../tools/utils/func";
+import {getEditAccess} from "../../tools/utils/func.js";
 import {useGoHome} from "../../hooks/useGoHome";
 
 const LibraryPage = ({updateOrderFunc,areLists, editAccess, GET_METHOD}) => {
@@ -28,6 +28,9 @@ const LibraryPage = ({updateOrderFunc,areLists, editAccess, GET_METHOD}) => {
   const dispatch = useDispatch()
   const confirmF = useSelector(state=>state.filter.confirm)
   const params = useParams()
+
+  const redactMode = useSelector(state=>state.option.defRedactMode)
+
 
   const [fetchTables, isLoading, err] = useFetching(  async (...args)=>{
     const [dataTables] = await GET_METHOD(...args)
@@ -51,7 +54,7 @@ const LibraryPage = ({updateOrderFunc,areLists, editAccess, GET_METHOD}) => {
     }
     dispatch(getAction_setCountSearch(1))
     dispatch(getAction_confirmFilter())
-    dispatch(getAction_setEditMenu(editAccess))
+    dispatch(getAction_setEditMenu({...editAccess, menu: redactMode}))
     return ()=>{
       dispatch(getAction_clearTable())
       dispatch(getAction_setEditMenu(getEditAccess()))

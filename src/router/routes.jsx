@@ -10,7 +10,7 @@ import {
   updateOrderFavsThrottle,
   updateOrderListsThrottle, updateOrderWorksInListThrottle,
   updateOrderWorksThrottle
-} from "../tools/utils/func";
+} from "../tools/utils/func.js";
 import ServerService from "../tools/Services/ServerService";
 
 

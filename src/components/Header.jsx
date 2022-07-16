@@ -36,7 +36,7 @@ const Header = ({prtClass}) => {
 
 
   function questionClick(e){
-    dispatch(getAction_setHint(1))
+    dispatch(getAction_setHint(path.startsWith(LINK_LIBRARY_SUMMARY)? -1 :1))
   }
   function themeClick(e){
     console.log("btn")

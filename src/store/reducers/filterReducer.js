@@ -1,4 +1,4 @@
-import {deepCopyOBJ} from "../../tools/utils/func";
+import {deepCopyOBJ} from "../../tools/utils/func.js";
 
 const defaultState = {
   countSearch: 0,

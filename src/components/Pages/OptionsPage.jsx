@@ -1,18 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import cls from "./../../style/Pages/OptionsPage.module.scss"
 import OptionInput from "../Option.Input";
 import InputC from "../UI/InputC";
 import CheckboxC from "../UI/CheckboxC";
 import SelectC from "../UI/SelectC";
 import {useDispatch, useSelector} from "react-redux";
-import {getAction_setSizeTable} from "../../store/reducers/tableReducer";
 import {
+  getAction_clearOptions,
   getAction_setDefNameList,
-  getAction_setDefRedactMode,
+  getAction_setDefRedactMode, getAction_setDefTableSize,
   getAction_setTheme
 } from "../../store/reducers/optionsReducer";
 import RadioC from "../UI/RadioC";
-import ServerService from "../../tools/Services/ServerService";
+import BtnText from "../UI/BtnText";
+import {NAME_NEW_LIST} from "../../tools/utils/const";
+import {
+  getAction_setBodyModal,
+  getAction_setConfirmCallback, getAction_setConfirmText,
+  getAction_setVisModal
+} from "../../store/reducers/modalData";
 
 
 const OptionsPage = ({prtClass}) => {
@@ -24,21 +30,85 @@ const OptionsPage = ({prtClass}) => {
   const redactMode = useSelector(state=>state.option.defRedactMode)
   const theme = useSelector(state=>state.option.theme)
 
+  const [entSizeBlock, setEntSizeBlock] = useState(100)
+  const [entListName, setEntListName] = useState(NAME_NEW_LIST)
+  const [entRedactMode, setEntRedactMode] = useState(false)
+  const [entTheme, setEntTheme] = useState(1)
+
+  useEffect(()=>{
+    setEntTheme(theme)
+    setEntListName(listName)
+    setEntSizeBlock(sizeBlock)
+    setEntRedactMode(redactMode)
+  }, [sizeBlock, listName, redactMode,theme])
+
+  //input functions
   function selectTheme(e){
     let val = e.target.value
-    dispatch(getAction_setTheme(val))
+    setEntTheme(+val)
   }
   function selectSize(e){
-    dispatch(getAction_setSizeTable(e.target.value))
+    let val = e.target.value
+    setEntSizeBlock(+val)
   }
   function inputListName(e){
-    dispatch(getAction_setDefNameList(e.target.value))
+    let val = e.target.value
+    setEntListName(val)
   }
   function setMode(){
-    dispatch(getAction_setDefRedactMode(!redactMode))
+    setEntRedactMode(!entRedactMode)
   }
 
+  //confirm functions
+  function saveOptions(){
+    //set option state according to the input fields
+    dispatch(getAction_setTheme(entTheme))
+    dispatch(getAction_setDefTableSize(entSizeBlock))
+    dispatch(getAction_setDefNameList(entListName))
+    dispatch(getAction_setDefRedactMode(entRedactMode))
 
+    //TODO: save options(server)
+  }
+
+  function defOptions(){
+    //set default option state
+    dispatch(getAction_clearOptions())
+    //TODO: save options(server)
+  }
+
+  function resetOptions(){
+    //set option in input fields according to the state
+    setEntTheme(theme)
+    setEntListName(listName)
+    setEntSizeBlock(sizeBlock)
+    setEntRedactMode(redactMode)
+    //TODO: save options(server)
+  }
+
+  //button functions
+  function openConfirmModalSave(){
+    dispatch(getAction_setConfirmCallback(saveOptions))
+    dispatch(getAction_setConfirmText("Сохранить настройки?"))
+
+    dispatch(getAction_setVisModal(true))
+    dispatch(getAction_setBodyModal(3))
+  }
+
+  function openConfirmModalDefault(){
+    dispatch(getAction_setConfirmCallback(defOptions))
+    dispatch(getAction_setConfirmText("Поставить настройки по умолчанию?"))
+
+    dispatch(getAction_setVisModal(true))
+    dispatch(getAction_setBodyModal(3))
+  }
+
+  function openConfirmModalReset(){
+    dispatch(getAction_setConfirmCallback(resetOptions))
+    dispatch(getAction_setConfirmText("Поставить текущие настройки(сбросить изменения в полях)?"))
+
+    dispatch(getAction_setVisModal(true))
+    dispatch(getAction_setBodyModal(3))
+  }
 
   const styles = [cls.page]
   if(prtClass) styles.push(prtClass)
@@ -52,14 +122,14 @@ const OptionsPage = ({prtClass}) => {
             {text:"light", value: 1},
             {text:"dark", value: 2},
           ]}
-          value={theme}
+          value={entTheme}
           onChange={selectTheme}
         />
       </OptionInput>
 
       <OptionInput title="Default table size">
         <SelectC
-          id="size in op" value={+sizeBlock} onChange={selectSize}
+          id="size in op" value={+entSizeBlock} onChange={selectSize}
           defaultVal="Размер блока"
           options={[
             {name:"50%",value:50},
@@ -70,7 +140,7 @@ const OptionsPage = ({prtClass}) => {
       </OptionInput>
 
       <OptionInput title="Default list name">
-        <InputC type="text" value={listName} onChange={inputListName}/>
+        <InputC type="text" value={entListName} onChange={inputListName}/>
       </OptionInput>
 
       <OptionInput title="Enable redact mod by default">
@@ -78,15 +148,15 @@ const OptionsPage = ({prtClass}) => {
           choices={[
             {name:"enable mode"},
           ]}
-          values={[redactMode]}
+          values={[entRedactMode]}
           onChange={setMode}
         />
       </OptionInput>
 
       <div className={cls.btns}>
-        <button>SAVE</button>
-        <button>RESET</button>
-        <button>DEFAULT</button>
+        <BtnText text="SAVE" cb={openConfirmModalSave}/>
+        <BtnText text="RESET" cb={openConfirmModalReset}/>
+        <BtnText text="DEFAULT" cb={openConfirmModalDefault}/>
       </div>
     </div>
   );

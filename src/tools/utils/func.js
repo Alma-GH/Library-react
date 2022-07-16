@@ -1,5 +1,5 @@
-import {createMyTimer, createThrottling} from "./wrappers";
-import ServerService from "../Services/ServerService";
+import {createMyTimer, createThrottling} from "./wrappers.js";
+import ServerService from "../Services/ServerService.js";
 import {
   ACCESS_FOR_ALL_LIB,
   ACCESS_FOR_FAV,
@@ -7,7 +7,7 @@ import {
   ACCESS_FOR_SEARCH,
   ACCESS_FOR_SEARCH_LIB,
   ARR_ACCESS
-} from "./const";
+} from "./const.js";
 
 export const errTimer1 = createMyTimer()
 export const errTimer2 = createMyTimer()
@@ -43,6 +43,7 @@ export const paramsFromObj = (obj)=>{
 }
 
 export const strInclude = (str, inStr)=>{
+  //TODO: fix error
   return str.toLowerCase().includes(inStr.toLowerCase())
 }
 
@@ -77,6 +78,62 @@ export const getEditAccess = (access)=>{
   }
 }
 
+export const htmlFromSpecialText = (str)=>{
+  const interpreter = {
+    header: "<div style='text-align: center'>",
 
+    big: "<span style='font-size: larger'>",
+    small: "<span style='font-size: smaller'>",
+
+    bold: "<b>",
+    italic: "<i>",
+    inserted: "<ins>",
+
+    red: "<span style='color: red'>",
+    orange: "<span style='color: darkorange'>",
+    green: "<span style='color: green'>",
+    blue: "<span style='color: dodgerblue'>",
+  }
+  const end = {
+    header: "</div>",
+
+    big: "</span>",
+    small: "</span>",
+
+    bold: "</b>",
+    italic: "</i>",
+    inserted: "</ins>",
+
+    red: "</span>",
+    orange: "</span>",
+    green: "</span>",
+    blue: "</span>",
+  }
+
+  const stack = []
+  let html = []
+
+  for(let i = 0; i<str.length; i++){
+    const char = str[i]
+
+    if(char !== "/" && char !== "\n") html.push(char)
+    else if(char === "\n") html.push("<br/>")
+    else if(str[i+1] === "("){
+      let key = ""
+      let j = i + 2
+      for(; j<str.length && str[j] !== ")"; j++) key += str[j]
+      if(str[j] === ")" && interpreter[key]){
+        stack.push(key)
+        html.push(interpreter[key])
+        i = j
+      }
+    }
+    else if(stack.length) html.push(end[stack.pop()])
+
+  }
+
+
+  return html.join("")
+}
 
 

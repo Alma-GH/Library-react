@@ -6,7 +6,7 @@ import {SearchContext} from "../../context/SearchContext";
 import {useDispatch, useSelector} from "react-redux";
 import {getAction_setEditMenu} from "../../store/reducers/tableReducer";
 import {ACCESS_FOR_SEARCH, ACCESS_FOR_SEARCH_LIB} from "../../tools/utils/const";
-import {getEditAccess} from "../../tools/utils/func";
+import {getEditAccess} from "../../tools/utils/func.js";
 import ServerService from "../../tools/Services/ServerService";
 
 

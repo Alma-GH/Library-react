@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useFetching} from "../../hooks/useFetching";
 import ServerService from "../../tools/Services/ServerService";
 import Loader from "../UI/Notifications/Loader";
 import TextareaC from "../UI/TextareaC";
 import cls from "./../../style/Pages/SummaryPage.module.scss"
-import {updateSummaryThrottle} from "../../tools/utils/func";
+import {htmlFromSpecialText, updateSummaryThrottle} from "../../tools/utils/func.js";
 import {useGoHome} from "../../hooks/useGoHome";
 
 const SummaryPage = () => {
@@ -13,6 +13,7 @@ const SummaryPage = () => {
   const id = useParams().summary
 
   const [textS, setTextS] = useState("")
+  const [redact, setRedact] = useState(false)
 
   const [takeSumm, isLoadingSumm, errSumm] = useFetching(async ()=>{
     const summ = await ServerService.fromDB.getSummaryById(id)
@@ -20,6 +21,11 @@ const SummaryPage = () => {
   })
 
   useGoHome(errSumm)
+
+  useEffect(()=>{
+    document.addEventListener("keydown", escRedact)
+    return ()=>document.removeEventListener("keydown",escRedact)
+  }, [])
 
   useEffect(()=>{
     takeSumm()
@@ -32,13 +38,26 @@ const SummaryPage = () => {
       .then(res=>console.log("UPDATE SUMMARY"))
   }
 
+  function redactOn(){
+    setRedact(true)
+  }
+  function redactOff(){
+    setRedact(false)
+  }
+
+  function escRedact(e){
+    if(e.code === "Escape") redactOff()
+  }
 
   return (
     <div className="summary">
       {isLoadingSumm
         ? <Loader/>
-        : <TextareaC prtClass={cls.textarea} text={textS} onChange={inputText}/>
+        : redact
+          ? <TextareaC prtClass={cls.textarea} text={textS} onChange={inputText}/>
+          : <div className={cls.result} onDoubleClick={redactOn} dangerouslySetInnerHTML={{__html:htmlFromSpecialText(textS)}}/>
       }
+
     </div>
   );
 };

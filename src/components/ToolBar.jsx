@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import ReorderPanel from "./ReorderPanel";
 import BtnIco from "./UI/BtnIco";
 import imgE from "../assets/imgs/edit.png";
@@ -18,15 +18,23 @@ const ToolBar = ({className}) => {
   const dispatch = useDispatch()
   const {areLists, updateOrderFunc} = useContext(SearchContext)
 
+  const defNameList = useSelector(state=>state.option.defNameList)
+  const defTableSize = useSelector(state=>state.option.defTableSize)
+
   const tables = useSelector(state=>state.table.items.arr)
   const listID = useSelector(state=>state.filter.confirm.title)
   const editOptions = useSelector(state=>state.table.items.edit)
   const editable = editOptions.menu
   const sizeBlock = useSelector(state=>state.table.items.size)
 
+  useEffect(()=>{
+    dispatch(getAction_setSizeTable(defTableSize))
+  }, [])
+
+
   const [fetchList, isLoadingList, errList] = useFetching(async ()=>{
     dispatch(getAction_setEditMenu({...editOptions, menu:false}))
-    const res = await ServerService.fromDB.addNewList()
+    const res = await ServerService.fromDB.addNewList(defNameList)
     dispatch(getAction_confirmFilter())
     dispatch(getAction_setEditMenu({...editOptions, menu:editable}))
   })

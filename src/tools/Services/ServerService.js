@@ -8,7 +8,7 @@ import {
   T_TITLE,
   WORK_PROPS
 } from "../utils/const";
-import {getLocationByURL, matchInArrays, strInclude} from "../utils/func";
+import {getLocationByURL, matchInArrays, strInclude} from "../utils/func.js";
 import DatabaseAPI from "./DatabaseAPI";
 
 
@@ -360,7 +360,7 @@ class ServerService{
 
     async getSummaryById(id){
       let summary = await DatabaseAPI.getSummaryById(id)
-      if(summary === null) throw Error("CANNOT FIND SUMMARY BY ID: " + id)
+      // if(summary === null) throw Error("CANNOT FIND SUMMARY BY ID: " + id)
       if(!summary) summary = ""
       return summary
     },

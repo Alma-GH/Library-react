@@ -61,6 +61,12 @@ $tr: 15px;
 
         @extend %centerPos;
     }
+    &.hint7{
+        padding-top: 25px;
+        width: 550px;
+
+        @extend %centerPos;
+    }
 }
 
 .active{

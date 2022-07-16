@@ -3,7 +3,7 @@ import cls from "../style/main/InputBlock.module.scss";
 import InputSearch from "./UI/InputSearch";
 import {useDispatch, useSelector} from "react-redux";
 import Pagination from "./UI/Pagination";
-import {getTotalPages} from "../tools/utils/func";
+import {getTotalPages} from "../tools/utils/func.js";
 import {getAction_confirmFilter, getAction_setCountSearch, getAction_setSearch} from "../store/reducers/filterReducer";
 import ReorderPanel from "./ReorderPanel";
 import CountPagesPanel from "./CountPagesPanel";

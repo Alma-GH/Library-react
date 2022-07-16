@@ -4,6 +4,7 @@ import {Outlet} from "react-router-dom";
 import Modal from "./UI/Modal/Modal";
 import ModalBody1 from "./UI/Modal/Modal.Body1";
 import ModalBody2 from "./UI/Modal/Modal.Body2";
+import ModalBodyConfirm from "./UI/Modal/Modal.Body.Confirm";
 import {useDispatch, useSelector} from "react-redux";
 import {getAction_setSearchAPI} from "../store/reducers/filterReducer";
 import ServerService from "../tools/Services/ServerService";
@@ -29,6 +30,7 @@ const AppPrivat = () => {
       <Modal>
         {bodyModal === 1 && <ModalBody1 />}
         {bodyModal === 2 && <ModalBody2 />}
+        {bodyModal === 3 && <ModalBodyConfirm />}
       </Modal>
 
       {hintNum!==0 && <Hint/>}

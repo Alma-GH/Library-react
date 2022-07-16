@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import ServerService from "../tools/Services/ServerService";
-import {strInclude} from "../tools/utils/func";
+import {strInclude} from "../tools/utils/func.js";
 
 export const useFilterTips = (authorQ,subjectQ, api)=>{
 

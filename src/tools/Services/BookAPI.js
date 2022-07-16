@@ -1,5 +1,5 @@
 import Controller from "./Controller";
-import {paramsFromObj} from "../utils/func";
+import {paramsFromObj} from "../utils/func.js";
 import {BIG_LANGUAGES} from "../utils/const";
 
 const DEF_PAGE = 1

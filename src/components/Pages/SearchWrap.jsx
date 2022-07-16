@@ -16,7 +16,7 @@ import {
   getAction_setCountSearch,
   getAction_setSearch
 } from "../../store/reducers/filterReducer";
-import {errTimer1, getEditAccess} from "../../tools/utils/func";
+import {errTimer1, getEditAccess} from "../../tools/utils/func.js";
 import ServerService from "../../tools/Services/ServerService";
 import Controller from "../../tools/Services/Controller";
 
