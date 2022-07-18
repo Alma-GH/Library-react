@@ -1,9 +1,10 @@
 
 //paths
 export const PATH_ROOT_APP = "/app"
+export const PATH_ROOT_AUTH = "auth"
 export const PATH_ROOT_SEARCH = "search"
 
-export const PATH_AUTH = "auth"
+
 export const PATH_HOME = "home"
 export const PATH_OPTIONS = "options"
 
@@ -23,7 +24,7 @@ export const PARAMS_INFO = ":page"
 
 
 
-export const LINK_AUTH = `${PATH_ROOT_APP}/${PATH_AUTH}`
+export const LINK_AUTH = `${PATH_ROOT_APP}/${PATH_ROOT_AUTH}`
 export const LINK_HOME = `${PATH_ROOT_APP}/${PATH_HOME}`
 export const LINK_OPTIONS = `${PATH_ROOT_APP}/${PATH_OPTIONS}`
 

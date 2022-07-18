@@ -18,7 +18,6 @@ const AppPrivat = () => {
   const hintNum = useSelector(state=>state.modal.hintNum)
 
   useEffect(()=>{
-    console.log("SET SEARCH API FUNC")
     dispatch(getAction_setSearchAPI(ServerService.ST_FROM_API))
   },[])
 

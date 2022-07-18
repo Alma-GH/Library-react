@@ -3,7 +3,7 @@ import cls from "../../../style/UI/Modal/Modal.module.scss"
 import {useDispatch, useSelector} from "react-redux";
 import {getAction_setVisModal} from "../../../store/reducers/modalData";
 
-const Modal = ({children}) => {
+const Modal = ({children, closable=true}) => {
 
   const dispatch = useDispatch()
   const vis = useSelector(state=>state.modal.visible)
@@ -13,7 +13,7 @@ const Modal = ({children}) => {
 
 
   return (
-    <div className={style.join(" ")} onClick={()=>dispatch(getAction_setVisModal(false))}>
+    <div className={style.join(" ")} onClick={()=>dispatch(getAction_setVisModal(!closable))}>
       <div className={cls.modalContent}  onClick={e=>e.stopPropagation()}>
         {children}
       </div>
