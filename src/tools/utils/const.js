@@ -59,12 +59,14 @@ export const T_PUBLISH = "publish"
 
 //DB
 export const DB_ROOT = "https://mylib-e19e9-default-rtdb.europe-west1.firebasedatabase.app"
-export const DB_WORKS = `/data/works/all.json`
-export const DB_LISTS = `/data/works/lists/all.json`
-export const DB_FAV = `/data/works/lists/fav.json`
-export const DB_SUMM = `/data/summary.json`
+export const DB_WORKS = `/data/works/all`
+export const DB_LISTS = `/data/works/lists/all`
+export const DB_FAV = `/data/works/lists/fav`
+export const DB_SUMM = `/data/summary`
 export const WORK_PROPS = ["author", "description", "img", "subjects", "title", "url", "id"]
 export const LIST_PROPS = ["lid", "wids", "name"]
+
+//other
 export const NAME_NEW_LIST = "New list"
 export const ADD_FOR_NAME = "+"
 

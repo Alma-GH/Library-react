@@ -9,8 +9,8 @@ class DatabaseAPI{
   _folder = null
 
   set user(val){
-    this._uid = val.uid
-    this._folder = `users/${this._uid}/`
+    this._uid = val?.uid
+    this._folder = `users/${this._uid}`
   }
 
   set database(val){
@@ -25,8 +25,7 @@ class DatabaseAPI{
 
 
     const res = await get(child(ref(this._db), this._folder + DB_WORKS))
-    console.log({res})
-    return res.val()
+    return JSON.parse(res.val())
   }
 
   async setWorks(body){
@@ -49,7 +48,7 @@ class DatabaseAPI{
     // return res.json()
 
     const res = await get(child(ref(this._db), this._folder + DB_LISTS))
-    return res.val()
+    return JSON.parse(res.val())
   }
 
   async setLists(body){
@@ -71,7 +70,7 @@ class DatabaseAPI{
     // return res.json()
 
     const res = await get(child(ref(this._db), this._folder + DB_FAV))
-    return res.val()
+    return JSON.parse(res.val())
   }
 
   async setFav(body){
@@ -93,15 +92,15 @@ class DatabaseAPI{
     // return res.json()
 
     const res = await get(child(ref(this._db), this._folder + DB_SUMM))
-    return res.val()
+    return JSON.parse(res.val())
   }
 
   async getSummaryById(id){
     // const res = await fetch(DB_ROOT + `/data/summary/${id}.json`)
     // return res.json()
 
-    const res = await get(child(ref(this._db), this._folder + `/data/summary/${id}.json`))
-    return res.val()
+    const res = await get(child(ref(this._db), this._folder + `/data/summary/${id}`))
+    return JSON.parse(res.val())
   }
 
   async setSummaries(body){
@@ -127,7 +126,7 @@ class DatabaseAPI{
     // })
     // return res.json()
 
-    return set(ref(this._db, this._folder + `/data/summary/${id}.json`), text)
+    return set(ref(this._db, this._folder + `/data/summary/${id}`), text)
   }
 
 }

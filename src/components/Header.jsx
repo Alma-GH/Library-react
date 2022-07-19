@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {NavLink, useLocation} from "react-router-dom";
+import React, {useContext, useEffect} from 'react';
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import cls from "../style/main/Header.module.scss"
 import {
   HEAD_NAME,
@@ -19,12 +19,16 @@ import BtnLink from "./UI/BtnLink";
 import {useDispatch, useSelector} from "react-redux";
 import {getAction_setHint} from "../store/reducers/modalData";
 import {getAction_setHeadTitle} from "../store/reducers/globalReducer";
+import {DBContext} from "../context/DBContext";
 
 const Header = ({prtClass}) => {
 
   const dispatch = useDispatch()
   const head = useSelector(state=>state.global.headTitle)
   const path = useLocation().pathname
+
+  const {auth} = useContext(DBContext)
+  const push = useNavigate()
 
   useEffect(()=>{
     if(path in HEAD_NAME) dispatch(getAction_setHeadTitle(HEAD_NAME[path]))
@@ -43,6 +47,11 @@ const Header = ({prtClass}) => {
   }
   function optionsClick(e){
     console.log("btn")
+  }
+
+  function logout(){
+    if(window.confirm("Вы действительно хотите выйти?"))
+      auth.signOut()
   }
 
 
@@ -70,7 +79,7 @@ const Header = ({prtClass}) => {
         <BtnIco img={imgT} cb={themeClick} isAnimStyle={true}/>
         <BtnLink link={LINK_OPTIONS} img={imgG} cb={optionsClick} isAnimStyle={true}/>
 
-        <BtnLink link={LINK_AUTH} img={imgO} isAnimStyle={true}/>
+        <BtnLink link={LINK_AUTH} img={imgO} cb={logout} isAnimStyle={true}/>
       </div>
 
     </div>

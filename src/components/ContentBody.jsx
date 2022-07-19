@@ -30,6 +30,7 @@ const ContentBody = () => {
     dispatch(getAction_setTable(tables))
   }
 
+
   if(!countSearch) return <h2>Начните поиск</h2>
   if(tablesIsLoading) return <Loader/>
   if(tablesErr.err) return <ErrorMessage message={tablesErr.message} prefix="ERROR FOUND"/>
