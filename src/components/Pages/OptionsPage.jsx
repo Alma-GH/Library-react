@@ -8,7 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {
   getAction_clearOptions,
   getAction_setDefNameList,
-  getAction_setDefRedactMode, getAction_setDefTableSize,
+  getAction_setDefRedactMode,
+  getAction_setDefTableSize,
   getAction_setTheme
 } from "../../store/reducers/optionsReducer";
 import RadioC from "../UI/RadioC";
@@ -16,7 +17,8 @@ import BtnText from "../UI/BtnText";
 import {NAME_NEW_LIST} from "../../tools/utils/const";
 import {
   getAction_setBodyModal,
-  getAction_setConfirmCallback, getAction_setConfirmText,
+  getAction_setConfirmCallback,
+  getAction_setConfirmText,
   getAction_setVisModal
 } from "../../store/reducers/modalData";
 
@@ -24,6 +26,7 @@ import {
 const OptionsPage = ({prtClass}) => {
 
   const dispatch = useDispatch()
+
 
   const sizeBlock = useSelector(state=>state.option.defTableSize)
   const listName = useSelector(state=>state.option.defNameList)
@@ -36,10 +39,12 @@ const OptionsPage = ({prtClass}) => {
   const [entTheme, setEntTheme] = useState(1)
 
   useEffect(()=>{
+
     setEntTheme(theme)
     setEntListName(listName)
     setEntSizeBlock(sizeBlock)
     setEntRedactMode(redactMode)
+
   }, [sizeBlock, listName, redactMode,theme])
 
   //input functions
@@ -66,14 +71,11 @@ const OptionsPage = ({prtClass}) => {
     dispatch(getAction_setDefTableSize(entSizeBlock))
     dispatch(getAction_setDefNameList(entListName))
     dispatch(getAction_setDefRedactMode(entRedactMode))
-
-    //TODO: save options(server)
   }
 
   function defOptions(){
     //set default option state
     dispatch(getAction_clearOptions())
-    //TODO: save options(server)
   }
 
   function resetOptions(){
@@ -82,7 +84,6 @@ const OptionsPage = ({prtClass}) => {
     setEntListName(listName)
     setEntSizeBlock(sizeBlock)
     setEntRedactMode(redactMode)
-    //TODO: save options(server)
   }
 
   //button functions

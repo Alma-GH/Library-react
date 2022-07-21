@@ -1,4 +1,4 @@
-import {DB_FAV, DB_LISTS, DB_ROOT, DB_SUMM, DB_WORKS} from "../utils/const";
+import {DB_FAV, DB_LISTS, DB_OPT, DB_ROOT, DB_SUMM, DB_WORKS} from "../utils/const";
 import {child, get, ref, set} from "firebase/database";
 
 class DatabaseAPI{
@@ -16,6 +16,7 @@ class DatabaseAPI{
   set database(val){
     this._db = val
   }
+
 
 
   async getAllWorks(){
@@ -127,6 +128,17 @@ class DatabaseAPI{
     // return res.json()
 
     return set(ref(this._db, this._folder + `/data/summary/${id}`), text)
+  }
+
+
+
+  async getSettings(){
+    const res = await get(child(ref(this._db), this._folder + DB_OPT))
+    return JSON.parse(res.val())
+  }
+
+  async setSettings(body){
+    return set(ref(this._db, this._folder + DB_OPT), body)
   }
 
 }

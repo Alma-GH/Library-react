@@ -63,8 +63,10 @@ export const DB_WORKS = `/data/works/all`
 export const DB_LISTS = `/data/works/lists/all`
 export const DB_FAV = `/data/works/lists/fav`
 export const DB_SUMM = `/data/summary`
+export const DB_OPT = `/data/settings`
 export const WORK_PROPS = ["author", "description", "img", "subjects", "title", "url", "id"]
 export const LIST_PROPS = ["lid", "wids", "name"]
+export const OPT_PROPS = ["defNameList", "defRedactMode", "defTableSize", "theme"]
 
 //other
 export const NAME_NEW_LIST = "New list"

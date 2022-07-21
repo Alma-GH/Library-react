@@ -12,11 +12,13 @@ import Loader from "./UI/Notifications/Loader";
 import {getAction_confirmFilter} from "../store/reducers/filterReducer";
 import SelectC from "./UI/SelectC";
 import cls from "../style/main/InputBlock.module.scss";
+import {useLocation} from "react-router-dom";
 
 const ToolBar = ({className}) => {
 
   const dispatch = useDispatch()
   const {areLists, updateOrderFunc} = useContext(SearchContext)
+  const path = useLocation().pathname
 
   const defNameList = useSelector(state=>state.option.defNameList)
   const defTableSize = useSelector(state=>state.option.defTableSize)
@@ -29,7 +31,7 @@ const ToolBar = ({className}) => {
 
   useEffect(()=>{
     dispatch(getAction_setSizeTable(defTableSize))
-  }, [])
+  }, [path])
 
 
   const [fetchList, isLoadingList, errList] = useFetching(async ()=>{

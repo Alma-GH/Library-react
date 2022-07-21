@@ -2,7 +2,7 @@ import BookAPI from "./BookAPI";
 import {
   ADD_FOR_NAME,
   LIST_PROPS,
-  NAME_NEW_LIST,
+  NAME_NEW_LIST, OPT_PROPS,
   T_AUTHOR,
   T_PUBLISH,
   T_TITLE,
@@ -378,6 +378,31 @@ class ServerService{
       const res = await DatabaseAPI.setSummaryById(id,JSON.stringify(text))
       return res
     },
+
+
+    //settings
+    checkTypeSettings(obj){
+      for(let key of Object.keys(obj)){
+        if(!OPT_PROPS.includes(key)) return false
+      }
+      return true
+    },
+    errorTypeSettings(){
+      throw Error("INCORRECT TYPE OF SETTINGS")
+    },
+
+    async getSettings(){
+      let settings = await DatabaseAPI.getSettings()
+      if(!settings) settings = null
+
+      return settings
+    },
+
+    async setSettings(obj){
+      if(!this.checkTypeSettings(obj)) this.errorTypeSettings()
+      const res = await DatabaseAPI.setSettings(JSON.stringify(obj))
+      return res
+    }
 
   }
 

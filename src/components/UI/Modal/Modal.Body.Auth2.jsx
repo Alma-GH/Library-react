@@ -5,15 +5,12 @@ import {useDispatch} from "react-redux";
 import {getAction_setBodyModal, getAction_setVisModal} from "../../../store/reducers/modalData";
 import InputC from "../InputC";
 import {useFetching} from "../../../hooks/useFetching";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import {LINK_HOME} from "../../../tools/utils/const";
+import {createUserWithEmailAndPassword} from "firebase/auth";
 import Loader from "../Notifications/Loader";
 import ErrorMessage from "../Notifications/ErrorMessage";
 import {DBContext} from "../../../context/DBContext";
 
 const ModalBodyAuth2 = () => {
-
-
 
   const dispatch = useDispatch()
 

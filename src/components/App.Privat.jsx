@@ -17,6 +17,7 @@ const AppPrivat = () => {
   const bodyModal = useSelector(state=>state.modal.bodyNum)
   const hintNum = useSelector(state=>state.modal.hintNum)
 
+
   useEffect(()=>{
     dispatch(getAction_setSearchAPI(ServerService.ST_FROM_API))
   },[])
