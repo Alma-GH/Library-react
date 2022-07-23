@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import cls from "../style/main/ContentTable.module.scss";
 import BtnIco from "./UI/BtnIco";
 
@@ -25,7 +25,6 @@ import {
 } from "../store/reducers/modalData";
 import {useNavigate} from "react-router-dom";
 import {LINK_LIBRARY_SUMMARY} from "../tools/utils/const";
-import {createMyTimer} from "../tools/utils/wrappers";
 
 const ContentTableControlMenu = ({drugControl, idTable}) => {
 

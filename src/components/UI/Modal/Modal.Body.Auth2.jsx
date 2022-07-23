@@ -9,6 +9,7 @@ import {createUserWithEmailAndPassword} from "firebase/auth";
 import Loader from "../Notifications/Loader";
 import ErrorMessage from "../Notifications/ErrorMessage";
 import {DBContext} from "../../../context/DBContext";
+import {errTimerAuth1} from "../../../tools/utils/func";
 
 const ModalBodyAuth2 = () => {
 
@@ -23,7 +24,7 @@ const ModalBodyAuth2 = () => {
     let {user} = await createUserWithEmailAndPassword(auth, email, pass)
     dispatch(getAction_setVisModal(false))
     console.log({auth, user})
-  })
+  }, errTimerAuth1)
 
   function inputEmail(e){
     setEmail(e.target.value)

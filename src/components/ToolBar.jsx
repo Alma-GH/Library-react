@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import ReorderPanel from "./ReorderPanel";
 import BtnIco from "./UI/BtnIco";
 import imgE from "../assets/imgs/edit.png";
@@ -11,7 +11,6 @@ import ServerService from "../tools/Services/ServerService";
 import Loader from "./UI/Notifications/Loader";
 import {getAction_confirmFilter} from "../store/reducers/filterReducer";
 import SelectC from "./UI/SelectC";
-import cls from "../style/main/InputBlock.module.scss";
 import {useLocation} from "react-router-dom";
 
 const ToolBar = ({className}) => {

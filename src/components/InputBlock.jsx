@@ -4,15 +4,24 @@ import InputSearch from "./UI/InputSearch";
 import {useDispatch, useSelector} from "react-redux";
 import Pagination from "./UI/Pagination";
 import {getTotalPages} from "../tools/utils/func.js";
-import {getAction_confirmFilter, getAction_setCountSearch, getAction_setSearch} from "../store/reducers/filterReducer";
+import {
+  getAction_confirmFilter,
+  getAction_setCountSearch,
+  getAction_setSearch,
+  getAction_setVisFilter
+} from "../store/reducers/filterReducer";
 import ReorderPanel from "./ReorderPanel";
 import CountPagesPanel from "./CountPagesPanel";
 import ServerService from "../tools/Services/ServerService";
+import imgOpen from "../assets/imgs/list.png"
+import BtnIco from "./UI/BtnIco";
 
 const InputBlock = ({prtClass}) => {
 
 
   const dispatch = useDispatch()
+
+  const filterHide = useSelector(state=>state.filter.hide)
 
   const countSearch = useSelector(state=>state.filter.countSearch)
   const searchInput = useSelector(state=>state.filter.title)
@@ -42,6 +51,10 @@ const InputBlock = ({prtClass}) => {
     dispatch(getAction_setCountSearch(countSearch+1))
   }
 
+  function openFilter(){
+    dispatch(getAction_setVisFilter(true))
+  }
+
 
   const styles = [cls.inputS]
   if(prtClass) styles.push(prtClass)
@@ -52,6 +65,10 @@ const InputBlock = ({prtClass}) => {
         <InputSearch prtClass={cls.inputBlock} val={searchInput} setVal={setSearch} disabledBTN={isLoading}/>
 
         <div style={{display: "flex", justifyContent:"space-between"}}>
+
+          {filterHide &&
+            <BtnIco cb={openFilter} img={imgOpen} isAnimStyle={true}/>
+          }
 
           <ReorderPanel disabled={isLoading}/>
 

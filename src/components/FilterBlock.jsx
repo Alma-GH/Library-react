@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import cls from "../style/main/FilterBlock.module.scss"
 import InputTipsC from "./UI/InputTipsC";
 import ServerService from "../tools/Services/ServerService";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
   getAction_setAuthor,
   getAction_setCountSearch,
@@ -11,7 +11,7 @@ import {
   getAction_setLanguage,
   getAction_setList,
   getAction_setSearchAPI,
-  getAction_setSubjects
+  getAction_setSubjects, getAction_setVisFilter
 } from "../store/reducers/filterReducer";
 import SelectC from "./UI/SelectC";
 import SelectTipsC from "./UI/SelectTipsC";
@@ -25,6 +25,7 @@ import {useFilterSelectOptions} from "../hooks/useFilterSelectOptions";
 import CheckboxC from "./UI/CheckboxC";
 import BtnIco from "./UI/BtnIco";
 import imgDel from "./../assets/imgs/cancel.png"
+import imgHide from "./../assets/imgs/out.png"
 import {useFilterClear} from "../hooks/useFilterClear";
 import {useFilterData} from "../hooks/useFilterData";
 
@@ -99,6 +100,10 @@ const FilterBlock = ({prtClass}) => {
 
   function clkClearFilter(){
     clearFilter()
+  }
+
+  function hideFilter(){
+    dispatch(getAction_setVisFilter(false))
   }
 
   const styles = [cls.filter]
@@ -187,6 +192,7 @@ const FilterBlock = ({prtClass}) => {
 
       <div>
         <BtnIco cb={clkClearFilter} img={imgDel} isAnimStyle={true} />
+        <BtnIco cb={hideFilter} img={imgHide} isAnimStyle={true}/>
       </div>
     </div>
   );

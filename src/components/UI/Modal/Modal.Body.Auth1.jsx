@@ -6,12 +6,12 @@ import {getAction_setBodyModal, getAction_setVisModal} from "../../../store/redu
 import InputC from "../InputC";
 import {useNavigate} from "react-router-dom";
 import {useFetching} from "../../../hooks/useFetching";
-import {createUserWithEmailAndPassword, sendEmailVerification,
-  signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth"
+import {sendPasswordResetEmail, signInWithEmailAndPassword} from "firebase/auth"
 import {DBContext} from "../../../context/DBContext";
 import {LINK_HOME} from "../../../tools/utils/const";
 import Loader from "../Notifications/Loader";
 import ErrorMessage from "../Notifications/ErrorMessage";
+import {errTimerAuth1, errTimerAuth2} from "../../../tools/utils/func";
 
 const ModalBodyAuth1 = () => {
 
@@ -24,6 +24,9 @@ const ModalBodyAuth1 = () => {
   const [email, setEmail] = useState("")
   const [pass, setPass] = useState("")
 
+  const [visMessage, setVisMessage] = useState(false)
+  const [timer,setTimer] = useState(null)
+
   const [fetchForm, loadForm, errForm] = useFetching(  async ()=>{
 
     let {user} = await signInWithEmailAndPassword(auth, email, pass)
@@ -31,7 +34,15 @@ const ModalBodyAuth1 = () => {
     push(LINK_HOME)
 
     console.log({auth, user})
-  })
+  }, errTimerAuth1)
+
+  const [fetchResetPass, loadPass, errPass] = useFetching(async ()=>{
+    let res = await sendPasswordResetEmail(auth,email)
+    if(timer) clearTimeout(timer)
+    setTimer(setTimeout(()=>setVisMessage(false),3000))
+    setVisMessage(true)
+    console.log(res)
+  }, errTimerAuth2)
 
   function inputEmail(e){
     setEmail(e.target.value)
@@ -41,6 +52,12 @@ const ModalBodyAuth1 = () => {
   }
   function login(){
     fetchForm()
+  }
+  function goRegistration(){
+    dispatch(getAction_setBodyModal(2))
+  }
+  function resetPass(){
+    fetchResetPass()
   }
 
   return (
@@ -59,13 +76,18 @@ const ModalBodyAuth1 = () => {
 
             <div>
               <BtnText text="Войти" cb={login}/>
-              <BtnText text="Нет аккаунта" cb={()=>dispatch(getAction_setBodyModal(2))}/>
+              <BtnText text="Не помню пароль" cb={resetPass} disabled={visMessage}/>
+              <BtnText text="Нет аккаунта" cb={goRegistration}/>
             </div>
+
+            {(visMessage && !errPass) &&
+              <div style={{color:"red"}}>На данный <b>email</b>  было отправлено сообщение со сбросом пароля</div>
+            }
           </>
       }
 
-      {errForm &&
-        <ErrorMessage message={errForm.message} prefix="Ошибка входа"/>
+      {(errForm || errPass) &&
+        <ErrorMessage message={errForm?.message || errPass?.message} prefix="Ошибка входа"/>
       }
 
     </div>

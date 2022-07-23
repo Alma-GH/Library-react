@@ -12,7 +12,6 @@ import {
   getAction_setDefTableSize, getAction_setTheme
 } from "./store/reducers/optionsReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {set} from "firebase/database";
 
 function App() {
 

@@ -16,8 +16,9 @@ const SearchPage = () => {
 
   const dispatch = useDispatch()
 
-  const api = useSelector(state=>state.filter.searchAPI)
+  const filterHide = useSelector(state=>state.filter.hide)
 
+  const api = useSelector(state=>state.filter.searchAPI)
 
 
   useEffect(()=>{
@@ -31,9 +32,21 @@ const SearchPage = () => {
 
   return (
     <SearchContext.Provider value={context}>
-      <FilterBlock prtClass="filter"/>
-      <InputBlock/>
-      <ContentBlock/>
+      {filterHide
+        ?
+          <>
+            <FilterBlock prtClass="invis"/>
+            <InputBlock prtClass="wideContent"/>
+            <ContentBlock prtClass="wideContent"/>
+          </>
+
+        :
+          <>
+            <FilterBlock prtClass="filter"/>
+            <InputBlock/>
+            <ContentBlock/>
+          </>
+      }
     </SearchContext.Provider>
   );
 };

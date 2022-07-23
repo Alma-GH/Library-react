@@ -7,7 +7,6 @@ const BtnText = ({text, cb, disabled, prtClass, isAnimStyle, isActiveStyle}) => 
    */
 
   if(typeof cb !== "function")  cb = ()=> console.log("not set 'cb' on btn")
-  if(disabled)                  cb = ()=> console.log("disabled btn")
 
   const styles = [cls.btn]
   if(prtClass) styles.push(prtClass)
@@ -15,7 +14,7 @@ const BtnText = ({text, cb, disabled, prtClass, isAnimStyle, isActiveStyle}) => 
   if(isActiveStyle) styles.push(cls.on)
 
   return (
-    <button className={styles.join(" ")} onClick={cb}>
+    <button className={styles.join(" ")} onClick={cb} disabled={disabled}>
       {text}
     </button>
   );

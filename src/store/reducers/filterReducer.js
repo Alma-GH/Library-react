@@ -2,6 +2,7 @@ import {deepCopyOBJ} from "../../tools/utils/func.js";
 
 const defaultState = {
   countSearch: 0,
+  hide: false,
   confirm: {},
   /*
       title: "",
@@ -43,6 +44,7 @@ const SET_FAV = "SET_FAV"
 const SET_SEARCH_API = "SET_SEARCH_API"
 
 const CONFIRM_FILTER = "CONFIRM_FILTER"
+const HIDE_FILTER = "HIDE_FILTER"
 const CLEAR_SEARCH = "CLEAR_SEARCH"
 
 
@@ -63,7 +65,7 @@ export const filterReducer = (state=defaultState,action)=>{
     case SET_LIST:
       return {...state, list: pl}
     case SET_FAV:
-      return {...state, checkFavourite: pl}
+      return {...state, checkFavourite: !!pl}
 
     case SET_SEARCH:
       return {...state, title: pl}
@@ -91,6 +93,9 @@ export const filterReducer = (state=defaultState,action)=>{
 
       return {...state, confirm: newConfirm}
 
+    case HIDE_FILTER:
+      return {...state, hide: !!pl}
+
     case CLEAR_SEARCH:
 
       const newFilter = {...deepCopyOBJ(defaultState)}
@@ -107,6 +112,8 @@ export const getAction_confirmFilter = ()=>{return {type:CONFIRM_FILTER}}
 export const getAction_clearSearch = ()=>{return {type: CLEAR_SEARCH}}
 
 export const getAction_setCountSearch= (val)=>{return {type:SET_COUNT_SEARCH, payload:val}}
+export const getAction_setVisFilter = (isVisible)=>{return {type:HIDE_FILTER, payload: !isVisible}}
+
 export const getAction_setSearch= (val)=>{return {type:SET_SEARCH, payload:val}}
 export const getAction_setAuthor = (name,key)=>{return {type:SET_AUTHOR, payload: {name, key}}}
 export const getAction_setLanguage = (lang)=>{return {type:SET_LANG, payload:lang}}

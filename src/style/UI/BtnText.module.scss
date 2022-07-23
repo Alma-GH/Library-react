@@ -27,6 +27,10 @@ button.btn{
 
   @include transBGC($transTimeLong);
 
+  &:disabled{
+    background-color: grey;
+  }
+
   &.on{
     background-color: green;
   }

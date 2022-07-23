@@ -47,6 +47,10 @@ html{
         @extend %allHeightWithoutHead
     }
 
+    .invis{
+        display: none;
+    }
+
     &>*{
         border: $borderBlock;
     }
