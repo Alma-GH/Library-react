@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import cls from "../style/main/FilterBlock.module.scss"
 import InputTipsC from "./UI/InputTipsC";
 import ServerService from "../tools/Services/ServerService";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {
   getAction_setAuthor,
   getAction_setCountSearch,

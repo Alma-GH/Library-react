@@ -49,7 +49,7 @@ function App() {
       console.log("settings was saved...")
     }
 
-    if(DatabaseAPI._uid)
+    if(DatabaseAPI.isUser)
       saveSettings()
         .catch(reason => console.log(reason))
   }, [settingsObj])

@@ -17,6 +17,10 @@ class DatabaseAPI{
     this._db = val
   }
 
+  get isUser(){
+    return !!this._uid
+  }
+
 
 
   async getAllWorks(){
