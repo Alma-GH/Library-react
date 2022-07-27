@@ -25,7 +25,6 @@ const ModalBodyAuth1 = () => {
   const [pass, setPass] = useState("")
 
   const [visMessage, setVisMessage] = useState(false)
-  const [timer,setTimer] = useState(null)
 
   const [fetchForm, loadForm, errForm] = useFetching(  async ()=>{
 
@@ -37,10 +36,11 @@ const ModalBodyAuth1 = () => {
   }, errTimerAuth1)
 
   const [fetchResetPass, loadPass, errPass] = useFetching(async ()=>{
-    let res = await sendPasswordResetEmail(auth,email)
-    if(timer) clearTimeout(timer)
-    setTimer(setTimeout(()=>setVisMessage(false),3000))
+
     setVisMessage(true)
+    setTimeout(()=>setVisMessage(false),3000)
+    let res = await sendPasswordResetEmail(auth,email)
+
     console.log(res)
   }, errTimerAuth2)
 
