@@ -7,7 +7,7 @@ import {
   getAction_setEditMenu,
   getAction_setErrorTable,
   getAction_setLoadTable,
-  getAction_setTable
+  getAction_setTable, getAction_sortTables
 } from "../../store/reducers/tableReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -41,12 +41,13 @@ const SearchWrap = () => {
     const [dataWorks, nWorks] = await GET_METHOD(...args)
     dispatch(getAction_setNumAll(nWorks))
     dispatch(getAction_setTable(dataWorks))
-    // dispatch(getAction_sortTables())
+    dispatch(getAction_sortTables())
   }, errTimer1)
 
-  useEffect(()=>{    if(Controller.now){
+  useEffect(()=>{
+    if(Controller.now)
     Controller.now.abort()
-  }}, [api])
+  }, [api])
   useEffect(()=>{
     dispatch(getAction_setErrorTable(!!err,err?.message))
   }, [err])

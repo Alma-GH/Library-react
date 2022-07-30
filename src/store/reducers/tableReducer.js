@@ -39,10 +39,11 @@ const REVERSE_TABLES = "REVERSE_TABLES"
 const CLEAR_TABLE = "CLEAR_TABLE"
 
 function sortTables(arr,prop){
+  if(!prop) return arr
   return arr.sort((a,b)=>(
-    // typeof a[prop] === "string" && typeof b[prop] === "string"
-      // ? (a[prop].toLowerCase() > b[prop].toLowerCase() ? 1 : -1) :
-      a[prop]>b[prop] ? 1 : -1
+    typeof a[prop] === "string" && typeof b[prop] === "string"
+      ? (a[prop].toLowerCase() > b[prop].toLowerCase() ? 1 : -1)
+      : a[prop]>b[prop] ? 1 : -1
   ))
 }
 

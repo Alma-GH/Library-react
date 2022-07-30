@@ -19,6 +19,8 @@ const ContentTableList = ({prtClass, content}) => {
   const sizeBlock = useSelector(state=>state.table.items.size)
   const editMenu = useSelector(state=>state.table.items.edit.menu)
 
+  const [isDownClick, setIsDownClick] = useState(null)
+
   //styles
   const varsAnimation = {
     initial: {
@@ -45,6 +47,7 @@ const ContentTableList = ({prtClass, content}) => {
       dragListener={false}
       dragControls={controls}
       {...varsAnimation}
+
       onMouseOver={e=> {
         if(e.target === e.currentTarget){
           setHover(cls.hover)
@@ -53,9 +56,15 @@ const ContentTableList = ({prtClass, content}) => {
       }}
       onMouseOut={e=> {
         setHover("")
+        setIsDownClick(false)
       }}
+      onPointerDown={e=>{
+        if(e.target === e.currentTarget)
+          setIsDownClick(true)
+      }}
+
       onClick={e=>{
-        if(e.target === e.currentTarget){
+        if(e.target === e.currentTarget && isDownClick){
           nav(LINK_LIBRARY_LISTS + "/" + lid)
           dispatch(getAction_setHeadTitle(name))
         }

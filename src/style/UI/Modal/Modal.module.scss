@@ -51,6 +51,8 @@
   width: 300px;
   height: 200px;
 
+  overflow-y: scroll;
+
   @extend %column;
   justify-content: space-between;
 

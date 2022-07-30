@@ -23,14 +23,15 @@ import {
   getAction_setSelectedLists,
   getAction_setVisModal
 } from "../store/reducers/modalData";
-import {useNavigate} from "react-router-dom";
-import {LINK_LIBRARY_SUMMARY} from "../tools/utils/const";
+import {useLocation, useNavigate} from "react-router-dom";
+import {LINK_LIBRARY_FAV, LINK_LIBRARY_SUMMARY} from "../tools/utils/const";
 
 const ContentTableControlMenu = ({drugControl, idTable}) => {
 
   const {areLists} = useContext(SearchContext)
 
   const nav = useNavigate()
+  const path = useLocation().pathname
 
   const dispatch = useDispatch()
 
@@ -71,7 +72,7 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
       dispatch(getAction_confirmFilter())
     }
   }
-  async function addInListClick(e){
+  async function addWorkInListsClick(e){
     dispatch(getAction_setIdInModal(idTable))
     dispatch(getAction_setBodyModal(2))
     setVisibleMenu(false)
@@ -88,7 +89,25 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
 
     dispatch(getAction_setVisModal(true))
   }
+  async function addWorksInListClick(e){
+    dispatch(getAction_setIdInModal(idTable))
+    dispatch(getAction_setBodyModal(4))
+    setVisibleMenu(false)
+
+    const [allWorks] = await ServerService.fromDB.getAllWorks()
+    const [worksByList] = await ServerService.fromDB.getWorksByListId({title:idTable})
+    dispatch(getAction_setSelectedLists(
+      worksByList.map(work=>({...work, idSelect:idTable,name: `${work.title}(${work.id})`}))
+    ))
+    dispatch(getAction_setOptionsLists(
+      allWorks.map(work=>({...work, idSelect:idTable,name: `${work.title}(${work.id})`}))
+    ))
+
+    dispatch(getAction_setVisModal(true))
+  }
   async function toggleFavClick(e){
+    if(path === LINK_LIBRARY_FAV && isFav)
+      dispatch(getAction_setTable(tables.filter(table=>table.id!==idTable)))
     fetchFav(!isFav)
   }
   function summaryClick(e){
@@ -102,10 +121,6 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
     setVisibleMenu(false)
     dispatch(getAction_setVisModal(true))
   }
-
-  useEffect(()=>{
-
-  }, [])
 
 
   const [visibleMenu, setVisibleMenu] = useState(false)
@@ -121,8 +136,9 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
           ? <Loader/>
           : <div className={cls.btns}>
               {editOptions.deleteBtn && <BtnIco img={imgD} cb={deleteClick} isAnimStyle={true}/>}
-              {editOptions.listBtn && <BtnIco img={imgL} cb={addInListClick} isAnimStyle={true}/>}
+              {editOptions.listBtn && <BtnIco img={imgL} cb={addWorkInListsClick} isAnimStyle={true}/>}
               {editOptions.favBtn && <BtnIco img={imgF} cb={toggleFavClick} isAnimStyle={true} isActiveStyle={isFav}/>}
+              {areLists && <BtnIco img={imgL} cb={addWorksInListClick} isAnimStyle={true}/>}
             </div>
         }
         <div  className={cls.summ}>
@@ -131,7 +147,7 @@ const ContentTableControlMenu = ({drugControl, idTable}) => {
         </div>
       </div>
 
-      <BtnCorner cbR={editClick} cbL={editOptions.order ? e=>drugControl.start(e) : editClick} cornerN={2}/>
+      <BtnCorner cbR={editClick} cbL={editOptions.order ? e=>{drugControl.start(e)} : editClick} cornerN={2}/>
     </>
   );
 };

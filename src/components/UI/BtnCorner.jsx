@@ -19,7 +19,7 @@ const BtnCorner = ({cbL,cbR,prtClass, cornerN}) => {
   else                          styles.push(cls.rightUp)
 
   return (
-    <button className={styles.join(" ")} onContextMenu={cbR} onPointerDown={leftClick}/>
+    <button className={styles.join(" ")} onContextMenu={cbR} onPointerDown={leftClick} />
   );
 };
 

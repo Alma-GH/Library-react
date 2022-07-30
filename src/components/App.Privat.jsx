@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAction_setSearchAPI} from "../store/reducers/filterReducer";
 import ServerService from "../tools/Services/ServerService";
 import Hint from "./UI/Modal/Hint";
+import ModalBody3 from "./UI/Modal/Modal.Body3";
 
 const AppPrivat = () => {
 
@@ -31,6 +32,7 @@ const AppPrivat = () => {
         {bodyModal === 1 && <ModalBody1 />}
         {bodyModal === 2 && <ModalBody2 />}
         {bodyModal === 3 && <ModalBodyConfirm />}
+        {bodyModal === 4 && <ModalBody3 />}
       </Modal>
 
       {hintNum!==0 && <Hint/>}

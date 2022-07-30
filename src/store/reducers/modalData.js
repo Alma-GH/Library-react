@@ -10,7 +10,7 @@ const defaultState = {
   //rename list (bodyNum = 1)
   newNameList: "",
 
-  //add in list (bodyNum = 2)
+  //add in list (bodyNum = 2,4)
   optionsLists: [],
   selectedLists: [],
 
